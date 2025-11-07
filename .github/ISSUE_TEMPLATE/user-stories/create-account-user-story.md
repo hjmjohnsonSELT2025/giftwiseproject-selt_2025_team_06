@@ -30,7 +30,7 @@ The following users exist:
 
 # <span style="color:#e63946;">Scenario:</span> Invalid Password in Account Creation
 <span style="color:#3a86ff;">When</span> I am on the **create account page**  
-<span style="color:#3a86ff;">And</span> I enter all of my credentials  
+<span style="color:#3a86ff;">And</span> I enter my username as <span style="color:#3a8600;">Username56</span>   
 <span style="color:#3a86ff;">And</span> I enter my password as <span style="color:#3a8600;">pass</span>   
 <span style="color:#3a86ff;">Then</span> I press the **“Submit”** button  
 <span style="color:#3a86ff;">Then</span> I should get an error: **"Password invalid"**
@@ -39,7 +39,7 @@ The following users exist:
 
 # <span style="color:#e63946;">Scenario:</span> No Password in Account Creation
 <span style="color:#3a86ff;">When</span> I am on the **create account page**  
-<span style="color:#3a86ff;">And</span> I enter all of my credentials  
+<span style="color:#3a86ff;">And</span> I enter my username as <span style="color:#3a8600;">Username56</span>   
 <span style="color:#3a86ff;">And</span> I leave the password empty  
 <span style="color:#3a86ff;">Then</span> I press the **“Submit”** button  
 <span style="color:#3a86ff;">Then</span> I should get an error: **"Password invalid"**
@@ -48,7 +48,8 @@ The following users exist:
 
 # <span style="color:#e63946;">Scenario:</span> DOB Missing in Account Creation
 <span style="color:#3a86ff;">When</span> I am on the **create account page**  
-<span style="color:#3a86ff;">And</span> I enter all of my credentials  
+<span style="color:#3a86ff;">And</span> I enter my username as <span style="color:#3a8600;">Username56</span>
+<span style="color:#3a86ff;">And</span> I enter my username as <span style="color:#3a8600;">Password56</span>
 <span style="color:#3a86ff;">And</span> I leave the DOB empty  
 <span style="color:#3a86ff;">Then</span> I press the **“Submit”** button  
 <span style="color:#3a86ff;">Then</span> I should get an error: **"DOB empty"**
@@ -57,7 +58,8 @@ The following users exist:
 
 # <span style="color:#e63946;">Scenario:</span> Hobbies Empty in Account Creation
 <span style="color:#3a86ff;">When</span> I am on the **create account page**  
-<span style="color:#3a86ff;">And</span> I enter all of my credentials  
+<span style="color:#3a86ff;">And</span> I enter my username as <span style="color:#3a8600;">Username65</span>
+<span style="color:#3a86ff;">And</span> I enter my username as <span style="color:#3a8600;">Password56</span>
 <span style="color:#3a86ff;">And</span> I leave the hobbies empty  
 <span style="color:#3a86ff;">Then</span> I press the **“Submit”** button  
 <span style="color:#3a86ff;">Then</span> I should get an error: **"Hobbies empty"**
@@ -66,7 +68,8 @@ The following users exist:
 
 # <span style="color:#e63946;">Scenario:</span> Occupation Empty in Account Creation
 <span style="color:#3a86ff;">When</span> I am on the **create account page**  
-<span style="color:#3a86ff;">And</span> I enter all of my credentials  
+<span style="color:#3a86ff;">And</span> I enter my username as <span style="color:#3a8600;">Username65</span>
+<span style="color:#3a86ff;">And</span> I enter my username as <span style="color:#3a8600;">Password56</span>
 <span style="color:#3a86ff;">And</span> I leave the occupation box empty  
 <span style="color:#3a86ff;">Then</span> I press the **“Submit”** button  
 <span style="color:#3a86ff;">Then</span> I should be taken to the **home page**  
@@ -76,7 +79,7 @@ The following users exist:
 
 # <span style="color:#e63946;">Scenario:</span> Username Taken in Account Creation
 <span style="color:#3a86ff;">When</span> I am on the **create account page**  
-<span style="color:#3a86ff;">And</span> I enter all of my credentials  
 <span style="color:#3a86ff;">And</span> I enter my username as <span style="color:#3a8600;">Username65</span>  
+<span style="color:#3a86ff;">And</span> I enter my username as <span style="color:#3a8600;">Password56</span>
 <span style="color:#3a86ff;">Then</span> I press the **“Submit”** button  
 <span style="color:#3a86ff;">Then</span> I should get an error: **"Username taken"**
