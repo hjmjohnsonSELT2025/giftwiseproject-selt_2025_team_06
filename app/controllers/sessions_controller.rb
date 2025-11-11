@@ -9,16 +9,16 @@ class SessionsController < ApplicationController
     user = User.find_by(username: params[:username])
 
     # if a user exists and they are authenticated, we create our session
-    if user && user.authenticate(params[:password])
+    if user.nil?
+      # If there is no user found from the email, we stay on login page
+      flash[:alert] = "Username doesn't exist"
+      redirect_to login_path
+    elsif user && user.authenticate(params[:password])
       session[:user_id] = user.id
       # Quick notice welcoming back the user
       flash[:notice] = "Welcome back, #{user.username}!"
       # Redirect to our home page
       redirect_to root_path
-    elsif user.nil?
-      # If there is no user found from the email, we stay on login page
-      flash[:alert] = "Username doesn't exist"
-      redirect_to login_path
     else
       # If there is an incorrect password, we stay on login page
       flash[:alert] = "Incorrect password"
