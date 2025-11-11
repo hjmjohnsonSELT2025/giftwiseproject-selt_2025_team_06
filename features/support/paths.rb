@@ -14,6 +14,7 @@ module NavigationHelpers
     case page_name
 
       # Add the rest of our mappings here for our pages
+    when /^the home page$/ then '/'
     when /^the login page$/ then '/login'
 
     else

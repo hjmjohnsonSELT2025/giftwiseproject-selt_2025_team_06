@@ -1,17 +1,38 @@
-<h1>Log In</h1>
+<!-- app/views/sessions/new.html.erb -->
+<!-- This is the login page, creating a new session each time -->
 
-<%= form_with url: login_path, method: :post, local: true do |f| %>
-  <div>
-    <%= f.label :username %><br>
-    <%= f.text_field :username, id: 'username' %>
-  </div>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Log In | GiftWise</title>
+  <%= stylesheet_link_tag "default", "data-turbo-track": "reload" %>
+</head>
 
-  <div>
-    <%= f.label :password %><br>
-    <%= f.password_field :password, id: 'password' %>
-  </div>
+<body class="login-page">
+<div class="login-container">
+  <h1>Log In</h1>
 
-  <div>
-    <%= f.submit 'Log In' %>
-  </div>
-<% end %>
+  <% if flash[:alert] %>
+    <p class="alert"><%= flash[:alert] %></p>
+  <% elsif flash[:notice] %>
+    <p class="notice"><%= flash[:notice] %></p>
+  <% end %>
+
+  <%= form_with url: login_path, method: :post, local: true, html: { class: "login-form" } do |f| %>
+    <div class="field">
+      <%= f.label :username %><br>
+      <%= f.text_field :username, id: 'username', placeholder: "Enter your username" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :password %><br>
+      <%= f.password_field :password, id: 'password', placeholder: "Enter your password" %>
+    </div>
+
+    <div>
+      <%= f.submit 'Log In', class: "login-button" %>
+    </div>
+  <% end %>
+</div>
+</body>
+</html>
