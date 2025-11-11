@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GiftWise Login</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "login", "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+</head>
+
+<body class="login-page">
+<div class="login-container">
+  <h1>Welcome to GiftWise</h1>
+
+  <%= form_with url: login_path, method: :post, local: true, class: "login-form" do %>
+    <div class="field">
+      <%= label_tag :username, "Username" %><br>
+      <%= text_field_tag :username, nil, placeholder: "Enter your username", required: true %>
+    </div>
+
+    <div class="field">
+      <%= label_tag :password, "Password" %><br>
+      <%= password_field_tag :password, nil, placeholder: "Enter your password", required: true %>
+    </div>
+
+    <div class="actions">
+      <%= submit_tag "Log In", class: "login-button" %>
+    </div>
+  <% end %>
+
+  <% if flash[:alert] %>
+    <p class="alert"><%= flash[:alert] %></p>
+  <% elsif flash[:notice] %>
+    <p class="notice"><%= flash[:notice] %></p>
+  <% end %>
+</div>
+</body>
+</html>

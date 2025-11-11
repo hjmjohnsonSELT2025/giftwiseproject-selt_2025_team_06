@@ -6,5 +6,11 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  # This will need to be our landing page!
+  root "sessions#new"
+
+  # Here then, are our routes across the site
+  get  "/login",  to: "sessions#new"
+  post "/login",  to: "sessions#create"
+  delete "/logout", to: "sessions#destroy"
 end

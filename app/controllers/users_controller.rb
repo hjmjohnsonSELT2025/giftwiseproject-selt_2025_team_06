@@ -1,3 +1,4 @@
+# This controller should be used also for account creation
 class UsersController < ApplicationController
   before_action :set_movie, only: %i[ show edit update destroy ]
 
