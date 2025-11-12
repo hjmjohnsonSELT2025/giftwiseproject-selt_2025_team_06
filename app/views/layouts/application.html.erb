@@ -1,16 +1,41 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>GiftwiseprojectSelt2025Team06</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>GiftWise</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-  </head>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+</head>
 
-  <body>
-    <%= yield %>
-  </body>
+<body>
+<!--<header>-->
+<!--  <h1>GiftWise</h1>-->
+<!--</header>-->
+
+<!-- Flash Messages -->
+<% flash.each do |type, message| %>
+  <%# Normalize flash types for easier styling %>
+  <% css_class = case type.to_sym
+                 when :notice then "flash notice"
+                 when :alert  then "flash alert"
+                 else "flash info"
+                 end %>
+
+  <div class="<%= css_class %>">
+    <p><%= message %></p>
+  </div>
+<% end %>
+
+<!-- Main Page Content -->
+<main>
+  <%= yield %>
+</main>
+
+<!--<footer>-->
+<!--  <p>&copy; <%#= Time.current.year %> GiftWise</p>-->
+<!--</footer>-->
+</body>
 </html>
