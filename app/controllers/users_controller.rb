@@ -1,6 +1,7 @@
 # This controller should be used also for account creation
 class UsersController < ApplicationController
-  before_action :set_movie, only: %i[ show edit update destroy ]
+  before_action :set_user, only: %i[ show edit update destroy ]
+  before_action :require_login
 
   # GET /users or /users.json
   def index
@@ -47,6 +48,13 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:email, :username, :password, :likes, :dislikes, :birthdate)
-    end
+      params.require(:user).permit(
+        :email,
+        :username,
+        :password,
+        :first_name,
+        :last_name,
+        :user_information_id
+      )
+  end
 end
