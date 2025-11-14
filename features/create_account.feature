@@ -18,7 +18,7 @@ Feature: Creating an Account for website
   Scenario: Invalid Password in Account Creation
     When I enter Username65 in the username box
     And I enter pass in the password box
-    Then I press the “Create Account” button
+    Then /Users/kaeden/LocalWork/GiftWiseProject/giftwiseproject-selt_2025_team_06-main/features/create_account.featureI press the “Create Account” button
     Then I should see "Password Invalid"
 
   Scenario: No Password in Account Creation
@@ -45,14 +45,14 @@ Feature: Creating an Account for website
     When I enter Username65 in the username box
     And I enter Password56 in the password box
     And I enter "" in the occupation box
-    And I press the "Submit" button
+    And I press the "Create Account" button
     Then I should be on the home page
     And I should be logged in as Username65
 
   Scenario: Username Taken in Account Creation
     When I enter Username65 in the username box
     And I enter Password56 in the password box
-    And I press the "Submit" button
+    And I press the "Create Account" button
     Then I should see "Username Taken"
 
 
