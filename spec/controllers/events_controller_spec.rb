@@ -10,5 +10,10 @@ describe EventsController do
       expect(response).to redirect_to(events_path)
       expect(flash[:notice]).to eq('Event created successfully')
     end
+    it 'should have the user stay on event creation page with a flash message if create event button is clicked and one of the fields is blank' do
+      post :add_event, params: { title: 'random', event_date: '', location: 'random_location', budget: 100, theme: '' }
+      expect(response).to redirect_to(new_event_path)
+      expect(flash[:alert]).to eq('Please fill out all the fields')
+    end
   end
 end
