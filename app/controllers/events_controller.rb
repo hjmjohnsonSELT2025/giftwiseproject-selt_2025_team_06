@@ -24,7 +24,7 @@ class EventsController < ApplicationController
       flash[:alert] = "Please fill out all the fields"
       redirect_to new_event_path and return
     end
-    @event = Event.new(title: title, location: location, budget: budget, theme: theme, user_id: session[:user_id])
+    @event = Event.new(title: title, event_date: event_date, location: location, budget: budget, theme: theme, user_id: session[:user_id])
     if @event.save
       flash[:notice] = "Event created successfully"
       redirect_to events_path
