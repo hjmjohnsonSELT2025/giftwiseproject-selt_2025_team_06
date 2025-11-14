@@ -13,4 +13,13 @@ Rails.application.routes.draw do
   get  "/login",  to: "sessions#new"
   post "/login",  to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
+
+
+  # Generate all the standard CRUD routes for users
+  # resources :users
+
+  # "Create Account" feature:
+  # new_user_path  => GET  /users/new     (users#new)
+  # users_path     => POST /users         (users#create)
+  resources :users, only: [:new, :create]
 end
