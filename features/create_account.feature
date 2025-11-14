@@ -4,14 +4,12 @@ Feature: Creating an Account for website
   I want to have an account on this site for my tracking,
   So that I can properly plan the right gifts for all of those I know.
 
-  Background: Users have already been added to database
-
+  Background:
     Given the following users exist:
       | email           | username   | password  |
       | user65@mojo.com | Username65 | MyPass65  |
       | user32@mojo.com | Username32 | MyPass32  |
       | user40@mojo.com | Username40 | MyPass40  |
-
     And I am on the create account page
     Then 3 seed users should exist
 
