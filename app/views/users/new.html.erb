@@ -5,11 +5,17 @@
 
 <%= form_with url: users_path, method: :post do %>
 
+  <%= label_tag :email %>
+  <%= text_field_tag :email %>
+
   <%= label_tag :username %>
   <%= text_field_tag :username %>
 
   <%= label_tag :password %>
   <%= password_field_tag :password %>
+
+  <%= label_tag :dob, "Date of Birth" %>
+  <%= text_field_tag :birthdate %>
 
   <%= label_tag :hobbies %>
   <%= text_field_tag :hobbies %>
