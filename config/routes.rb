@@ -15,11 +15,11 @@ Rails.application.routes.draw do
   delete "/logout", to: "sessions#destroy"
 
 
-  # Generate all the standard CRUD routes for users ()
+  # Generate all the standard CRUD routes for users
   # resources :users
 
   # "Create Account" feature:
-  # new_user_path  => GET  /users/new     (renders signup form)
-  # users_path     => POST /users         (handles form submission)
+  # new_user_path  => GET  /users/new     (users#new)
+  # users_path     => POST /users         (users#create)
   resources :users, only: [:new, :create]
 end
