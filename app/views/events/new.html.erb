@@ -1,0 +1,53 @@
+<!-- app/views/sessions/new.html.erb -->
+<!-- This is the login page, creating a new session each time -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create Event | GiftWise</title>
+  <%= stylesheet_link_tag "default", "data-turbo-track": "reload" %>
+</head>
+
+<body class="login-page">
+<div class="login-container">
+  <h1>Create a New Event</h1>
+
+  <% if flash[:alert] %>
+    <p class="alert"><%= flash[:alert] %></p>
+  <% elsif flash[:notice] %>
+    <p class="notice"><%= flash[:notice] %></p>
+  <% end %>
+
+  <%= form_tag add_event_events_path, :method => :post, :id => 'add_event_form' do %>
+    <div class = "field">
+      <%= label_tag :title, "Event Title" %><br>
+      <%= text_field_tag :title %>
+    </div>
+
+    <div class = "field">
+      <%= label_tag :event_date, "Event Date" %><br>
+      <%= text_field_tag :event_date %>
+    </div>
+
+    <div class = "field">
+      <%= label_tag :location, "Event Location" %><br>
+      <%= text_field_tag :location%>
+    </div>
+
+    <div class = "field">
+      <%= label_tag :budget, "Event Budget" %><br>
+      <%= number_field_tag :budget, step: '0.01'%>
+    </div>
+
+    <div class = "field">
+      <%= label_tag :theme, "Event Theme" %><br>
+      <%= text_field_tag :theme%>
+    </div>
+
+    <div>
+      <%= submit_tag "Create Event", :id => 'create_event_button', class: "btn btn-default" %>
+    </div>
+  <% end %>
+</div>
+</body>
+</html>
