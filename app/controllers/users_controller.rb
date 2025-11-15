@@ -4,9 +4,7 @@ class UsersController < ApplicationController
 
   # GET /users or /users.json
   def index
-
   end
-  
 
   # GET /users/1 or /users/1.json
   def show
@@ -19,11 +17,14 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-
   end
 
   # POST /users or /users.json
   def create
+    Rails.logger.debug "===== CREATE USER DEBUG ====="
+    Rails.logger.debug "Password received: #{params[:password].inspect}"
+    Rails.logger.debug "Password length: #{params[:password]&.length}"
+
     username   = params[:username]
     password   = params[:password]
     hobbies    = params[:hobbies]
@@ -31,67 +32,70 @@ class UsersController < ApplicationController
     email      = params[:email]
     birthdate  = params[:birthdate]
 
-
-    # Scenario: Username already taken
-    if User.exists?(username: username)
-      flash[:error] = "Username Taken"
+    # STEP 1: Validate input format/presence FIRST
+    # IF invalid password (blank or too short)
+    if password.blank? || password.length < 6
+      flash[:alert] = "Password Invalid"
       redirect_to new_user_path and return
     end
 
-    # Scenario: Hobbies Missing
-    if hobbies.blank?
-      flash[:error] = "Hobbies Empty"
-      redirect_to new_user_path and return
-    end
-
-    # Scenario: Occupation Missing (but allowed)
-    if occupation.blank?
-      user = User.create(username: username, password: password, hobbies: hobbies)
-      session[:user_id] = user.id
-      redirect_to root_path and return
-    end
-
-    # DOB Missing
+    # IF Birthdate Missing
     if birthdate.blank?
-      flash[:error] = "DOB Empty"
+      flash[:alert] = "DOB Empty"
       redirect_to new_user_path and return
     end
 
-    # Normal successful creation
-    user = User.create(
+    # IF Hobbies Missing
+    if hobbies.blank?
+      flash[:alert] = "Hobbies Empty"
+      redirect_to new_user_path and return
+    end
+
+    # STEP 2: Check database uniqueness constraints
+    # IF Username already taken should check before email
+    if User.exists?(username: username)
+      flash[:alert] = "Username Taken"
+      redirect_to new_user_path and return
+    end
+
+    # IF Email already taken
+    if User.exists?(email: email)
+      flash[:alert] = "Email Taken"
+      redirect_to new_user_path and return
+    end
+
+    # STEP 3: Create the user (occupation is optional)
+    user = User.create!(
       email: email,
       username: username,
       password: password,
       birthdate: birthdate,
       hobbies: hobbies,
       occupation: occupation
-
-
     )
 
     session[:user_id] = user.id
+    flash[:notice] = "Account created successfully!"
     redirect_to root_path
   end
 
   # PATCH/PUT /users/1 or /users/1.json
   def update
-
   end
 
   # DELETE /users/1 or /users/1.json
   def destroy
     @user.destroy!
-
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def user_params
-      params.require(:user).permit(:email, :username, :password, :likes, :dislikes, :birthdate)
-    end
+  # Only allow a list of trusted parameters through.
+  def user_params
+    params.require(:user).permit(:email, :username, :password, :likes, :dislikes, :birthdate)
+  end
 end

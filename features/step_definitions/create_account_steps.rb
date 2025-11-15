@@ -1,5 +1,7 @@
 
-Given("I am on the create account page") do
+
+
+Given("I visit the create account page") do
   visit new_user_path
 end
 
@@ -8,27 +10,27 @@ end
 #   FORM INPUT STEPS
 # ============================================================
 
-When(/^I enter "(.*)" in the email box$/) do |email|
+When(/^I enter "(.*)" in the create account email box$/) do |email|
   fill_in 'email', with: email
 end
 
-When(/^I enter "(.*)" in the username box$/) do |username|
+When(/^I enter "(.*)" in the create account username box$/) do |username|
   fill_in 'username', with: username
 end
 
-When(/^I enter "(.*)" in the password box$/) do |password|
+When(/^I enter "(.*)" in the create account password box$/) do |password|
   fill_in 'password', with: password
 end
 
-When(/^I enter "(.*)" in the birthdate box$/) do |dob|
+When(/^I enter "(.*)" in the create account birthdate box$/) do |dob|
   fill_in 'birthdate', with: dob
 end
 
-When(/^I enter "(.*)" in the hobbies box$/) do |hobbies|
+When(/^I enter "(.*)" in the create account hobbies box$/) do |hobbies|
   fill_in 'hobbies', with: hobbies
 end
 
-When(/^I enter "(.*)" in the occupation box$/) do |occupation|
+When(/^I enter "(.*)" in the create account occupation box$/) do |occupation|
   fill_in 'occupation', with: occupation
 end
 
@@ -36,14 +38,14 @@ end
 #   BUTTON PRESS
 # ============================================================
 
-When(/^I press the "(.*)" button$/) do |button|
-  click_button button
+When(/^I press the Create Account button$/) do
+  click_button "Create Account"
 end
-
 # ============================================================
 #   EXPECTATIONS / OUTCOMES
 # ============================================================
 
-Then(/^I should be logged in as "(.*)"$/) do |username|
+Then(/^I expect to be logged in as "(.*)"$/) do |username|
   expect(page).to have_content("Logged in as #{username}")
-end
+ end
+
