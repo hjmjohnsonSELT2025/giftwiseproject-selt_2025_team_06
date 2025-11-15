@@ -1,2 +1,39 @@
 <!-- app/views/users/new.html.erb -->
 <!-- This will be the create account page => Creating a new user each time -->
+
+<h1>Create Account</h1>
+
+
+<% if flash[:alert] %>
+  <p><%= flash[:alert] %></p>
+<% end %>
+
+<% if flash[:notice] %>
+  <p><%= flash[:notice] %></p>
+<% end %>
+
+<%= form_with url: users_path, method: :post do %>
+
+  <%= label_tag :email %>
+  <%= text_field_tag :email %>
+
+  <%= label_tag :username %>
+  <%= text_field_tag :username %>
+
+  <%= label_tag :password %>
+  <%= password_field_tag :password %>
+
+  <%= label_tag :birthdate, "Date of Birth" %>
+  <%= text_field_tag :birthdate %>
+
+  <%= label_tag :hobbies %>
+  <%= text_field_tag :hobbies %>
+
+  <%= label_tag :occupation %>
+  <%= text_field_tag :occupation %>
+
+  <%= submit_tag "Create Account" %>
+
+<% end %>
+
+
