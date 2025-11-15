@@ -12,26 +12,17 @@ users = [
   {
     email: "user65@mojo.com",
     username: "Username65",
-    password: "MyPass65",
-    first_name: "Paul",
-    last_name: "Jones",
-    user_information_id: nil
+    password: "MyPass65"
   },
   {
     email: "user32@mojo.com",
     username: "Username32",
-    password: "MyPass32",
-    first_name: "Aaron",
-    last_name: "Senior",
-    user_information_id: nil
+    password: "MyPass32"
   },
   {
     email: "user40@mojo.com",
     username: "Username40",
-    password: "MyPass40",
-    first_name: "Billy",
-    last_name: "Bill",
-    user_information_id: nil
+    password: "MyPass40"
   }
 ]
 
