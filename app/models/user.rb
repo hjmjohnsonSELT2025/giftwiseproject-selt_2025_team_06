@@ -14,7 +14,7 @@ class User < ApplicationRecord
            foreign_key: "host_id",
            dependent: :nullify
 
-  # Gift-giver relationship (user → event)
+  # Gift-giver relationship (user → event)s
   has_many :gift_givers, dependent: :destroy
   has_many :gift_events,
            through: :gift_givers,
@@ -26,9 +26,7 @@ class User < ApplicationRecord
            through: :recipients,
            source: :event
 
-  # ---------------------------
   # Validations
-  # ---------------------------
   validates :email, presence: true, uniqueness: true
   validates :username, presence: true, uniqueness: true
   validates :password, presence: true
