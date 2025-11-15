@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # This will need to be our landing page!
-  root "users#index"
+  root "sessions#new"
 
   # Here then, are our routes across the site
   get  "/login",  to: "sessions#new"
