@@ -1,12 +1,10 @@
-Given(/the following users exist/) do |users_table|
+Given(/the following user exists in the database/) do |users_table|
   users_table.hashes.each do |user|
     User.create!(
       email: user[:email],
       username: user[:username],
       password: user[:password],
-      password_confirmation: user[:password],
-      first_name: 'Test',
-      last_name: 'User',
+      password_confirmation: user[:password]
     )
   end
 end

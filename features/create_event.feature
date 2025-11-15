@@ -5,7 +5,7 @@ Feature: User can create an event
 
   Background: Users have already been added to the database
 
-  Given the following users exist:
+  Given the following user exists in the database:
   | email           | username   | password  |
   | test@example.com | moaiztest | 12345678  |
 

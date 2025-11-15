@@ -4,14 +4,13 @@ class CreateUsers < ActiveRecord::Migration[7.1]
       t.string :email, null: false
       t.string :username, null: false
       t.string :password_digest, null: false
-      t.string :first_name, null: false
-      t.string :last_name, null: false
-      t.integer :user_information_id
+      t.text   :likes, default: "[]"
+      t.text   :dislikes, default: "[]"
+      t.date   :birthdate
       t.timestamps
     end
 
     add_index :users, :email, unique: true
     add_index :users, :username, unique: true
-    add_index :users, :user_information_id
   end
 end
