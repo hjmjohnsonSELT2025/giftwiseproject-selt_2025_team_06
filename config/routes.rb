@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
+  get 'user_items/index'
+  get 'user_items/create'
+  get 'user_items/destroy'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+
+  resources :user_items, only: [:index, :create, :destroy]
+  get "/preferences", to: "user_items#index", as: :preferences
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

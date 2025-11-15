@@ -1,7 +1,7 @@
 # This controller should be used also for account creation
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
-  before_action :require_login
+  before_action :require_login, except: [:index] #update once sign up is ready
 
   # GET /users or /users.json
   def index
@@ -26,6 +26,13 @@ class UsersController < ApplicationController
   # POST /users or /users.json
   def create
     @user = User.new(user_params)
+
+    if @user.save
+      session[:user_id] = @user.id
+      redirect_to preferences_path, notice: "Account created! Please enter your likes and dislikes."
+    else
+      render :new, status: :unprocessable_entity
+    end
 
   end
 
