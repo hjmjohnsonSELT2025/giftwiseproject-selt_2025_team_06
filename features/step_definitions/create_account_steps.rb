@@ -1,10 +1,6 @@
-
-
-
 Given("I visit the create account page") do
   visit new_user_path
 end
-
 
 # ============================================================
 #   FORM INPUT STEPS

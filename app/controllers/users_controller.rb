@@ -75,7 +75,7 @@ class UsersController < ApplicationController
 
     session[:user_id] = user.id
     flash[:notice] = "Account created successfully!"
-    redirect_to root_path
+    redirect_to events_path
   end
 
   # PATCH/PUT /users/1 or /users/1.json
