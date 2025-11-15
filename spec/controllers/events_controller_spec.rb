@@ -3,6 +3,10 @@ require 'rails_helper'
 
 describe EventsController do
   describe 'creating event' do
+    it 'should render the new event page when new is called' do
+      get :new
+      expect(response).to render_template(:new)
+    end
     it 'should redirect to user dashboard with a flash message if event is created successfully' do
       fake_event = double('Event', save: true)
       expect(Event).to receive(:new).and_return(fake_event)
