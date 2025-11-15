@@ -1,0 +1,49 @@
+<div class="container" style="max-width: 600px; margin-top: 40px;">
+  <h1>Your Likes & Dislikes</h1>
+
+  <p style="color: #888;">Enter items clearly so gift givers know exactly what you like.</p>
+
+  <% if flash[:alert] %>
+    <div style="color: red;"><%= flash[:alert] %></div>
+  <% end %>
+  <% if flash[:notice] %>
+    <div style="color: green;"><%= flash[:notice] %></div>
+  <% end %>
+
+  <%= form_with url: user_items_path, method: :post do %>
+    <div>
+      <label>New Item</label><br>
+      <%= text_field_tag :item_name, nil, placeholder: "e.g., dark chocolate", class: "form-control" %>
+    </div>
+
+    <div style="margin-top: 10px;">
+      <label>Category</label><br>
+      <%= select_tag :category,
+                     options_for_select([["Like", "like"], ["Dislike", "dislike"]]),
+                     class: "form-control" %>
+    </div>
+
+    <div style="margin-top: 10px;">
+      <%= submit_tag "Add", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+
+  <hr>
+
+  <h3>Your Entries</h3>
+
+  <ul>
+    <% @user_items.each do |ui| %>
+      <li>
+        <strong><%= ui.item.name.capitalize %></strong>
+        — <%= ui.category %>
+
+        <%= button_to "Remove",
+                      user_item_path(ui),
+                      method: :delete,
+                      form: { style: "display:inline" },
+                      class: "btn btn-link text-danger" %>
+      </li>
+    <% end %>
+  </ul>
+</div>
