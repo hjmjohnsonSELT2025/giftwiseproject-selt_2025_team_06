@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   # This will need to be our landing page!
   root "users#index"
 
+  resources :users
+
   # Here then, are our routes across the site
   get  "/login",  to: "sessions#new"
   post "/login",  to: "sessions#create"
