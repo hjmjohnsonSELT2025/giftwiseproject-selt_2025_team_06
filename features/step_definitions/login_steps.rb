@@ -32,7 +32,7 @@ When(/^I press the “Log In” button$/) do
 end
 
 Then(/^I should be taken to the home page$/) do
-  expect(current_path).to eq(root_path)
+  expect(current_path).to eq(events_path)
 end
 
 Then(/^I should be logged in as (.*)$/) do |username|

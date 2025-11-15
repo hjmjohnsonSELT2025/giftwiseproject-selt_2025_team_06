@@ -1,10 +1,13 @@
 # This controller should be used also for account creation
 class UsersController < ApplicationController
-  #  before_action :set_movie, only: %i[ show edit update destroy ] --> commented out
+  before_action :set_user, only: %i[ show edit update destroy ]
+  before_action :require_login, except: [:index, :new, :create] # users should create accounts while NOT logged in
 
   # GET /users or /users.json
   def index
+
   end
+  
 
   # GET /users/1 or /users/1.json
   def show
@@ -17,14 +20,11 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+
   end
 
   # POST /users or /users.json
   def create
-    Rails.logger.debug "===== CREATE USER DEBUG ====="
-    Rails.logger.debug "Password received: #{params[:password].inspect}"
-    Rails.logger.debug "Password length: #{params[:password]&.length}"
-
     username   = params[:username]
     password   = params[:password]
     hobbies    = params[:hobbies]
@@ -32,7 +32,6 @@ class UsersController < ApplicationController
     email      = params[:email]
     birthdate  = params[:birthdate]
 
-    # STEP 1: Validate input format/presence FIRST
     # IF invalid password (blank or too short)
     if password.blank? || password.length < 6
       flash[:alert] = "Password Invalid"
@@ -51,7 +50,7 @@ class UsersController < ApplicationController
       redirect_to new_user_path and return
     end
 
-    # STEP 2: Check database uniqueness constraints
+    # Check database uniqueness constraints
     # IF Username already taken should check before email
     if User.exists?(username: username)
       flash[:alert] = "Username Taken"
@@ -64,7 +63,7 @@ class UsersController < ApplicationController
       redirect_to new_user_path and return
     end
 
-    # STEP 3: Create the user (occupation is optional)
+    # Create user -- occupation allowed to be nil
     user = User.create!(
       email: email,
       username: username,
@@ -81,11 +80,13 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1 or /users/1.json
   def update
+
   end
 
   # DELETE /users/1 or /users/1.json
   def destroy
     @user.destroy!
+
   end
 
   private
@@ -94,8 +95,15 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
-  def user_params
-    params.require(:user).permit(:email, :username, :password, :likes, :dislikes, :birthdate)
+    # Only allow a list of trusted parameters through.
+    def user_params
+      params.require(:user).permit(
+        :email,
+        :username,
+        :password,
+        :first_name,
+        :last_name,
+        :user_information_id
+      )
   end
 end

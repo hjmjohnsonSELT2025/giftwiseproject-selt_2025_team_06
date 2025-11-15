@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
       # Quick notice welcoming back the user
       flash[:notice] = "Welcome back, #{user.username}!"
       # Redirect to our home page
-      redirect_to root_path
+      redirect_to events_path
     else
       # If there is an incorrect password, we stay on login page
       flash[:alert] = "Incorrect password"
