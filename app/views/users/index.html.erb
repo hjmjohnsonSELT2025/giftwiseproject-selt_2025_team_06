@@ -1,4 +1,43 @@
-<!-- app/views/users/index.html.erb -->
-<!-- This will be the home page for the user -->
-<h1>Home Page</h1>
-<p>Welcome back!</p>
+<div style="
+display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  text-align: center;
+  font-family: Arial, sans-serif;
+">
+
+  <h1 style="font-size: 3rem; margin-bottom: 10px; color: #333;">
+    🎁 Welcome to GiftWise
+  </h1>
+
+  <p style="font-size: 1.3rem; max-width: 600px; color: #555;">
+    A simple way to organize your likes, dislikes, and gift preferences,
+    so your friends and family always know what to get you.
+  </p>
+
+  <div style="margin-top: 40px; display: flex; gap: 20px;">
+
+    <%= link_to "Login", login_path,
+                style: "
+            padding: 12px 28px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.1rem;
+          " %>
+
+    <%= link_to "Sign Up", "#",    # we will replace with our signup path later
+                style: "
+            padding: 12px 28px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.1rem;
+          " %>
+
+  </div>
+</div>
