@@ -1,7 +1,7 @@
 # This controller should be used also for account creation
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
-  before_action :require_login
+  before_action :require_login, except: [:index]
 
   # GET /users or /users.json
   def index
