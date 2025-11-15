@@ -61,7 +61,7 @@ Feature: Creating an Account for website
     And I enter "" in the create account occupation box
     And I press the Create Account button
     Then I should be taken to the home page
-    And I expect to be logged in as "NewUsername5"
+    And I should see a message "Account created successfully!"
 
   Scenario: Username Taken in Account Creation
     When I enter "newuser6@mojo.com" in the create account email box
