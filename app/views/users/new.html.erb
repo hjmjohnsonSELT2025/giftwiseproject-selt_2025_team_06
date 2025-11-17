@@ -1,39 +1,124 @@
 <!-- app/views/users/new.html.erb -->
-<!-- This will be the create account page => Creating a new user each time -->
 
-<h1>Create Account</h1>
+<div class="form-container">
+  <h1>Create Your Account</h1>
+  <p class="subtitle">Create an Account and Join GiftWise today !! </p>
 
+  <% if flash[:alert] %>
+    <div class="flash alert"><%= flash[:alert] %></div>
+  <% end %>
 
-<% if flash[:alert] %>
-  <p><%= flash[:alert] %></p>
-<% end %>
+  <% if flash[:notice] %>
+    <div class="flash notice"><%= flash[:notice] %></div>
+  <% end %>
 
-<% if flash[:notice] %>
-  <p><%= flash[:notice] %></p>
-<% end %>
+  <%= form_with url: users_path, method: :post, class: "account-form" do %>
 
-<%= form_with url: users_path, method: :post do %>
+    <div class="form-group">
+      <%= label_tag :email, "Email" %>
+      <%= text_field_tag :email, nil, class: "input-field" %>
+    </div>
 
-  <%= label_tag :email %>
-  <%= text_field_tag :email %>
+    <div class="form-group">
+      <%= label_tag :username, "Username" %>
+      <%= text_field_tag :username, nil, class: "input-field" %>
+    </div>
 
-  <%= label_tag :username %>
-  <%= text_field_tag :username %>
+    <div class="form-group">
+      <%= label_tag :password, "Password" %>
+      <%= password_field_tag :password, nil, class: "input-field" %>
+    </div>
 
-  <%= label_tag :password %>
-  <%= password_field_tag :password %>
+    <div class="form-group">
+      <%= label_tag :birthdate, "Date of Birth" %>
+      <%= date_field_tag :birthdate, nil, class: "input-field" %>
+    </div>
 
-  <%= label_tag :birthdate, "Date of Birth" %>
-  <%= text_field_tag :birthdate %>
+    <div class="form-group">
+      <%= label_tag :hobbies, "Hobbies" %>
+      <%= text_field_tag :hobbies, nil, class: "input-field" %>
+    </div>
 
-  <%= label_tag :hobbies %>
-  <%= text_field_tag :hobbies %>
+    <div class="form-group">
+      <%= label_tag :occupation, "Occupation" %>
+      <%= text_field_tag :occupation, nil, class: "input-field" %>
+    </div>
 
-  <%= label_tag :occupation %>
-  <%= text_field_tag :occupation %>
+    <div class="submit-wrapper">
+      <%= submit_tag "Create Account", class: "submit-btn" %>
+    </div>
 
-  <%= submit_tag "Create Account" %>
+  <% end %>
+</div>
 
-<% end %>
+<!-- Inline styles — you can move to application.css whenever -->
+<style>
+    .form-container {
+        max-width: 450px;
+        margin: 40px auto;
+        padding: 30px;
+        border-radius: 10px;
+        background: #f7f7f7;
+        box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+        text-align: center;
+        font-family: Arial, sans-serif;
+    }
 
+    h1 {
+        margin-bottom: 5px;
+        font-size: 28px;
+    }
 
+    .subtitle {
+        color: #666;
+        margin-bottom: 20px;
+    }
+
+    .flash {
+        padding: 10px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+        font-size: 14px;
+    }
+
+    .alert { background-color: #ffdddd; color: #a00; }
+    .notice { background-color: #ddffdd; color: #0a0; }
+
+    .form-group {
+        text-align: left;
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: bold;
+    }
+
+    .input-field {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 15px;
+    }
+
+    .submit-wrapper {
+        margin-top: 20px;
+    }
+
+    .submit-btn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 18px;
+        font-size: 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    .submit-btn:hover {
+        background-color: #45a049;
+    }
+</style>
