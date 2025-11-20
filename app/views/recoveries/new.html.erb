@@ -1,6 +1,6 @@
 <!--  This is the ACCOUNT RECOVERY Forgot Password / Email / User Page-->
 
-<div class="login-page",>
+<div class="login-page">
   <div class="login-container">
 
     <h1 class="login-title">🎁 GiftWise 🎁</h1>
@@ -12,7 +12,7 @@
       <p class="notice"><%= flash[:notice] %></p>
     <% end %>
 
-    <%= form_with url: forgot_path, method: :post, local: true, html: { class: "login-form" } do |f| %>
+    <%= form_with url: recovery_path, method: :post, local: true, html: { class: "login-form" } do |f| %>
 
       <div class="field">
         <%= f.label :identifier, "Email or Username", class: "form-label" %>

@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   get 'events/new', to: 'events#new', as: 'new_event'
   post 'events/add_event', to: 'events#add_event', as: 'add_event_events'
 
-  # Add Routes to Forgot View
-  get  "/forgot", to: "recoveries#new",    as: :forgot
-  post "/forgot", to: "recoveries#create"     # Handles Form Submission
+  # Add Routes to Account Recovery View
+  get  "/recovery", to: "recoveries#new",    as: :'recovery'
+  post "/recovery", to: "recoveries#create"     # Handles Form Submission
 end

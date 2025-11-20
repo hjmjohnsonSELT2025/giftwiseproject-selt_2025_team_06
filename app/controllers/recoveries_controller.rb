@@ -11,7 +11,7 @@ class RecoveriesController < ApplicationController
     # Empty
     if identifier.blank?
       flash[:alert] = "Please enter your email or username."
-      return redirect_to forgot_path
+      return redirect_to recovery_path
     end
 
     # Find User depedning on if they put either email OR username
