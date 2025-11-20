@@ -19,7 +19,15 @@ Rails.application.routes.draw do
   get 'events/new', to: 'events#new', as: 'new_event'
   post 'events/add_event', to: 'events#add_event', as: 'add_event_events'
 
-  # Add Routes to Account Recovery View
+  # Routes to Account Recovery View
   get  "/recovery", to: "recoveries#new",    as: :'recovery'
   post "/recovery", to: "recoveries#create"     # Handles Form Submission
+
+  # Account Recovery Pass reset page
+  get "/recoveries/reset", to: "recoveries#edit", as: :'recovery_reset'
+  patch "/recoveries/reset", to: "recoveries#update"
+
+
 end
+
+
