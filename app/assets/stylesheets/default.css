@@ -125,6 +125,11 @@ body.login-page {
     justify-content: space-between;
     align-items: flex-end;
 }
+.footer-container-left {
+    margin-top: 25px;
+    display: flex;
+    justify-content: flex-start;  /* Back on the left */
+}
 
 /* Back link bottom-left */
 .back-link {

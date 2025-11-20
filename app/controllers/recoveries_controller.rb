@@ -23,10 +23,10 @@ class RecoveriesController < ApplicationController
       return redirect_to login_path
     end
 
-    # TODO
+    # TODO EMAIL FORM
     # EMAIL SHOULD HAVE
     # Their Username
-    # Password Reset Link(View) TODO
+    # Password Reset Link(View)
     # Recovery instructions
 
 
