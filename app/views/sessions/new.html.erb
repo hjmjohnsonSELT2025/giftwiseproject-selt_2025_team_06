@@ -1,16 +1,16 @@
-<!-- app/views/sessions/new.html.erb -->
-<!-- This is the login page, creating a new session each time -->
-
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Log In | GiftWise</title>
+  <title>🎁 Log In | GiftWise 🎁</title>
   <%= stylesheet_link_tag "default", "data-turbo-track": "reload" %>
 </head>
 
 <body class="login-page">
 <div class="login-container">
-  <h1>Log In</h1>
+
+  <!-- Title -->
+  <h1 class="login-title">GiftWise</h1>
+  <h2 class="login-subtitle">Log In</h2>
 
   <% if flash[:alert] %>
     <p class="alert"><%= flash[:alert] %></p>
@@ -19,20 +19,47 @@
   <% end %>
 
   <%= form_with url: login_path, method: :post, local: true, html: { class: "login-form" } do |f| %>
+
+    <!-- USERNAME / EMAIL -->
     <div class="field">
-      <%= f.label :username %><br>
-      <%= f.text_field :username, id: 'username', placeholder: "Enter your username" %>
+      <%= f.label :username, "Username / Email", class: "form-label" %>
+      <%= f.text_field :username, id: "username", class: "form-input", placeholder: "Enter your username or email" %>
     </div>
 
+    <!-- PASSWORD -->
     <div class="field">
-      <%= f.label :password %><br>
-      <%= f.password_field :password, id: 'password', placeholder: "Enter your password" %>
+      <%= f.label :password, class: "form-label" %>
+      <%= f.password_field :password, id: "password", class: "form-input", placeholder: "Enter your password" %>
     </div>
 
-    <div>
-      <%= f.submit 'Log In', class: "login-button" %>
+    <!-- FORGOT LINKS SECTION -->
+    <div class="forgot-section">
+      <%= link_to "Forgot username, email, or password?", root_path, class: "forgot-link" %>
     </div>
+
+
+    <!-- LOGIN BUTTON -->
+    <div class="login-button-container">
+      <%= f.submit "LOGIN", class: "login-button" %>
+    </div>
+
   <% end %>
+
+  <!-- FOOTER -->
+  <div class="footer-container">
+    <div class="footer-left">
+      <%= link_to "Back", root_path, class: "back-link" %>
+    </div>
+
+    <div class="footer-right">
+      <p class="signup-text">
+        Don’t have an account?
+        <%= link_to "Sign up Now!", new_user_path, class: "signup-link" %>
+      </p>
+    </div>
+  </div>
+
 </div>
 </body>
 </html>
+
