@@ -18,4 +18,8 @@ Rails.application.routes.draw do
   get 'events', to: 'events#index', as: 'events'
   get 'events/new', to: 'events#new', as: 'new_event'
   post 'events/add_event', to: 'events#add_event', as: 'add_event_events'
+
+  # Add Routes to Forgot View
+  get  "/forgot", to: "sessions#forgot", as: :forgot # Shows Forgot Page
+  post "/forgot", to: "sessions#process_forgot"      # Handles Form Submission
 end
