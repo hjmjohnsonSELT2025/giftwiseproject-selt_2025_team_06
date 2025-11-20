@@ -1,33 +1,35 @@
 <!--  This is the ACCOUNT RECOVERY Forgot Password / Email / User Page-->
 
-  <h1 class="login-title">🎁 GiftWise 🎁</h1>
-  <h2 class="login-subtitle">Recover Account</h2>
+<div class="login-page",>
+  <div class="login-container">
 
-  <% if flash[:alert] %>
-    <p class="alert"><%= flash[:alert] %></p>
-  <% elsif flash[:notice] %>
-    <p class="notice"><%= flash[:notice] %></p>
-  <% end %>
+    <h1 class="login-title">🎁 GiftWise 🎁</h1>
+    <h2 class="login-subtitle">Recover Account</h2>
 
-  <%= form_with url: forgot_path, method: :post, local: true, html: { class: "login-form" } do |f| %>
+    <% if flash[:alert] %>
+      <p class="alert"><%= flash[:alert] %></p>
+    <% elsif flash[:notice] %>
+      <p class="notice"><%= flash[:notice] %></p>
+    <% end %>
 
-    <div class="field">
-      <%= f.label :identifier, "Email or Username", class: "form-label" %>
-      <%= f.text_field :identifier,
-                       class: "form-input",
-                       placeholder: "Enter your email or username" %>
+    <%= form_with url: forgot_path, method: :post, local: true, html: { class: "login-form" } do |f| %>
+
+      <div class="field">
+        <%= f.label :identifier, "Email or Username", class: "form-label" %>
+        <%= f.text_field :identifier,
+                         class: "form-input",
+                         placeholder: "Enter your email or username" %>
+      </div>
+
+      <div class="login-button-container">
+        <%= f.submit "Send Recovery Instructions", class: "login-button" %>
+      </div>
+
+    <% end %>
+
+    <div class="footer-container">
+      <%= link_to "Back to Log In", login_path, class: "back-link" %>
     </div>
 
-    <div class="login-button-container">
-      <%= f.submit "Send Recovery Instructions", class: "login-button" %>
-    </div>
-
-  <% end %>
-
-  <div class="footer-container">
-    <%= link_to "Back to Log In", login_path, class: "back-link" %>
   </div>
-
 </div>
-
-</body>
