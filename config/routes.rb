@@ -20,6 +20,6 @@ Rails.application.routes.draw do
   post 'events/add_event', to: 'events#add_event', as: 'add_event_events'
 
   # Add Routes to Forgot View
-  get  "/forgot", to: "sessions#forgot", as: :forgot # Shows Forgot Page
-  post "/forgot", to: "sessions#process_forgot"      # Handles Form Submission
+  get  "/forgot", to: "recoveries#new",    as: :forgot
+  post "/forgot", to: "recoveries#create"     # Handles Form Submission
 end
