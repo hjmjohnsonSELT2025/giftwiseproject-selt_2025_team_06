@@ -11,6 +11,11 @@
 </head>
 
 <body>
+<!-- Displaying our Navbar only if we have a user logged in -->
+<% if session[:user_id] %>
+  <%= render "layouts/navbar" %>
+<% end %>
+
 <!--<header>-->
 <!--  <h1>GiftWise</h1>-->
 <!--</header>-->

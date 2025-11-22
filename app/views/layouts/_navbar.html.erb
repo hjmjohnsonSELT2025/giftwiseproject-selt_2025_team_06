@@ -1,0 +1,11 @@
+<nav class="navbar">
+  <div class="navbar-left">
+    <%= link_to "GiftWise", events_path, class: "navbar-brand" %>
+  </div>
+
+  <ul class="navbar-links">
+    <li><%= link_to "Home", events_path %></li>
+    <li><%= link_to "Profile", user_path(session[:user_id]) %></li>
+    <li><%= link_to "Logout", logout_path, method: :delete %></li>
+  </ul>
+</nav>
