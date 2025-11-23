@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   # Here then, are our routes across the site
   get  "/login",  to: "sessions#new"
   post "/login",  to: "sessions#create"
-  get "/logout", to: "sessions#destroy"
+  delete "/logout", to: "sessions#destroy"
   get 'events', to: 'events#index', as: 'events'
   get 'events/new', to: 'events#new', as: 'new_event'
   post 'events/add_event', to: 'events#add_event', as: 'add_event_events'

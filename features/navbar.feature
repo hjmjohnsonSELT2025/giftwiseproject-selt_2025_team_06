@@ -34,5 +34,6 @@ Feature: Navbar navigation for logged-in users
     And I should see "Logged out successfully"
 
   Scenario: Navbar Hidden When Not Logged In
-    When I log out manually
+    When I click the "Logout" link in the navbar
+    Then I should be redirected to the login page
     Then I should not see the navbar

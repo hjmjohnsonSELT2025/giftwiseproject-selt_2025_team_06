@@ -31,6 +31,6 @@ class SessionsController < ApplicationController
     # Remove the session assigned to the user and flash the notice
     session.delete(:user_id)
     flash[:notice] = "You have logged out successfully."
-    redirect_to login_path
+    redirect_to login_path, notice: "Logged out successfully"
   end
 end
