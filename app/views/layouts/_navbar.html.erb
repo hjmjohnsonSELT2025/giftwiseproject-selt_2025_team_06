@@ -4,8 +4,12 @@
   </div>
 
   <ul class="navbar-links">
-    <li><%= link_to "Events", events_path %></li>
-    <li><%= link_to "Profile", user_path(session[:user_id]) %></li>
-    <li><%= link_to "Logout", logout_path, method: :delete %></li>
+    <li><%= button_to "Events", events_path, class: "navbar-btn" %></li>
+    <% if current_user %>
+      <li><%= button_to "Profile", user_path(current_user.id), class: "navbar-btn" %></li>
+      <li>
+        <%= button_to "Logout", logout_path, method: :delete, class: "navbar-btn" %>
+      </li>
+  <% end %>
   </ul>
 </nav>

@@ -68,6 +68,16 @@ body.login-page {
     z-index: 1000;
 }
 
+.navbar-btn {
+    background: black;
+    color: #ffffff;
+    border: 2px solid white;
+    border-radius: 15px;
+    font-size: 1.4rem;
+    padding: 8%;
+    margin: 10%;
+}
+
 .navbar-brand {
     font-size: 2rem;
     font-weight: bold;
