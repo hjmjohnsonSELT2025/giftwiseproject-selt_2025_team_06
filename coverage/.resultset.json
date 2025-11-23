@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "/Users/moaizabrar/Desktop/UIowa/Uiowa_Fall_2025/SELT/SELT_Project/giftwiseproject-selt_2025_team_06/app/helpers/application_helper.rb": {
+      "/home/cjtobler/giftwiseproject-selt_2025_team_06/app/helpers/application_helper.rb": {
         "lines": [
           1,
           null
@@ -9,7 +9,7 @@
         "branches": {
         }
       },
-      "/Users/moaizabrar/Desktop/UIowa/Uiowa_Fall_2025/SELT/SELT_Project/giftwiseproject-selt_2025_team_06/app/controllers/events_controller.rb": {
+      "/home/cjtobler/giftwiseproject-selt_2025_team_06/app/controllers/events_controller.rb": {
         "lines": [
           null,
           1,
@@ -59,21 +59,21 @@
           }
         }
       },
-      "/Users/moaizabrar/Desktop/UIowa/Uiowa_Fall_2025/SELT/SELT_Project/giftwiseproject-selt_2025_team_06/app/controllers/application_controller.rb": {
+      "/home/cjtobler/giftwiseproject-selt_2025_team_06/app/controllers/application_controller.rb": {
         "lines": [
           1,
           1,
           null,
           1,
-          0,
+          1,
           null,
           null,
           1,
-          0,
+          1,
           null,
           null,
           1,
-          0,
+          1,
           0,
           0,
           null,
@@ -82,16 +82,16 @@
         ],
         "branches": {
           "[:if, 0, 5, 4, 5, 78]": {
-            "[:then, 1, 5, 4, 5, 57]": 0,
+            "[:then, 1, 5, 4, 5, 57]": 1,
             "[:else, 2, 5, 4, 5, 78]": 0
           },
           "[:unless, 3, 13, 4, 16, 7]": {
-            "[:else, 4, 13, 4, 16, 7]": 0,
+            "[:else, 4, 13, 4, 16, 7]": 1,
             "[:then, 5, 14, 6, 15, 28]": 0
           }
         }
       },
-      "/Users/moaizabrar/Desktop/UIowa/Uiowa_Fall_2025/SELT/SELT_Project/giftwiseproject-selt_2025_team_06/app/models/user.rb": {
+      "/home/cjtobler/giftwiseproject-selt_2025_team_06/app/models/user.rb": {
         "lines": [
           1,
           1,
@@ -130,7 +130,7 @@
         "branches": {
         }
       },
-      "/Users/moaizabrar/Desktop/UIowa/Uiowa_Fall_2025/SELT/SELT_Project/giftwiseproject-selt_2025_team_06/app/models/application_record.rb": {
+      "/home/cjtobler/giftwiseproject-selt_2025_team_06/app/models/application_record.rb": {
         "lines": [
           1,
           1,
@@ -139,7 +139,7 @@
         "branches": {
         }
       },
-      "/Users/moaizabrar/Desktop/UIowa/Uiowa_Fall_2025/SELT/SELT_Project/giftwiseproject-selt_2025_team_06/app/models/event.rb": {
+      "/home/cjtobler/giftwiseproject-selt_2025_team_06/app/models/event.rb": {
         "lines": [
           1,
           null,
@@ -148,7 +148,57 @@
         "branches": {
         }
       },
-      "/Users/moaizabrar/Desktop/UIowa/Uiowa_Fall_2025/SELT/SELT_Project/giftwiseproject-selt_2025_team_06/app/controllers/users_controller.rb": {
+      "/home/cjtobler/giftwiseproject-selt_2025_team_06/app/controllers/sessions_controller.rb": {
+        "lines": [
+          1,
+          1,
+          null,
+          null,
+          null,
+          null,
+          1,
+          null,
+          5,
+          null,
+          null,
+          5,
+          null,
+          0,
+          0,
+          5,
+          5,
+          null,
+          5,
+          null,
+          5,
+          null,
+          null,
+          0,
+          0,
+          null,
+          null,
+          null,
+          null,
+          1,
+          null,
+          2,
+          2,
+          2,
+          null,
+          null
+        ],
+        "branches": {
+          "[:if, 0, 12, 4, 26, 7]": {
+            "[:then, 1, 14, 6, 15, 28]": 0,
+            "[:else, 2, 16, 4, 25, 28]": 5
+          },
+          "[:if, 3, 16, 4, 25, 28]": {
+            "[:then, 4, 17, 6, 21, 29]": 5,
+            "[:else, 5, 24, 6, 25, 28]": 0
+          }
+        }
+      },
+      "/home/cjtobler/giftwiseproject-selt_2025_team_06/app/controllers/users_controller.rb": {
         "lines": [
           null,
           1,
@@ -244,7 +294,7 @@
           1,
           null,
           1,
-          0,
+          1,
           null,
           null,
           null,
@@ -283,7 +333,7 @@
           }
         }
       },
-      "/Users/moaizabrar/Desktop/UIowa/Uiowa_Fall_2025/SELT/SELT_Project/giftwiseproject-selt_2025_team_06/app/channels/application_cable/channel.rb": {
+      "/home/cjtobler/giftwiseproject-selt_2025_team_06/app/channels/application_cable/channel.rb": {
         "lines": [
           0,
           0,
@@ -293,7 +343,7 @@
         "branches": {
         }
       },
-      "/Users/moaizabrar/Desktop/UIowa/Uiowa_Fall_2025/SELT/SELT_Project/giftwiseproject-selt_2025_team_06/app/channels/application_cable/connection.rb": {
+      "/home/cjtobler/giftwiseproject-selt_2025_team_06/app/channels/application_cable/connection.rb": {
         "lines": [
           0,
           0,
@@ -303,49 +353,7 @@
         "branches": {
         }
       },
-      "/Users/moaizabrar/Desktop/UIowa/Uiowa_Fall_2025/SELT/SELT_Project/giftwiseproject-selt_2025_team_06/app/controllers/sessions_controller.rb": {
-        "lines": [
-          0,
-          0,
-          null,
-          0,
-          null,
-          null,
-          0,
-          null,
-          0,
-          null,
-          null,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0,
-          null,
-          0,
-          null,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0,
-          null,
-          null,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "branches": {
-        }
-      },
-      "/Users/moaizabrar/Desktop/UIowa/Uiowa_Fall_2025/SELT/SELT_Project/giftwiseproject-selt_2025_team_06/app/jobs/application_job.rb": {
+      "/home/cjtobler/giftwiseproject-selt_2025_team_06/app/jobs/application_job.rb": {
         "lines": [
           0,
           null,
@@ -358,7 +366,7 @@
         "branches": {
         }
       },
-      "/Users/moaizabrar/Desktop/UIowa/Uiowa_Fall_2025/SELT/SELT_Project/giftwiseproject-selt_2025_team_06/app/mailers/application_mailer.rb": {
+      "/home/cjtobler/giftwiseproject-selt_2025_team_06/app/mailers/application_mailer.rb": {
         "lines": [
           0,
           0,
@@ -369,6 +377,6 @@
         }
       }
     },
-    "timestamp": 1763181050
+    "timestamp": 1763930914
   }
 }
