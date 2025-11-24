@@ -29,3 +29,9 @@ users = [
 users.each do |user|
   User.create!(user)
 end
+
+# Load all seed files from db/seeds/ directory and its subdirectories 
+Dir[Rails.root.join("db/seeds/**/*.rb")].sort.each do |seed_file|
+  puts "Seeding from #{seed_file}..."
+  load seed_file
+end
