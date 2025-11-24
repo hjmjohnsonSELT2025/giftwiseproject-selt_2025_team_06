@@ -28,9 +28,9 @@
   <%= yield %>
 </main>
 
-<!--<footer>-->
-<!--  <p>&copy; <%#= Time.current.year %> GiftWise</p>-->
-<!--</footer>-->
+<% if session[:user_id] %>
+  <%= render "layouts/footer" %>
+<% end %>
 
 </body>
 </html>
