@@ -122,3 +122,85 @@ body.login-page {
         text-align: center;
     }
 }
+
+.footer {
+    background: linear-gradient(90deg, #222222, #C7AF46);
+    color: white;
+    padding: 3rem 12rem;
+    margin-top: 5rem;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+    position: sticky;
+    bottom: 0;
+    z-index: 900;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-section h4 {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    font-weight: bold;
+    border-bottom: 2px solid white;
+    padding-bottom: 0.25rem;
+}
+
+.footer-event-title,
+.footer-event-date,
+.footer-event-countdown,
+.footer-no-events {
+    font-size: 1rem;
+    margin: 0.3rem 0;
+}
+
+.footer-no-events {
+    opacity: 0.85;
+    font-style: italic;
+}
+
+.gift-tip {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 0.65rem 0.9rem;
+    border-radius: 8px;
+    border-left: 4px solid white;
+    font-size: 1rem;
+    font-style: italic;
+    margin-top: 0.45rem;
+}
+
+.footer-support p {
+    margin: 0.3rem 0;
+    font-size: 1rem;
+}
+
+.footer-support a {
+    color: #ffe680;
+    text-decoration: underline;
+    transition: opacity 0.2s ease;
+}
+
+.footer-support a:hover {
+    opacity: 0.8;
+}
+
+.footer-contact {
+    opacity: 0.9;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 400px) {
+    .footer-content {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+}
