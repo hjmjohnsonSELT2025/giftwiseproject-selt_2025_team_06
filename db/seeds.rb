@@ -12,20 +12,32 @@ users = [
   {
     email: "user65@mojo.com",
     username: "Username65",
-    password: "MyPass65"
+    password: "MyPass65",
+    first_name: "Paul",
+    last_name: "Jones"
   },
   {
     email: "user32@mojo.com",
     username: "Username32",
-    password: "MyPass32"
+    password: "MyPass32",
+    first_name: "Aaron",
+    last_name: "Senior"
   },
   {
     email: "user40@mojo.com",
     username: "Username40",
-    password: "MyPass40"
+    password: "MyPass40",
+    first_name: "Billy",
+    last_name: "Bill"
   }
 ]
 
-users.each do |user|
-  User.create!(user)
+users.each do |user_data|
+  User.find_or_initialize_by(email: user_data[:email]).tap do |u|
+    u.username   = user_data[:username]
+    u.password   = user_data[:password]
+    u.first_name = user_data[:first_name]
+    u.last_name  = user_data[:last_name]
+    u.save!
+  end
 end
