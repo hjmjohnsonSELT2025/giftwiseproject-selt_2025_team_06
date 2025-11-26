@@ -1,27 +1,11 @@
-<!-- app/views/sessions/new.html.erb -->
-<!-- This is the login page, creating a new session each time -->
+<h1>All Events</h1>
 
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Your Events | GiftWise</title>
-  <%= stylesheet_link_tag "default", "data-turbo-track": "reload" %>
-</head>
+<% if flash[:alert] %>
+  <p class="alert"><%= flash[:alert] %></p>
+<% elsif flash[:notice] %>
+  <p class="notice"><%= flash[:notice] %></p>
+<% end %>
 
-<body class="login-page">
 <div class="login-container">
-  <h1>All Events</h1>
-
-  <% if flash[:alert] %>
-    <p class="alert"><%= flash[:alert] %></p>
-  <% elsif flash[:notice] %>
-    <p class="notice"><%= flash[:notice] %></p>
-  <% end %>
-
-  <div>
-    <%= link_to 'Create New Event', new_event_path, class: "btn btn-default", id: "new_event_button" %>
-  </div>
-
+  <%= link_to 'Create New Event', new_event_path, class: "btn btn-default", id: "new_event_button" %>
 </div>
-</body>
-</html>

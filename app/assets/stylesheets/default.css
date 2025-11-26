@@ -29,7 +29,7 @@ body.login-page {
 }
 
 .login-button {
-    background-color: #3a86ff;
+    background: linear-gradient(90deg, #222222, #C7AF46);
     color: white;
     padding: 0.5rem 1rem;
     border: none;
@@ -37,11 +37,11 @@ body.login-page {
     cursor: pointer;
     width: 100%;
     font-size: 1rem;
-    transition: background-color 0.2s ease;
+    transition: opacity 0.2s ease;
 }
 
 .login-button:hover {
-    background-color: #2663d1;
+    opacity: 0.85;
 }
 
 .alert {
@@ -52,4 +52,73 @@ body.login-page {
 .notice {
     color: #5cb85c;
     margin-top: 1rem;
+}
+
+.navbar {
+    background: linear-gradient(90deg, #222222, #C7AF46);
+    color: white;
+    height: 8vh;
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-btn {
+    background: black;
+    color: #ffffff;
+    border: 2px solid white;
+    border-radius: 15px;
+    font-size: 1.4rem;
+    padding: 8%;
+    margin: 10%;
+}
+
+.navbar-brand {
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.12);
+    opacity: 0.9;
+}
+
+.navbar-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.4rem;
+    transition: opacity 0.2s ease;
+}
+
+.navbar-links a:hover {
+    opacity: 0.8;
+}
+
+@media (max-width: 400px) {
+    .navbar {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .navbar-links {
+        flex-direction: column;
+        gap: 0.75rem;
+        text-align: center;
+    }
 }
