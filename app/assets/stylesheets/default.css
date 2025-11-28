@@ -29,7 +29,7 @@ body.login-page {
 }
 
 .login-button {
-    background-color: #3a86ff;
+    background: linear-gradient(90deg, #222222, #C7AF46);
     color: white;
     padding: 0.5rem 1rem;
     border: none;
@@ -37,11 +37,11 @@ body.login-page {
     cursor: pointer;
     width: 100%;
     font-size: 1rem;
-    transition: background-color 0.2s ease;
+    transition: opacity 0.2s ease;
 }
 
 .login-button:hover {
-    background-color: #2663d1;
+    opacity: 0.85;
 }
 
 .alert {
@@ -52,4 +52,155 @@ body.login-page {
 .notice {
     color: #5cb85c;
     margin-top: 1rem;
+}
+
+.navbar {
+    background: linear-gradient(90deg, #222222, #C7AF46);
+    color: white;
+    height: 8vh;
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-btn {
+    background: black;
+    color: #ffffff;
+    border: 2px solid white;
+    border-radius: 15px;
+    font-size: 1.4rem;
+    padding: 8%;
+    margin: 10%;
+}
+
+.navbar-brand {
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.12);
+    opacity: 0.9;
+}
+
+.navbar-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.4rem;
+    transition: opacity 0.2s ease;
+}
+
+.navbar-links a:hover {
+    opacity: 0.8;
+}
+
+@media (max-width: 400px) {
+    .navbar {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .navbar-links {
+        flex-direction: column;
+        gap: 0.75rem;
+        text-align: center;
+    }
+}
+
+.footer {
+    background: linear-gradient(90deg, #222222, #C7AF46);
+    color: white;
+    padding: 3rem 12rem;
+    margin-top: 5rem;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+    position: sticky;
+    bottom: 0;
+    z-index: 900;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-section h4 {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    font-weight: bold;
+    border-bottom: 2px solid white;
+    padding-bottom: 0.25rem;
+}
+
+.footer-event-title,
+.footer-event-date,
+.footer-event-countdown,
+.footer-no-events {
+    font-size: 1rem;
+    margin: 0.3rem 0;
+}
+
+.footer-no-events {
+    opacity: 0.85;
+    font-style: italic;
+}
+
+.gift-tip {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 0.65rem 0.9rem;
+    border-radius: 8px;
+    border-left: 4px solid white;
+    font-size: 1rem;
+    font-style: italic;
+    margin-top: 0.45rem;
+}
+
+.footer-support p {
+    margin: 0.3rem 0;
+    font-size: 1rem;
+}
+
+.footer-support a {
+    color: #ffe680;
+    text-decoration: underline;
+    transition: opacity 0.2s ease;
+}
+
+.footer-support a:hover {
+    opacity: 0.8;
+}
+
+.footer-contact {
+    opacity: 0.9;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 400px) {
+    .footer-content {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
 }
