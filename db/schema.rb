@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_11_26_204747) do
+ActiveRecord::Schema[7.1].define(version: 2025_11_28_192836) do
   create_table "events", force: :cascade do |t|
     t.string "title"
     t.date "event_date"
@@ -33,23 +33,34 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_26_204747) do
     t.index ["user_id"], name: "index_gift_givers_on_user_id"
   end
 
+  create_table "invites", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "event_id", null: false
+    t.string "status", default: "pending"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_invites_on_event_id"
+    t.index ["user_id"], name: "index_invites_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.string "username", null: false
     t.string "password_digest", null: false
-    t.string "first_name", null: false
-    t.string "last_name", null: false
-    t.integer "user_information_id"
+    t.text "likes", default: "[]"
+    t.text "dislikes", default: "[]"
+    t.date "birthdate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "hobbies"
     t.string "occupation"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["user_information_id"], name: "index_users_on_user_information_id"
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   add_foreign_key "events", "users"
   add_foreign_key "gift_givers", "events"
   add_foreign_key "gift_givers", "users"
+  add_foreign_key "invites", "events"
+  add_foreign_key "invites", "users"
 end

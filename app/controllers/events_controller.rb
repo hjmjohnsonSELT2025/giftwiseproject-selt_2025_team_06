@@ -26,6 +26,16 @@ class EventsController < ApplicationController
       flash[:alert] = "User not found"
       redirect_to event_path(@event) and return
     end
+
+    invite = Invite.find_or_initialize_by(event_id: params[:id], user_id: user.id, status: "pending")
+
+    if invite.persisted?
+      flash[:alert] = "User has already been invited"
+    else
+      invite.save!
+      flash[:notice] = "Invitation sent"
+    end
+    redirect_to event_path(@event)
   end
 
   def add_event

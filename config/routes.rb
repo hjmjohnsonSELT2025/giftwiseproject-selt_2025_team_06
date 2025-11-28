@@ -20,4 +20,6 @@ Rails.application.routes.draw do
   post 'events/add_event', to: 'events#add_event', as: 'add_event_events'
   get 'events/:id', to: 'events#show', as: 'event'
   post 'events/:id/invite', to: 'events#invite', as: 'invite_event'
+  get "/invites", to: "invites#index", as: 'invites'
+  post "invites/:id/accept", to: "invites#accept", as: 'accept_invite'
 end
