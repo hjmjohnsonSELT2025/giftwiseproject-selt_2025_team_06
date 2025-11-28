@@ -1,11 +1,79 @@
 <h1>All Events</h1>
 
-<% if flash[:alert] %>
-  <p class="alert"><%= flash[:alert] %></p>
-<% elsif flash[:notice] %>
-  <p class="notice"><%= flash[:notice] %></p>
-<% end %>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Your Events | GiftWise</title>
+  <%= stylesheet_link_tag "default", "data-turbo-track": "reload" %>
+  <style>
+    .events-grid{
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 16px;
+        margin-top: 20px;
+    }
+
+    .event-card {
+        background: #ffffff;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        border: 1px solid #eee;
+    }
+
+    .event-card h3 {
+        margin-top: 0;
+        margin-bottom: 8px;
+        font-size: 1.2rem;
+        color: #333;
+    }
+
+    .event-detail{
+        font-size: 0.9rem;
+        color: #555;
+        margin-bottom: 6px;
+    }
+  </style>
+</head>
 
 <div class="login-container">
-  <%= link_to 'Create New Event', new_event_path, class: "btn btn-default", id: "new_event_button" %>
+  <h1>All Events</h1>
+
+  <% if flash[:alert] %>
+    <p class="alert"><%= flash[:alert] %></p>
+  <% elsif flash[:notice] %>
+    <p class="notice"><%= flash[:notice] %></p>
+  <% end %>
+
+  <% if @events.present? %>
+    <div class="events-grid">
+      <% @events.each do |event| %>
+        <div class="event-card">
+          <h3><%= event.title %></h3>
+          <div class="event-detail">
+            <strong>Date:</strong> <%= event.event_date %>
+          </div>
+          <div class="event-detail">
+            <strong>Location:</strong> <%= event.location %>
+          </div>
+          <div class="event-detail">
+            <strong>Budget:</strong> $<%= event.budget %>
+          </div>
+          <div class="event-detail">
+            <strong>Theme:</strong> <%= event.theme %>
+          </div>
+
+          <%= link_to "View Event", event_path(event), class: "btn btn-default" %>
+        </div>
+      <% end %>
+    </div>
+
+  <% else %>
+    <p>You are not a gift-giver in any events yet.</p>
+  <% end %>
+
+  <div>
+    <%= link_to 'Create New Event', new_event_path, class: "btn btn-default", id: "new_event_button" %>
+  </div>
+
 </div>
