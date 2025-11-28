@@ -1,0 +1,84 @@
+<div style="max-width: 900px; margin: 40px auto; font-family: system-ui, sans-serif;">
+
+  <h1 style="font-size: 32px; font-weight: 600; margin-bottom: 20px;">
+    Your Likes & Dislikes
+  </h1>
+
+  <% if flash[:notice] %>
+    <div style="background:#e7f5ff; padding:10px; border-radius:8px; margin-bottom:15px;">
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+
+  <% if flash[:alert] %>
+    <div style="background:#ffe3e3; padding:10px; border-radius:8px; margin-bottom:15px;">
+      <%= flash[:alert] %>
+    </div>
+  <% end %>
+
+  <%= form_with url: bulk_save_preferences_path, method: :post, local: true do %>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+
+      <!-- LIKES COLUMN -->
+      <div style="background:#fff; padding:20px; border-radius:10px;">
+        <h2 style="font-size:20px; margin-bottom:10px;">Likes</h2>
+
+        <% @preferences.each do |pref| %>
+          <label style="display:block; margin-bottom:6px;">
+            <%= check_box_tag "likes[]", pref.id, @likes.include?(pref.id), id: "likes_#{pref.id}" %>
+            <%= pref.name %>
+          </label>
+        <% end %>
+
+        <hr style="margin:15px 0;">
+
+        <label>Add a custom like:</label>
+        <%= text_field_tag :new_like, nil,
+          placeholder: "e.g., matcha",
+          id: "add-pref-name",
+          style: "width:100%; padding:8px; border-radius:8px; border:1px solid #ccc;" %>
+
+        <button type="submit" name="add_like" style="margin-top:8px;">
+          Add Preference
+        </button>
+      </div>
+
+      <!-- DISLIKES COLUMN -->
+      <div style="background:#fff; padding:20px; border-radius:10px;">
+        <h2 style="font-size:20px; margin-bottom:10px;">Dislikes</h2>
+
+        <% @preferences.each do |pref| %>
+          <label style="display:block; margin-bottom:6px;">
+            <%= check_box_tag "dislikes[]", pref.id, @dislikes.include?(pref.id), id: "dislikes_#{pref.id}" %>
+            <%= pref.name %>
+          </label>
+        <% end %>
+
+        <hr style="margin:15px 0;">
+
+        <label>Add a custom dislike:</label>
+        <%= text_field_tag :new_dislike, nil,
+          placeholder: "e.g., spicy food",
+          id: "add-dislike-name",
+          style: "width:100%; padding:8px; border-radius:8px; border:1px solid #ccc;" %>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:30px;">
+      <button
+        type="submit"
+        style="
+          background:#00a86b;
+          color:white;
+          padding:12px 32px;
+          border-radius:8px;
+          border:none;
+          cursor:pointer;
+          font-size:17px;
+        ">
+        Continue
+      </button>
+    </div>
+
+  <% end %>
+</div>

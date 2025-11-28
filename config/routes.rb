@@ -18,4 +18,8 @@ Rails.application.routes.draw do
   get 'events', to: 'events#index', as: 'events'
   get 'events/new', to: 'events#new', as: 'new_event'
   post 'events/add_event', to: 'events#add_event', as: 'add_event_events'
+  
+  resources :user_preferences, only: [:create, :destroy]
+  get "/preferences", to: "preferences#index", as: :preferences
+  post "/preferences/bulk_save", to: "preferences#bulk_save", as: :bulk_save_preferences
 end
