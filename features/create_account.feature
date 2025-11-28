@@ -6,10 +6,10 @@ Feature: Creating an Account for website
 
   Background:
     Given the following users exist:
-      | email           | username   | password  |
-      | user65@mojo.com | Username65 | MyPass65  |
-      | user32@mojo.com | Username32 | MyPass32  |
-      | user40@mojo.com | Username40 | MyPass40  |
+      | email           | username   | password  | first_name | last_name |
+      | user65@mojo.com | Username65 | MyPass65  | Paul       | Jones     |
+      | user32@mojo.com | Username32 | MyPass32  | Aaron      | Senior    |
+      | user40@mojo.com | Username40 | MyPass40  | Billy      | Bill      |
     And I visit the create account page
     Then 3 seed users should exist
 
