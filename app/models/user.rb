@@ -20,6 +20,8 @@ class User < ApplicationRecord
   has_many :gift_giver_events,
            through: :gift_givers,
            source: :event
+  has_many :invites, dependent: :destroy
+  has_many :invited_events, through: :invites, source: :event
 
   # Recipient relationship (user → event)
   has_many :recipients, dependent: :destroy
