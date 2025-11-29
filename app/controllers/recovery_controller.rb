@@ -24,12 +24,12 @@ class RecoveryController < ApplicationController
     end
 
     # Send email
-    RecoveryMailer.reset_email(user).deliver_now
+    #    RecoveryMailer.reset_email(user).deliver_now
 
     # Do NOT reveal whether account exists always give message to not show what emails are associated with accounts (security)
-    flash[:notice] = "If this account exists, recovery instructions have been sent."
-    redirect_to login_path
-  end
+     flash[:notice] = "If this account exists, recovery instructions have been sent."
+     redirect_to login_path
+    end
 
   # -------
   # Handle setting a new password

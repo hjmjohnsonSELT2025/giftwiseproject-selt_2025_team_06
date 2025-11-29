@@ -28,3 +28,10 @@ Feature: User can request a Password and Username Recovery
     And I press the Send Recovery Instructions button
     Then I should be redirected to the login page
     And I should see "If this account exists, recovery instructions have been sent."
+
+  Scenario: Request password reset with non-existent identifier
+    Given I am on the Account Recovery page
+    When I enter "notarealuser@test.com" into the identifier box
+    And I press the Send Recovery Instructions button
+    Then I should be redirected to the login page
+    And I should see "If this account exists, recovery instructions have been sent."
