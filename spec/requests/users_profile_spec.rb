@@ -1,31 +1,40 @@
 require 'rails_helper'
 
-RSpec.describe "Profile Page", type: :request do
+RSpec.describe "Users", type: :request do
   let(:user) { User.create!(username: "testuser", email: "test@example.com", password: "password") }
 
-  before do
-    sign_in user
-  end
-
   describe "GET /users/:id" do
-    it "renders the user profile page successfully" do
+    it "returns a successful response" do
       get user_path(user)
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Likes/Dislikes")
     end
 
-    # Ensure the Buttons are on the page
-    it "has a change password button" do
+    it "renders the profile page content" do
+      get user_path(user)
+      expect(response.body).to include("#{user.username}'s Profile")
+      expect(response.body).to include("Likes/Dislikes")
+      expect(response.body).to include("Hobbies/Occupation")
+      expect(response.body).to include("Email/Password")
+    end
+
+    it "includes the Edit Account link" do
+      get user_path(user)
+      expect(response.body).to include("Edit Account")
+    end
+
+    it "includes the Change Password button" do
       get user_path(user)
       expect(response.body).to include("Change Password")
     end
-    it "has a Delete Account Button" do
+
+    it "includes the Delete Account button" do
       get user_path(user)
       expect(response.body).to include("Delete Account")
     end
-    it "has a Edit Button" do
+
+    it "includes the Back to Events Page button" do
       get user_path(user)
-      expect(response.body).to include("Edit Account")
+      expect(response.body).to include("Back to Events Page")
     end
   end
 end
