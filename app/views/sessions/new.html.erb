@@ -34,6 +34,14 @@
       <%= f.password_field :password, id: "password", class: "form-input", placeholder: "Enter your password" %>
     </div>
 
+    <!-- SHOW PASSWORD CHECKBOX -->
+    <div class="field">
+      <label class="show-password">
+        <input type="checkbox" id="toggle-password">
+        Show Password
+      </label>
+    </div>
+
     <!-- FORGOT LINKS SECTION -->
     <div class="forgot-section">
       <%= link_to "Forgot username, email, or password?", recovery_path, class: "recovery-link" %>

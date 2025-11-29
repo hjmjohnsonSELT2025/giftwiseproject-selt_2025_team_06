@@ -327,3 +327,14 @@ body.login-page {
     border: 1px solid #ccc;
     border-radius: 6px;
 }
+.show-password {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    margin-top: 8px;
+    cursor: pointer;
+}
+}
+
+
