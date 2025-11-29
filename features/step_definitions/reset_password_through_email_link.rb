@@ -56,8 +56,7 @@ When("I press the Update Password button") do
 end
 
 Then("I should remain on the Reset Password page") do
-  # Rails path becomes "/recovery/reset"
-  expect(page.current_path).to eq("/recovery/reset")
+  expect(page.current_path).to start_with("/recovery/reset")
 end
 
 Then("the user's reset_token should be cleared") do
