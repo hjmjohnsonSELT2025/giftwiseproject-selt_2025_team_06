@@ -9,22 +9,37 @@ display: flex;
 ">
   <h1> <%=@user.username %>'s Profile </h1>
   <div style="display: flex; justify-content: center; gap: 20px; margin: 20px 0;">
-    <%= link_to 'Edit', edit_user_path(@user),  id="edit-btn", class: 'btn btn-primary' %>
-    <%= link_to 'Change Password', forgot_password_path,  id="change-password-btn", class: 'btn btn-warning' %>
+    <%= link_to 'Edit Account', edit_user_path(@user), id: "edit-acct-btn", class: "btn btn-primary", style: "
+            padding: 12px 28px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.1rem;
+          "%>
+    <button type="button" class="btn btn-warning" id="change-password-btn" style="background-color: #ffcc00; padding: 12px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 1.1rem;"
+            data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+      Change Password
+    </button>
   </div>
 
-  <h2 style="margin-top: 10px"> Likes/Dislikes</h2>
-  <p> Likes:
+  <h2 style="border-bottom: 2px solid #ccc; padding-bottom: 5px; margin-bottom: 10px;"> Likes/Dislikes</h2>
+  <p> <strong> Likes: </strong>
     <%=@user.likes %></p>
-  <p>Dislikes:
+  <p> <strong> Dislikes: </strong>
     <%=@user.dislikes %></p>
 
-  <h2 style="margin-top: 10px"> Hobbies/Occupation</h2>
-  <p>Hobbies:<%=@user.hobbies %></p>
-  <p>Occupation:<%=@user.occupation %></p>
+  <h2 style="border-bottom: 2px solid #ccc; padding-bottom: 5px; margin-bottom: 10px;"> Hobbies/Occupation</h2>
+  <p><strong>Hobbies: </strong>
+    <%=@user.hobbies %></p>
+  <p><strong>Occupation: </strong>
+    <%=@user.occupation %></p>
 
-  <h2 style="margin-top: 10px"> Email/Password</h2>
-  <p>Email:<%=@user.email %></p>
+  <h2 style="border-bottom: 2px solid #ccc; padding-bottom: 5px; margin-bottom: 10px;"> Email/Password</h2>
+  <p> <strong> Email: </strong><%=@user.email %></p>
 
 
   <div style="margin-top: 30px">
@@ -32,9 +47,14 @@ display: flex;
                   user_path(@user),
                   method: :delete,
                   data: {confirm: 'Are you sure you would like to delete this account?'},
-                  id: 'delete-btn',
-                  class: 'btn btn-danger'%>
+                  id: 'delete-acct-btn',
+                  style: "
+                  padding: 12px 28px;
+        background-color: #ff0000;
+        color: Black;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 1.1rem; ",
+        class: 'btn btn-danger'%>
   </div>
-
-  
 </div>
