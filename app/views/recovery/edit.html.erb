@@ -1,0 +1,35 @@
+<!-- Page Users will go to Reset Password-->
+
+<div class="login-page">
+  <div class="login-container">
+
+    <h1 class="login-title">🎁 GiftWise 🎁</h1>
+    <h2 class="login-subtitle">Reset Your Password</h2>
+
+    <% if flash[:alert] %>
+      <p class="alert"><%= flash[:alert] %></p>
+    <% elsif flash[:notice] %>
+      <p class="notice"><%= flash[:notice] %></p>
+    <% end %>
+
+    <%= form_with url: recovery_reset_path, method: :patch, local: true do %>
+
+      <%= hidden_field_tag :token, params[:token] %>
+
+      <div class="field">
+        <label class="form-label">New Password</label>
+        <%= password_field_tag :password, nil, class: "form-input", placeholder: "Enter new password" %>
+      </div>
+
+      <div class="login-button-container">
+        <%= submit_tag "Update Password", class: "login-button" %>
+      </div>
+
+    <% end %>
+
+    <div class="footer-container-left">
+      <%= link_to "Back to Log In", login_path, class: "back-link" %>
+    </div>
+
+  </div>
+</div>

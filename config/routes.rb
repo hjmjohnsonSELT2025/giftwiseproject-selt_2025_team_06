@@ -18,11 +18,21 @@ Rails.application.routes.draw do
   get 'events', to: 'events#index', as: 'events'
   get 'events/new', to: 'events#new', as: 'new_event'
   post 'events/add_event', to: 'events#add_event', as: 'add_event_events'
+
+  # Routes to Account Recovery View
+  get  "/recovery", to: "recovery#new",    as: :'recovery'
+  post "/recovery", to: "recovery#create"     # Handles Form Submission
+
+  # Account Recovery Pass reset page
+  get "/recovery/reset", to: "recovery#edit", as: :'recovery_reset'
+  patch "/recovery/reset", to: "recovery#update"
+
+
   get 'events/:id', to: 'events#show', as: 'event'
   post 'events/:id/invite', to: 'events#invite', as: 'invite_event'
   get "/invites", to: "invites#index", as: 'invites'
   post "invites/:id/accept", to: "invites#accept", as: 'accept_invite'
-  
+
   resources :user_preferences, only: [:create, :destroy]
   get "/preferences", to: "preferences#index", as: :preferences
   post "/preferences/bulk_save", to: "preferences#bulk_save", as: :bulk_save_preferences
