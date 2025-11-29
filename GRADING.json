@@ -2,7 +2,7 @@
   "GROUP" : "G006",
   "ALL_SPRINT" : {
     "SPRINT1_URL" : "https://selt2025-team6-giftwise-4d91841eb119.herokuapp.com/",
-    "SPRINT2_URL" : "http://blah.blee.boo/myapp",
+    "SPRINT2_URL" : "https://selt2025-team6-giftwise-4d91841eb119.herokuapp.com/",
     "SPRINT3_URL" : "http://blah.blee.boo/myapp",
     "FINAL_URL"   : "http://blah.blee.boo/myapp"
   }

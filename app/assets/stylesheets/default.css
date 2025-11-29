@@ -306,4 +306,24 @@ body.login-page {
     color: #4e3ca7;
     font-weight: 600;
     text-decoration: underline;
+
+.event-detail{
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 6px;
+}
+.invite-container{
+    margin-top: 20px;
+    padding: 16px;
+    background: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.invite-container input {
+    padding: 8px;
+    width: 100%;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
 }
