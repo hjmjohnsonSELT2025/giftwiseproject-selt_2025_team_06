@@ -11,7 +11,7 @@ end
 Given("the following user data exists in the database:") do |table|
   table.hashes.each do |row|
 
-    # Convert "5 minutes ago" / "20 minutes ago" → proper Time objects
+    # Convert "5 minutes ago" / "20 minutes ago" → proper Time objects ChatGPT 5.1 Helped me fix this step to work
     reset_time =
       if row["reset_sent_at"].to_s.include?("minutes ago")
         amount = row["reset_sent_at"].to_i

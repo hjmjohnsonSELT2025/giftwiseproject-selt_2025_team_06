@@ -21,10 +21,10 @@ class RecoveryController < ApplicationController
       # Generate Token for User Password Reset
       token = SecureRandom.urlsafe_base64(32) # generate secure random token
       user.update(reset_token: token, reset_sent_at: Time.now) # Update users current token
-    end
 
-    # Send email
-    #    RecoveryMailer.reset_email(user).deliver_now
+      # Send email
+      RecoveryMailer.reset_email(user).deliver_now
+    end
 
     # Do NOT reveal whether account exists always give message to not show what emails are associated with accounts (security)
      flash[:notice] = "If this account exists, recovery instructions have been sent."
