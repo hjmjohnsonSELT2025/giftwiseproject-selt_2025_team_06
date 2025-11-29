@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_11_14_204123) do
+ActiveRecord::Schema[7.1].define(version: 2025_11_28_235612) do
   create_table "events", force: :cascade do |t|
     t.string "title"
     t.date "event_date"
@@ -34,6 +34,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_14_204123) do
     t.datetime "updated_at", null: false
     t.string "hobbies"
     t.string "occupation"
+    t.string "reset_token"
+    t.datetime "reset_sent_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end
