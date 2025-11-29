@@ -5,8 +5,8 @@ class User < ApplicationRecord
   belongs_to :user_information, optional: true
 
   # Many-to-many via user_has_preferences join table
-  has_many :user_has_preferences, dependent: :destroy
-  has_many :preferences, through: :user_has_preferences
+  has_many :user_preferences, dependent: :destroy
+  has_many :preferences, through: :user_preferences
 
   # Events the user is hosting
   has_many :hosted_events,
