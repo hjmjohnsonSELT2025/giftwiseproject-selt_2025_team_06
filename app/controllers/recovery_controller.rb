@@ -1,9 +1,11 @@
 # This controller is used for handling Account Recovery / Checks
 class RecoveryController < ApplicationController
 
+  # when the user opens the reset page
   def new
   end
 
+  # when the user requests a reset email
   def create
     # Take what the user typed, turn it into a safe string, and clean up any spaces.
     identifier = params[:identifier].to_s.strip
@@ -34,6 +36,7 @@ class RecoveryController < ApplicationController
   # -------
   # Handle setting a new password
   # -------
+  # when the user clicks the link from the email
   def edit
     @token = params[:token] # Grab token & Find user
     @user = User.find_by(reset_token: @token)
@@ -46,6 +49,7 @@ class RecoveryController < ApplicationController
     #If the token is valid -->  app/views/recovery/edit.html.erb
   end
 
+  # when the user submits a new password
   def update
     #  Find User & Read in token sent from form
     token = params[:token]
