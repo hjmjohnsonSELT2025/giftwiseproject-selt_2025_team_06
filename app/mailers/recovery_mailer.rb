@@ -7,7 +7,7 @@ class RecoveryMailer < ApplicationMailer
     @user = user
     @token = @user.reset_token # get reset token
 
-    @reset_url = recovery_reset_url(token: @token)
+    @reset_url = recovery_reset_url(token: @token) # set url in email to link + users reset token
 
     # Load email template
     mail(to: @user.email,  subject: "Your GiftWise Password Reset Instructions" )
