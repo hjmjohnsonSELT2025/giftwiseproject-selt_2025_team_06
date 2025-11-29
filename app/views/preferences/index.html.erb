@@ -1,0 +1,150 @@
+<div style="max-width: 900px; margin: 40px auto; font-family: system-ui, sans-serif;">
+
+  <h1 style="font-size: 32px; font-weight: 600; margin-bottom: 20px;">
+    Your Likes & Dislikes
+  </h1>
+
+  <%= form_with url: bulk_save_preferences_path, method: :post, local: true do %>
+    <!-- Hidden fields for custom preferences -->
+    <%= hidden_field_tag "new_like", "", id: "new_like_field" %>
+    <%= hidden_field_tag "new_dislike", "", id: "new_dislike_field" %>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+
+      <!-- LIKES COLUMN -->
+      <div style="background:#fff; padding:20px; border-radius:10px;">
+        <h2>Likes</h2>
+
+        <div id="likes-list">
+          <% @preferences.each do |pref| %>
+            <label>
+              <%= check_box_tag "likes[]", pref.id, @likes.include?(pref.id), id: "likes_#{pref.id}" %>
+              <%= pref.name %>
+            </label><br>
+          <% end %>
+        </div>
+
+        <hr>
+        <label>Add a custom like:</label>
+        <input id="add-like-input"
+               placeholder="e.g., matcha"
+               style="width:100%; padding:8px; margin-bottom:8px;" />
+
+        <button type="button" id="add-like-btn">Add Like</button>
+      </div>
+
+
+      <!-- DISLIKES COLUMN -->
+      <div style="background:#fff; padding:20px; border-radius:10px;">
+        <h2>Dislikes</h2>
+
+        <div id="dislikes-list">
+          <% @preferences.each do |pref| %>
+            <label>
+              <%= check_box_tag "dislikes[]", pref.id, @dislikes.include?(pref.id), id: "dislikes_#{pref.id}" %>
+              <%= pref.name %>
+            </label><br>
+          <% end %>
+        </div>
+
+        <hr>
+        <label>Add a custom dislike:</label>
+        <input id="add-dislike-input"
+               placeholder="e.g., spicy food"
+               style="width:100%; padding:8px; margin-bottom:8px;" />
+
+        <button type="button" id="add-dislike-btn">Add Dislike</button>
+      </div>
+
+    </div>
+
+    <div style="text-align:center; margin-top:30px;">
+      <button type="submit" style="background:#00a86b; color:white; padding:12px 32px; border-radius:8px; border:none;">
+        Continue
+      </button>
+    </div>
+  <% end %>
+</div>
+
+
+<script>
+// Track custom preferences
+let customLikes = {};
+let customDislikes = {};
+
+document.getElementById("add-like-btn").onclick = function() {
+  const name = document.getElementById("add-like-input").value.trim();
+  if (!name) return;
+
+  const id = "new_like_" + name.replace(/\s+/g, "_").toLowerCase();
+  
+  // Don't add if it already exists
+  if (document.getElementById(id)) return;
+
+  // Create new checkbox for the LIKE box with data attribute
+  const html = `
+    <label>
+      <input type="checkbox" class="custom-like-checkbox" data-pref-name="${name}" id="${id}">
+      ${name}
+    </label><br>
+  `;
+
+  document.getElementById("likes-list").insertAdjacentHTML("beforeend", html);
+  document.getElementById("add-like-input").value = "";
+  
+  // Add event listener to the new checkbox
+  const checkbox = document.getElementById(id);
+  checkbox.addEventListener('change', function() {
+    if (this.checked) {
+      document.getElementById("new_like_field").value = name;
+      // Uncheck other custom like checkboxes
+      document.querySelectorAll('.custom-like-checkbox').forEach(function(cb) {
+        if (cb.id !== id) cb.checked = false;
+      });
+    } else {
+      // If this was the checked one, clear the hidden field
+      if (document.getElementById("new_like_field").value === name) {
+        document.getElementById("new_like_field").value = "";
+      }
+    }
+  });
+};
+
+document.getElementById("add-dislike-btn").onclick = function() {
+  const name = document.getElementById("add-dislike-input").value.trim();
+  if (!name) return;
+
+  const id = "new_dislike_" + name.replace(/\s+/g, "_").toLowerCase();
+  
+  // Don't add if it already exists
+  if (document.getElementById(id)) return;
+
+  // Create new checkbox for the DISLIKE box with data attribute
+  const html = `
+    <label>
+      <input type="checkbox" class="custom-dislike-checkbox" data-pref-name="${name}" id="${id}">
+      ${name}
+    </label><br>
+  `;
+
+  document.getElementById("dislikes-list").insertAdjacentHTML("beforeend", html);
+  document.getElementById("add-dislike-input").value = "";
+  
+  // Add event listener to the new checkbox
+  const checkbox = document.getElementById(id);
+  checkbox.addEventListener('change', function() {
+    if (this.checked) {
+      document.getElementById("new_dislike_field").value = name;
+      // Uncheck other custom dislike checkboxes
+      document.querySelectorAll('.custom-dislike-checkbox').forEach(function(cb) {
+        if (cb.id !== id) cb.checked = false;
+      });
+    } else {
+      // If this was the checked one, clear the hidden field
+      if (document.getElementById("new_dislike_field").value === name) {
+        document.getElementById("new_dislike_field").value = "";
+      }
+    }
+  });
+};
+</script>

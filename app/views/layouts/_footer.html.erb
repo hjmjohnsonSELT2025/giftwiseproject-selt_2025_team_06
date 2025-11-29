@@ -1,0 +1,61 @@
+<footer class="footer">
+  <div class="footer-content">
+    <% if current_user %>
+      <div class="footer-section">
+        <h4>Upcoming Event</h4>
+
+        <% upcoming_event = Event.where("event_date >= ?", Date.today)
+                                 .where(user_id: current_user.id)
+                                 .order(:event_date)
+                                 .first %>
+
+        <% if upcoming_event %>
+          <p class="footer-event-title">
+            Next Event: <strong><%= upcoming_event.title %></strong>
+          </p>
+
+          <p class="footer-event-date">
+            Date: <%= upcoming_event.event_date.strftime("%Y-%m-%d") %>
+          </p>
+
+          <% days_left = (upcoming_event.event_date - Date.today).to_i %>
+          <p class="footer-event-countdown">
+            <%= days_left %> days remaining
+          </p>
+        <% else %>
+          <p class="footer-no-events">No upcoming events scheduled</p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if current_user %>
+      <div class="footer-section">
+        <h4>Gift Planning Tip</h4>
+
+        <% tips = [
+          "Plan ahead—start your gift research early!",
+          "Keep notes on past gifts to avoid repeating ideas.",
+          "Set a realistic budget for each event.",
+          "Pay attention to subtle hints people give in conversation.",
+          "Use shared wishlists to avoid duplicate gifting."
+        ] %>
+
+        <% random_tip = tips.sample %>
+
+        <p class="gift-tip"><%= random_tip %></p>
+      </div>
+    <% end %>
+
+    <div class="footer-section footer-support">
+      <h4>Support Page?</h4>
+
+      <%# If you have a support page, replace "#" with support_path %>
+      <p><%= link_to "Support", "#" %></p>
+
+      <p class="footer-contact">
+        Contact Support: support@giftwise.com
+      </p>
+    </div>
+
+  </div>
+</footer>

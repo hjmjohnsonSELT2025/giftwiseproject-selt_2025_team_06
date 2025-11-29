@@ -28,6 +28,12 @@ Rails.application.routes.draw do
   patch "/recovery/reset", to: "recovery#update"
 
 
+  get 'events/:id', to: 'events#show', as: 'event'
+  post 'events/:id/invite', to: 'events#invite', as: 'invite_event'
+  get "/invites", to: "invites#index", as: 'invites'
+  post "invites/:id/accept", to: "invites#accept", as: 'accept_invite'
+
+  resources :user_preferences, only: [:create, :destroy]
+  get "/preferences", to: "preferences#index", as: :preferences
+  post "/preferences/bulk_save", to: "preferences#bulk_save", as: :bulk_save_preferences
 end
-
-

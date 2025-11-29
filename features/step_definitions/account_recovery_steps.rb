@@ -14,6 +14,3 @@ Then("I should stay on the Account Recovery page") do
   expect(page).to have_current_path(recovery_path)
 end
 
-Then("I should be redirected to the login page") do
-  expect(page).to have_current_path(login_path)
-end
