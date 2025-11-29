@@ -9,9 +9,7 @@ class RecoveryMailer < ApplicationMailer
 
     @reset_url = recovery_reset_url(token: @token)
 
-    mail(
-      to: @user.email,
-      subject: "Your GiftWise Password Reset Instructions"
-    )
+    # Load email template
+    mail(to: @user.email,  subject: "Your GiftWise Password Reset Instructions" )
   end
 end
