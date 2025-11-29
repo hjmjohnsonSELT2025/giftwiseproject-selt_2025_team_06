@@ -17,8 +17,8 @@
       <%= hidden_field_tag :token, params[:token] %>
 
       <div class="field">
-        <label class="form-label">New Password</label>
-        <%= password_field_tag :password, nil, class: "form-input", placeholder: "Enter new password" %>
+        <label class="form-label">newpass</label>
+        <%= password_field_tag :password, nil, class: "form-input", placeholder: "Enter new password", id:"password"%>
       </div>
 
       <div class="login-button-container">
