@@ -205,19 +205,18 @@ body.login-page {
     }
 }
 
-/* Preferences Page Styles */
 * {
   box-sizing: border-box;
 }
 
-body.preferences-page {
+body.gradient-page {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   min-height: 100vh;
   padding: 20px;
   font-family: system-ui, -apple-system, sans-serif;
 }
 
-.preferences-container {
+.page-container {
   max-width: 900px;
   margin: 40px auto;
   animation: fadeIn 0.6s ease-in;
@@ -232,6 +231,30 @@ body.preferences-page {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.page-header {
+  text-align: center;
+  color: white;
+  margin-bottom: 40px;
+}
+
+.page-header h1 {
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.page-header p {
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+.preferences-container {
+  max-width: 900px;
+  margin: 40px auto;
+  animation: fadeIn 0.6s ease-in;
 }
 
 .preferences-header {
@@ -298,7 +321,6 @@ body.preferences-page {
   padding-right: 8px;
 }
 
-/* Custom scrollbar styling */
 .preferences-list::-webkit-scrollbar {
   width: 8px;
 }
@@ -469,7 +491,8 @@ body.preferences-page {
     grid-template-columns: 1fr;
   }
   
-  .preferences-header h1 {
+  .preferences-header h1,
+  .page-header h1 {
     font-size: 32px;
   }
 }
