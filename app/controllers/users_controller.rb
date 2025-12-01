@@ -27,6 +27,8 @@ class UsersController < ApplicationController
   def create
     username   = params[:username]
     password   = params[:password]
+    first_name = params[:first_name]
+    last_name  = params[:last_name]
     hobbies    = params[:hobbies]
     occupation = params[:occupation]
     email      = params[:email]
@@ -68,6 +70,8 @@ class UsersController < ApplicationController
       email: email,
       username: username,
       password: password,
+      first_name: first_name,
+      last_name: last_name,
       birthdate: birthdate,
       hobbies: hobbies,
       occupation: occupation
@@ -103,7 +107,9 @@ class UsersController < ApplicationController
         :password,
         :first_name,
         :last_name,
-        :user_information_id
+        :birthdate,
+        :hobbies,
+        :occupation
       )
   end
 end
