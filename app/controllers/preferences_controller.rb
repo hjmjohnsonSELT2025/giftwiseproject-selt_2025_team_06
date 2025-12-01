@@ -1,5 +1,6 @@
 class PreferencesController < ApplicationController
   before_action :require_login
+  layout 'preferences', only: [:index]
 
   def index
     @preferences = Preference.order(:name)
