@@ -85,7 +85,7 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1 or /users/1.json
   def update
-    add    if @user.update(user_params)
+    if @user.update(user_params)
       redirect_to @user, notice: "Account updated successfully!"
     else
       flash.now[:alert] = "Account not updated!"
