@@ -6,10 +6,10 @@ Feature: Search filter for all events
 
   Background:
     Given the following events exist:
-      | event_name     | event_date   | event_owner    | event_budget |
-      | Birthday Party | 2025-11-20   | Sarah Miller   | 50           |
-      | Family Dinner  | 2025-12-25   | James Carter   | 250          |
-      | Secret Santa   | 2025-12-15   | Olivia Newton  | 150          |
+      | title          | event_date | location      | budget | theme        | user_id |
+      | Birthday Party | 2025-11-20 | Sarah's House | 50.00  | Birthday     | 1       |
+      | Family Dinner  | 2025-12-25 | Carter Home   | 250.00 | Holiday Meal | 1       |
+      | Secret Santa   | 2025-12-15 | Newton Home   | 150.00 | Christmas    | 1       |
 
     And I am on the home page
     Then 3 seed events should exist
