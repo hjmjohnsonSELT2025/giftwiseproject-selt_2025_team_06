@@ -7,10 +7,19 @@
   <%= csp_meta_tag %>
 
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "default", "data-turbo-track": "reload" %>
   <%= javascript_importmap_tags %>
 </head>
 
 <body>
+<!-- Displaying our Navbar only if we have a user logged in -->
+<% if session[:user_id] %>
+  <%= render "layouts/navbar" %>
+<% end %>
+
+<!--Debug: Displaying the User ID-->
+<!--<p>SESSION USER ID: <%#= session[:user_id].inspect %></p>-->
+
 <!--<header>-->
 <!--  <h1>GiftWise</h1>-->
 <!--</header>-->
@@ -20,9 +29,9 @@
   <%= yield %>
 </main>
 
-<!--<footer>-->
-<!--  <p>&copy; <%#= Time.current.year %> GiftWise</p>-->
-<!--</footer>-->
+<% if session[:user_id] %>
+  <%= render "layouts/footer" %>
+<% end %>
 
 </body>
 </html>
