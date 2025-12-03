@@ -23,26 +23,28 @@
     <h2>Attendees</h2>
 
     <div class="attendee-list-scroll">
-      <ul class="attendee-list">
-        <% @event.invites.each do |invite| %>
-          <% attendee = invite.user %>
+      <% accepted_invites = @event.invites.where(status: "accepted") %>
 
-          <li id="attendee-<%= attendee.username %>" class="attendee-item">
-            <span><%= attendee.username %></span>
+      <% if accepted_invites.empty? %>
+        <p class="no-attendees">  No one is coming yet.</p>
+      <% else %>
+        <ul class="attendee-list">
+          <% accepted_invites.each do |invite| %>
+            <% attendee = invite.user %>
 
-            <% if current_user.id == @event.user_id %>
-              <%= button_to "Remove",
-                            remove_attendee_event_path(@event, user_id: attendee.id),
-                            method: :delete,
-                            class: "remove-attendee-button" %>
-            <% end %>
-          </li>
-        <% end %>
+            <li id="attendee-<%= attendee.username %>" class="attendee-item">
+              <span><strong><%= attendee.username %></strong> is going</span>
 
-        <% if @event.invites.empty? %>
-          <li>No attendees yet.</li>
-        <% end %>
-      </ul>
+              <% if current_user.id == @event.user_id %>
+                <%= button_to "Remove",
+                              remove_attendee_event_path(@event, user_id: attendee.id),
+                              method: :delete,
+                              class: "remove-attendee-btn" %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
     </div>
 
     <div class="invite-container">
