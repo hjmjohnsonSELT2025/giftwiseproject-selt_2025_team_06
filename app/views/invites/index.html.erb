@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Your Invites | GiftWise</title>
+  <%= stylesheet_link_tag "default", "data-turbo-track": "reload" %>
+</head>
+
+<div class="login-container">
+  <h1>All Invites</h1>
+  <h1>Your Invitations</h1>
+
+  <% if flash[:alert] %>
+    <p class="alert"><%= flash[:alert] %></p>
+  <% elsif flash[:notice] %>
+    <p class="notice"><%= flash[:notice] %></p>
+  <% end %>
+
+  <% if @invites.any? %>
+   <ul>
+     <% @invites.each do |invite| %>
+     <li>
+       <strong> <%= invite.event.title %></strong>
+       <%= button_to "Accept", accept_invite_path(invite), method: :post, class: "btn btn-default" %>
+     </li>
+     <% end %>
+   </ul>
+  <% else %>
+  <p> You don't have any pending invites.</p>
+  <% end %>
+
+
+
+</div>

@@ -5,12 +5,37 @@ class EventsController < ApplicationController
 
   # GET /users or /users.json
   def index
-
+    @events = current_user.gift_giver_events
   end
 
   # GET /users/new
   def new
 
+  end
+
+  def show
+    @event = Event.find(params[:id])
+  end
+
+  def invite
+    @event = Event.find(params[:id])
+    username = params[:username]
+
+    user = User.find_by(username: username)
+    if user.nil?
+      flash[:alert] = "User not found"
+      redirect_to event_path(@event) and return
+    end
+
+    invite = Invite.find_or_initialize_by(event_id: params[:id], user_id: user.id, status: "pending")
+
+    if invite.persisted?
+      flash[:alert] = "User has already been invited"
+    else
+      invite.save!
+      flash[:notice] = "Invitation sent"
+    end
+    redirect_to event_path(@event)
   end
 
   def add_event
@@ -26,6 +51,7 @@ class EventsController < ApplicationController
     end
     @event = Event.new(title: title, event_date: event_date, location: location, budget: budget, theme: theme, user_id: session[:user_id])
     if @event.save
+      GiftGiver.create!(event: @event, user_id: session[:user_id], recipients: "[]")
       flash[:notice] = "Event created successfully"
       redirect_to events_path
     else
