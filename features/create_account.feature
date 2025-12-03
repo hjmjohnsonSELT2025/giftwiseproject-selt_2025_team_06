@@ -10,6 +10,7 @@ Feature: Creating an Account for website
       | user65@mojo.com | Username65 | MyPass65  | Paul       | Jones     |
       | user32@mojo.com | Username32 | MyPass32  | Aaron      | Senior    |
       | user40@mojo.com | Username40 | MyPass40  | Billy      | Bill      |
+
     And I visit the create account page
     Then 3 seed users should exist
 

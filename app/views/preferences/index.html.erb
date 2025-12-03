@@ -1,67 +1,69 @@
-<div style="max-width: 900px; margin: 40px auto; font-family: system-ui, sans-serif;">
-
-  <h1 style="font-size: 32px; font-weight: 600; margin-bottom: 20px;">
-    Your Likes & Dislikes
-  </h1>
+<div class="preferences-container">
+  <div class="preferences-header">
+    <h1>Your Likes & Dislikes</h1>
+    <p>Help us recommend the perfect gifts for you</p>
+  </div>
 
   <%= form_with url: bulk_save_preferences_path, method: :post, local: true do %>
     <!-- Hidden fields for custom preferences -->
     <%= hidden_field_tag "new_like", "", id: "new_like_field" %>
     <%= hidden_field_tag "new_dislike", "", id: "new_dislike_field" %>
     
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+    <div class="preferences-grid">
 
       <!-- LIKES COLUMN -->
-      <div style="background:#fff; padding:20px; border-radius:10px;">
+      <div class="preference-column likes-column">
         <h2>Likes</h2>
 
-        <div id="likes-list">
+        <div id="likes-list" class="preferences-list">
           <% @preferences.each do |pref| %>
             <label>
               <%= check_box_tag "likes[]", pref.id, @likes.include?(pref.id), id: "likes_#{pref.id}" %>
-              <%= pref.name %>
-            </label><br>
+              <span><%= pref.name %></span>
+            </label>
           <% end %>
         </div>
 
-        <hr>
-        <label>Add a custom like:</label>
-        <input id="add-like-input"
-               placeholder="e.g., matcha"
-               style="width:100%; padding:8px; margin-bottom:8px;" />
+        <hr class="divider">
+        <div class="add-custom-section">
+          <label>Add a custom like:</label>
+          <input id="add-like-input"
+                 class="add-custom-input"
+                 placeholder="e.g., matcha" />
 
-        <button type="button" id="add-like-btn">Add Like</button>
+          <button type="button" id="add-like-btn" class="add-btn">Add Like</button>
+        </div>
       </div>
 
 
       <!-- DISLIKES COLUMN -->
-      <div style="background:#fff; padding:20px; border-radius:10px;">
+      <div class="preference-column dislikes-column">
         <h2>Dislikes</h2>
 
-        <div id="dislikes-list">
+        <div id="dislikes-list" class="preferences-list">
           <% @preferences.each do |pref| %>
             <label>
               <%= check_box_tag "dislikes[]", pref.id, @dislikes.include?(pref.id), id: "dislikes_#{pref.id}" %>
-              <%= pref.name %>
-            </label><br>
+              <span><%= pref.name %></span>
+            </label>
           <% end %>
         </div>
 
-        <hr>
-        <label>Add a custom dislike:</label>
-        <input id="add-dislike-input"
-               placeholder="e.g., spicy food"
-               style="width:100%; padding:8px; margin-bottom:8px;" />
+        <hr class="divider">
+        <div class="add-custom-section">
+          <label>Add a custom dislike:</label>
+          <input id="add-dislike-input"
+                 class="add-custom-input"
+                 placeholder="e.g., spicy food" />
 
-        <button type="button" id="add-dislike-btn">Add Dislike</button>
+          <button type="button" id="add-dislike-btn" class="add-btn">Add Dislike</button>
+        </div>
       </div>
 
     </div>
 
-    <div style="text-align:center; margin-top:30px;">
-      <button type="submit" style="background:#00a86b; color:white; padding:12px 32px; border-radius:8px; border:none;">
-        Continue
-      </button>
+    <div class="continue-btn-container">
+      <button type="submit" class="continue-btn">Continue</button>
     </div>
   <% end %>
 </div>
@@ -83,10 +85,10 @@ document.getElementById("add-like-btn").onclick = function() {
 
   // Create new checkbox for the LIKE box with data attribute
   const html = `
-    <label>
+    <label class="new-item">
       <input type="checkbox" class="custom-like-checkbox" data-pref-name="${name}" id="${id}">
-      ${name}
-    </label><br>
+      <span>${name}</span>
+    </label>
   `;
 
   document.getElementById("likes-list").insertAdjacentHTML("beforeend", html);
@@ -121,10 +123,10 @@ document.getElementById("add-dislike-btn").onclick = function() {
 
   // Create new checkbox for the DISLIKE box with data attribute
   const html = `
-    <label>
+    <label class="new-item">
       <input type="checkbox" class="custom-dislike-checkbox" data-pref-name="${name}" id="${id}">
-      ${name}
-    </label><br>
+      <span>${name}</span>
+    </label>
   `;
 
   document.getElementById("dislikes-list").insertAdjacentHTML("beforeend", html);
