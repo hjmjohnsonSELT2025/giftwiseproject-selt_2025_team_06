@@ -7,7 +7,7 @@ class RecoveryController < ApplicationController
 
   # when the user requests a reset email
   def create
-    # Take what the user typed, turn it into a safe string, and clean up any spaces.
+    # Take what the user typed, clean it up
     identifier = params[:identifier].to_s.strip
 
     # Empty
