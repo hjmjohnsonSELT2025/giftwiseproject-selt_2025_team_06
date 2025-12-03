@@ -42,6 +42,11 @@ Then("I should be redirected to the Account Recovery page") do
   expect(page).to have_current_path(recovery_path)
 end
 
+Then("the user's new password should be {string}") do |expected_password|
+  user = User.find_by(username: "test1")
+  expect(user.authenticate(expected_password)).to be_truthy
+end
+
 Given("the user's reset token was sent more than 15 minutes ago") do
   user = User.find_by(username: "test1")
   user.update(reset_sent_at: 20.minutes.ago)

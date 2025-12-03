@@ -39,6 +39,7 @@ Feature: Reset a password through an email link
     Then I should be redirected to the login page
     And I should see "Password Successfully Updated! Please log in."
     And the user's reset_token should be cleared
+    Then the user's new password should be "newsecurepassword"
 
   Scenario: Token becomes invalid after use
     Given the user has already used their reset link
