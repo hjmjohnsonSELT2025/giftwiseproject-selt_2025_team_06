@@ -1,0 +1,23 @@
+<p>Hello GiftWise User,</p>
+
+<p>
+  You have initialized the Account Recovery Request for Group 6's Giftwise Project.<br>
+  You can view your current Username & reset your password below:
+</p>
+
+<p>
+  <strong>Email:   </strong> <%= @user.email %><br>
+  <strong>Username:</strong> <%= @user.username %>
+</p>
+
+
+<p>If you did not request this, you can safely ignore this email.</p>
+
+<p>
+  <%= link_to "Reset your password HERE", @reset_url %>
+</p>
+
+<p>
+  This link expires in <strong>15 minutes.</strong>
+</p>
+

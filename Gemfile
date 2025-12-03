@@ -15,6 +15,8 @@ gem "bcrypt", "~> 3.1.7"
 gem "bootsnap", require: false
 gem "image_processing", "~> 1.2"
 gem "tzinfo-data", platforms: %i[windows jruby]
+gem 'mailtrap' # Used for Sending Emails
+
 
 group :development, :test do
   gem "sqlite3", "~> 1.4"
