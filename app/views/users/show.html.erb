@@ -45,18 +45,42 @@ display: flex;
 
 
   <div style="margin-top: 30px">
-    <%= button_to 'Delete Account',
-                  user_path(@user),
-                  method: :delete,
-                  data: {confirm: 'Are you sure you would like to delete this account?'},
-                  id: 'delete-acct-btn',
-                  style: "
-                  padding: 12px 28px;
-        background-color: #ff0000;
-        color: Black;
-        border-radius: 8px;
-        text-decoration: none;
-        font-size: 1.1rem; ",
-        class: 'btn btn-danger'%>
+    <button type="button"
+                  id=  "delete-acct-btn"
+            class="btn btn-danger"
+            style="
+            padding: 12px 28px;
+              background-color: #ff0000;
+              color: Black;
+              border-radius: 8px;
+              text-decoration: none;
+              font-size: 1.1rem;"
+            data-bs-toggle="modal"
+            data-bs-target="#deleteConfrimModal">
+      Delete Account
+       </button>
+  </div>
+</div>
+
+<!--Confirmation for delete account-->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm Account Deletion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p>Type your username (<%= @user.username %>) to confirm deletion:</p>
+        <%= form_with url: user_path(@user), method: :delete, local: true do |f| %>
+          <%= f.text_field :confirm_username,
+                           placeholder: "Enter username",
+                           class: "form-control mb-3" %>
+          <%= f.submit "Delete Account",
+                       class: "btn btn-danger",
+                       data: { confirm: "This action cannot be undone. Are you sure?" } %>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>

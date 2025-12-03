@@ -11,11 +11,8 @@ class UsersController < ApplicationController
 
   # GET /users/1 or /users/1.json
   def show
-    @user = User.find(params[:id])
-    if @user.nil?
-      redirect_to users_path, alert: "User not found."
-    end
-
+    @user = User.find_by(id: params[:id])
+    redirect_to users_path, alert: "User not found."
   end
 
   # GET /users/new
@@ -95,8 +92,12 @@ class UsersController < ApplicationController
 
   # DELETE /users/1 or /users/1.json
   def destroy
-    @user.destroy!
-
+    if params[:confirmation_username] == @user.username
+      @user.destroy
+      redirect_to root_path, notice: "User deleted successfully."
+    else
+      redirect_to @user, alert: "Username confirmation failed. Account not deleted."
+    end
   end
 
   private
