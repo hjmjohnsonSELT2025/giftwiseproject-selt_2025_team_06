@@ -581,11 +581,16 @@ body.gradient-page {
 }
 
 .invite-container input {
+    flex:1;
     padding: 8px;
-    width: 100%;
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 6px;
+}
+.invite-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .show-password {
@@ -607,3 +612,62 @@ body.gradient-page {
     font-size: 32px;
   }
 }
+
+.attendee-list-scroll {
+    max-height: 200px;     /* control scroll height */
+    overflow-y: auto;      /* enable vertical scroll */
+    margin-bottom: 20px;
+    padding-right: 10px;   /* space for scrollbar */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fafafa;
+    width: 100%;
+
+}
+
+.attendee-list {
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+}
+
+.attendee-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 6px;
+    border-bottom: 1px solid #eee;
+}
+
+.attendee-item:last-child {
+    border-bottom: none;
+}
+
+.remove-attendee-btn {
+    background: #c72f2f;
+    color: white;
+    border: none;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.remove-attendee-btn:hover {
+    background: #a92626;
+}
+.event-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.event-card {
+    width: 500px;   /* wider content */
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+

@@ -3,7 +3,7 @@ Feature: Event host removes attendees from an event
   I want to remove users from an event I created
   So that I can properly manage my event attendees
 
-  Background:
+  Background: Users and events have already been added to the database
     Given the following users exist in the database:
       | email             | username | password | first_name | last_name |
       | tester1@test.com  | tester1  | tester1  | Santa      | Claus     |
@@ -32,3 +32,5 @@ Feature: Event host removes attendees from an event
     And I am on the view event page for "TestEvent"
     When I press "Remove Attendee" next to "tester2"
     Then I should see "You do not have permission to remove attendees"
+
+
