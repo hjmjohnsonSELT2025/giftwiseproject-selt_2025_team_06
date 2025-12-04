@@ -94,9 +94,12 @@ class UsersController < ApplicationController
 
   # DELETE /users/1 or /users/1.json
   def destroy
-    if params[:confirmation_username] == @user.username
+    @user = User.find(params[:id])
+
+    if params[:confirm_username] == @user.username
       @user.destroy
-      redirect_to root_path, notice: "User deleted successfully."
+      reset_session
+      redirect_to login_path, notice: "User deleted successfully."
     else
       redirect_to @user, alert: "Username confirmation failed. Account not deleted."
     end

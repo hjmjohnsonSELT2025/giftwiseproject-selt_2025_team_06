@@ -707,3 +707,66 @@ body.gradient-page {
     font-size: 32px;
   }
 }
+
+.btn-danger{
+    background: linear-gradient(135deg, #cc6e6e 0%, #730E15 100%);
+    color: white;
+    padding: 16px 48px;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0, 168, 107, 0.3);
+}
+
+.btn-warning{
+    background: linear-gradient(135deg, #fce803 0%, #fcad03 100%);
+    color: white;
+    padding: 16px 48px;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0, 168, 107, 0.3);
+}
+
+.btn-primary{
+    background: linear-gradient(135deg, #0086b3 0%, #000080 100%);
+    color: white;
+    padding: 16px 48px;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0, 168, 107, 0.3);
+}
+
+.flash-message {
+    position: fixed;       /* floats above page */
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    font-weight: 600;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.flash-success {
+    border-left: 6px solid #28a745;
+    color: #155724;
+}
+
+.flash-danger {
+    border-left: 6px solid #dc3545;
+    color: #721c24;
+}
