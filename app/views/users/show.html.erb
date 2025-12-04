@@ -1,3 +1,4 @@
+<!--Profile page for the User-->
 <div style="
 display: flex;
   flex-direction: column;
@@ -45,42 +46,52 @@ display: flex;
 
 
   <div style="margin-top: 30px">
-    <button type="button"
-                  id=  "delete-acct-btn"
-            class="btn btn-danger"
-            style="
-            padding: 12px 28px;
-              background-color: #ff0000;
-              color: Black;
-              border-radius: 8px;
-              text-decoration: none;
-              font-size: 1.1rem;"
-            data-bs-toggle="modal"
-            data-bs-target="#deleteConfrimModal">
-      Delete Account
-       </button>
-  </div>
-</div>
+    <button id="delete-acct-btn" class="btn btn-danger">Delete Account</button>
 
-<!--Confirmation for delete account-->
-<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Confirm Account Deletion</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
+    <!-- Custom Popup -->
+    <div id="deletePopup" class="popup-overlay">
+      <div class="popup-box">
+        <h3>Confirm Account Deletion</h3>
         <p>Type your username (<%= @user.username %>) to confirm deletion:</p>
         <%= form_with url: user_path(@user), method: :delete, local: true do |f| %>
-          <%= f.text_field :confirm_username,
-                           placeholder: "Enter username",
-                           class: "form-control mb-3" %>
-          <%= f.submit "Delete Account",
-                       class: "btn btn-danger",
-                       data: { confirm: "This action cannot be undone. Are you sure?" } %>
+          <%= f.text_field :confirm_username, placeholder: "Enter username", class: "form-control mb-3" %>
+          <%= f.submit "Delete Account", class: "btn btn-danger" %>
         <% end %>
+        <button id="closePopup" class="btn btn-secondary">Cancel</button>
       </div>
     </div>
   </div>
 </div>
+
+
+<style>
+    .popup-overlay {
+        display: none; /* hidden by default */
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.5);
+        justify-content: center; align-items: center;
+    }
+    .popup-box {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        max-width: 400px;
+        text-align: center;
+    }
+</style>
+
+<script>
+    const deleteBtn = document.getElementById("delete-acct-btn");
+    const popup = document.getElementById("deletePopup");
+    const closeBtn = document.getElementById("closePopup");
+
+    deleteBtn.addEventListener("click", () => {
+        popup.style.display = "flex"; // show popup
+    });
+
+    closeBtn.addEventListener("click", () => {
+        popup.style.display = "none"; //hide popup
+    });
+</script>

@@ -12,7 +12,9 @@ class UsersController < ApplicationController
   # GET /users/1 or /users/1.json
   def show
     @user = User.find_by(id: params[:id])
-    redirect_to users_path, alert: "User not found."
+    if @user.nil?
+      redirect_to users_path, alert: "User not found."
+    end
   end
 
   # GET /users/new
