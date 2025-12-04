@@ -28,16 +28,14 @@
 <div style="
 display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  height: 80vh;
   text-align: center;
   font-family: Arial, sans-serif;
   position: relative;
 ">
-  <h1> <%=@user.username %>'s Profile </h1>
+  <h1 style="text-decoration: underline;"> <%=@user.username %>'s Profile </h1>
 
-  <div style="display: flex; justify-content: center; gap: 20px; margin: 20px 0;">
+  <div style="display: flex; justify-content: center; gap: 20px; margin: 40px 0;">
     <%= link_to 'Edit Account', edit_user_path(@user), id: "edit-acct-btn", class: "btn btn-primary", style: "
             padding: 12px 28px;
             background-color: #007bff;
