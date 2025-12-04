@@ -32,5 +32,5 @@ class User < ApplicationRecord
   # Validations
   validates :email, presence: true, uniqueness: true
   validates :username, presence: true, uniqueness: true
-  validates :password, presence: true
+  validates :password, presence: true, allow_nil: true
 end

@@ -87,8 +87,8 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       redirect_to @user, notice: "Account updated successfully!"
     else
-      flash.now[:alert] = "Account not updated!"
-      render :edit, status: :unprocessable_entity
+      flash[:alert] = "Account not updated!"
+      redirect_to user_path(@user)
     end
   end
 
@@ -119,7 +119,9 @@ class UsersController < ApplicationController
         :password,
         :first_name,
         :last_name,
-        :user_information_id
+        :user_information_id,
+        :occupation,
+        :hobbies
       )
   end
 end
