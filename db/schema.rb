@@ -65,9 +65,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_28_235612) do
     t.string "email", null: false
     t.string "username", null: false
     t.string "password_digest", null: false
-    t.string "first_name", null: false
-    t.string "last_name", null: false
-    t.integer "user_information_id"
+    t.text "likes", default: "[]"
+    t.text "dislikes", default: "[]"
+    t.date "birthdate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "hobbies"
@@ -75,7 +75,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_28_235612) do
     t.string "reset_token"
     t.datetime "reset_sent_at"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["user_information_id"], name: "index_users_on_user_information_id"
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
