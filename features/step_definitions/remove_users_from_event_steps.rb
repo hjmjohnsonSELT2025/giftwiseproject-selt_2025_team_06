@@ -1,13 +1,6 @@
-Given('user "{string}" has invited "{string}" to the event "{string}"') do |host, attendee, event|
-  event = Event.find_by(title: event)
-  attendee = User.find_by(username: attendee)
-
-  Invite.create!(user: attendee, event: event, status: "accepted")
-end
-
 When('I press "Remove Attendee" next to {string}') do |username|
   within("#attendee-#{username}") do
-    click_button "Remove Attendee"
+    find("input[type=submit][value='Remove Attendee']").click
   end
 end
 
@@ -15,5 +8,18 @@ Then('{string} should no longer be attending the event {string}') do |username, 
   user = User.find_by(username: username)
   event = Event.find_by(title: event_name)
 
-  expect(Invite.exists?(user: user, event: event)).to be_falsey
+  expect(Invite.exists?(user: user, event: event)).to be false
+end
+
+And(/^user "([^"]*)" has invited "([^"]*)" who accepted to the event "([^"]*)"$/) do |host, attendee, event_name|
+  host_user = User.find_by!(username: host)
+  attendee_user = User.find_by!(username: attendee)
+  event = Event.find_by!(title: event_name, user_id: host_user.id)
+
+  invite = Invite.create!(
+    user: attendee_user,
+    event: event,
+    status: "accepted"
+  )
+
 end

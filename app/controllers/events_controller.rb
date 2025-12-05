@@ -63,30 +63,29 @@ class EventsController < ApplicationController
   # Remove Attendee from event
   def remove_attendee
     @event = Event.find(params[:id])
-    attendee = User.find_by(id: params[:user_id]) # Find attendee
-
-    # Only the event owner (host) can remove attendees MAYBE Switch to non hosts just not being able to see the remove attendee button
     if @event.user_id != current_user.id
       flash[:alert] = "Only the Host can remove attendee's"
       redirect_to event_path(@event) and return
     end
 
-    # User exists?
+    # Find invite FIRST
+    invite = Invite.find_by(event_id: @event.id, user_id: params[:user_id])
+
+    if invite.nil?
+      flash[:alert] = "User is not attending this event"
+      redirect_to event_path(@event) and return
+    end
+
+    # Now get attendee from the invite
+    attendee = invite.user
+
     if attendee.nil?
       flash[:alert] = "User not found"
+      redirect_to event_path(@event) and return
     end
 
-    invite = Invite.find_by(event_id: @event.id, user_id: attendee.id)
-
-    # User going?
-    if invite.nil?
-      flash[:alert] = "User is not attending"
-    else
-      flash[:notice] = "You removed #{attendee.username} from #{@event.title}"
-      invite.destroy
-    end
-
+    flash[:notice] = "You removed #{attendee.username} from #{@event.title}"
+    invite.destroy
     redirect_to event_path(@event)
   end
-
 end

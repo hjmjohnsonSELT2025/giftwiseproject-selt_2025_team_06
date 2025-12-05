@@ -31,7 +31,7 @@
         <ul class="attendee-list">
           <% accepted_invites.each do |invite| %>
             <% attendee = invite.user %>
-
+            <% next if attendee.nil? %>
             <li id="attendee-<%= attendee.username %>" class="attendee-item">
               <span><strong><%= attendee.username %></strong> is going</span>
 
@@ -39,7 +39,10 @@
                 <%= button_to "Remove",
                               remove_attendee_event_path(@event, user_id: attendee.id),
                               method: :delete,
-                              class: "remove-attendee-btn" %>
+                              local: true do  %>
+                  <%= hidden_field_tag :user_id, attendee.id %>
+                  <%= submit_tag "Remove Attendee" %>
+                <% end %>
               <% end %>
             </li>
           <% end %>

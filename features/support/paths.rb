@@ -17,6 +17,9 @@ module NavigationHelpers
     when /^the home page$/ then '/'
     when /^the login page$/ then '/login'
     when /^the Account Recovery page$/ then '/recovery'
+    when /^the view event page for "(.+)"$/
+      event = Event.find_by!(title: $1)
+      "/events/#{event.id}"
 
     else
       begin
