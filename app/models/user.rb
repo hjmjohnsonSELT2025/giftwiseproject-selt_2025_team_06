@@ -11,7 +11,7 @@ class User < ApplicationRecord
   # Events the user is hosting
   has_many :hosted_events,
            class_name: "Event",
-           foreign_key: "host_id",
+           foreign_key: "user_id",
            dependent: :nullify
 
   # Gift-giver relationship (user → event)s
