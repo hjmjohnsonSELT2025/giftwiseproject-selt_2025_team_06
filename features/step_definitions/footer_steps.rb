@@ -70,11 +70,19 @@ Then(/^the help or support section in the footer should be clearly labeled$/) do
   end
 end
 
-When(/^I am logged in$/) do
-  expect(page).to have_content("Welcome back")
+When(/^I am logged in as (.+) with password (.+)$/) do |email, password|
+  visit login_path
+  fill_in "username", with: email
+  fill_in "password", with: password
+  click_button "LOGIN"
+
+  user = User.find_by(username: email)
+  expect(page).to have_current_path(events_path)
 end
+
 
 When(/^I am logged out$/) do
   visit logout_path
   expect(page).to have_current_path(login_path)
+  expect(session[:user_id]).to be_nil
 end
