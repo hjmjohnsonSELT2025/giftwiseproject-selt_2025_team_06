@@ -51,7 +51,7 @@ display: flex;
     <!-- Overlay -->
     <div id="edit-acct-overlay" class="popup-overlay">
       <!-- Edit account modal -->
-      <div id="edit-acct-modal" class="edit-popup-box">
+      <div id="edit-acct-modal" class="edit-popup">
         <div class="popup-header">
           <span id="close-edit-acct" class="close">&times;</span>
           <h2>Edit Account</h2>
@@ -161,6 +161,12 @@ display: flex;
         z-index: 999;
     }
     .popup-box {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* perfect center */
+        margin: 0; /* ensure no margins shift it */
+
         background: #fff;
         padding: 20px;
         border-radius: 12px;
@@ -169,7 +175,14 @@ display: flex;
         text-align: center;
     }
 
-    .edit-popup-box{
+    .edit-popup{
+
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* perfect center */
+        margin: 0; /* ensure no margins shift it */
+
         background: #fff;
         padding: 30px 40px;
         border-radius: 16px;

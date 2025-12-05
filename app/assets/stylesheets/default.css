@@ -142,6 +142,7 @@ body.login-page {
     border: none;
     border-radius: 10px;
     font-size: 1.1rem;
+    display: inline-block;
     width: 100%;
     cursor: pointer;
     font-weight: 600;
@@ -164,9 +165,11 @@ body.login-page {
 
 .navbar-links a {
     text-decoration: none;
-    color: #444;
+    color: #ffffff;
     font-size: 1.1rem;
+    font-weight: 600;
     transition: color 0.2s ease;
+    box-shadow: 0 4px 14px rgba(102,126,234,0.35);
 }
 
 .navbar-links a:hover {
