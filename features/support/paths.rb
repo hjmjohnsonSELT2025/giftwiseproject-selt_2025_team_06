@@ -1,4 +1,4 @@
-# TL;DR: YOU SHOULD DELETE THIS FILE
+  # TL;DR: YOU SHOULD DELETE THIS FILE
 #
 # This file is used by web_steps.rb, which you should also delete
 #
