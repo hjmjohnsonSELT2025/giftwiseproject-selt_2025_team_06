@@ -21,7 +21,7 @@ module NavigationHelpers
       event = Event.find_by!(title: $1)
       "/events/#{event.id}"
 
-    else
+  else
       begin
         page_name =~ /^the (.*) page$/
         path_components = ::Regexp.last_match(1).split(/\s+/)
