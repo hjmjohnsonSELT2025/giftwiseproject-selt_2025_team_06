@@ -6,10 +6,10 @@ Feature: Creating an Account for website
 
   Background:
     Given the following users exist:
-      | email           | username   | password  | first_name | last_name |
-      | user65@mojo.com | Username65 | MyPass65  | Paul       | Jones     |
-      | user32@mojo.com | Username32 | MyPass32  | Aaron      | Senior    |
-      | user40@mojo.com | Username40 | MyPass40  | Billy      | Bill      |
+      | email           | username   | password  |
+      | user65@mojo.com | Username65 | MyPass65  |
+      | user32@mojo.com | Username32 | MyPass32  |
+      | user40@mojo.com | Username40 | MyPass40  |
 
     And I visit the create account page
     Then 3 seed users should exist
@@ -61,8 +61,7 @@ Feature: Creating an Account for website
     And I enter "hiking" in the create account hobbies box
     And I enter "" in the create account occupation box
     And I press the Create Account button
-    Then I should be taken to the home page
-    And I should see a message "Account created successfully!"
+    Then I should be taken to the preferences page
 
   Scenario: Username Taken in Account Creation
     When I enter "newuser6@mojo.com" in the create account email box

@@ -29,6 +29,7 @@ end
 
 group :test do
   gem "simplecov", require: false
+  gem 'rack_session_access'
 end
 
 group :development, :test do

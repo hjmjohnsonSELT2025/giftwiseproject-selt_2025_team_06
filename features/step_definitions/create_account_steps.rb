@@ -37,11 +37,3 @@ end
 When(/^I press the Create Account button$/) do
   click_button "Create Account"
 end
-# ============================================================
-#   EXPECTATIONS / OUTCOMES
-# ============================================================
-
-Then(/^I expect to be logged in as "(.*)"$/) do |username|
-  expect(page).to have_content("Logged in as #{username}")
- end
-

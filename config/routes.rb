@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   root "users#index"
 
   resources :users
+  resources :gift_givers do
+    resources :gifts, only: [:new, :create]
+  end
 
   # Here then, are our routes across the site
   get  "/login",  to: "sessions#new"
@@ -26,7 +29,6 @@ Rails.application.routes.draw do
   # Account Recovery Pass reset page
   get "/recovery/reset", to: "recovery#edit", as: :'recovery_reset'
   patch "/recovery/reset", to: "recovery#update"
-
 
   get 'events/:id', to: 'events#show', as: 'event'
   post 'events/:id/invite', to: 'events#invite', as: 'invite_event'

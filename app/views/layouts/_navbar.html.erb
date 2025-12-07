@@ -5,7 +5,7 @@
 
   <ul class="navbar-links">
     <% if current_user %>
-      <li><%= button_to "Invites", invites_path, class: "navbar-button", method: :get %></li>
+      <li><%= link_to "Invites", invites_path, class: "navbar-button" %></li>
       <li><%= link_to "Profile", user_path(current_user.id), class: "navbar-button" %></li>
       <li>
         <%= button_to "Logout", logout_path, method: :delete, class: "navbar-button" %>
