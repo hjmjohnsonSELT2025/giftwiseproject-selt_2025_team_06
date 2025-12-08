@@ -8,35 +8,41 @@
 <body>
 <div class="login-container">
   <h1>All Gifts</h1>
+
   <div class="gift-top-buttons">
+    <!-- SORT DROPDOWN -->
     <div class="gift-dropdown">
       <details class="dropdown">
         <summary class="add-gift-btn gift-search-button">Sort ▼</summary>
 
         <div class="dropdown-menu">
-          <%= link_to "Name (A–Z)", gifts_path(sort: "name"), class: "dropdown-item" %>
-          <%= link_to "Price (Low → High)", gifts_path(sort: "price"), class: "dropdown-item" %>
-          <%= link_to "Date Added (Newest)", gifts_path(sort: "date"), class: "dropdown-item" %>
+          <%= link_to "Name (A–Z)", gifts_path(request.query_parameters.merge(sort: "name")), class: "dropdown-item" %>
+          <%= link_to "Price (Low → High)", gifts_path(request.query_parameters.merge(sort: "price")), class: "dropdown-item" %>
+          <%= link_to "Date Added (Newest)", gifts_path(request.query_parameters.merge(sort: "date")), class: "dropdown-item" %>
+          <%= link_to "Upvotes (High → Low)", gifts_path(request.query_parameters.merge(sort: "upvotes")), class: "dropdown-item" %>
         </div>
       </details>
     </div>
 
+    <!-- VIEW DROPDOWN -->
     <div class="gift-dropdown">
       <details class="dropdown">
         <summary class="add-gift-btn gift-search-button">View ▼</summary>
 
         <div class="dropdown-menu">
-          <%= link_to "Wishlisted", gifts_path(view: "wishlisted"), class: "dropdown-item" %>
-          <%= link_to "Ignore",     gifts_path(view: "ignore"),     class: "dropdown-item" %>
-          <%= link_to "All Gifts",  gifts_path,                     class: "dropdown-item" %>
+          <%= link_to "Wishlisted", gifts_path(request.query_parameters.merge(view: "wishlisted")), class: "dropdown-item" %>
+          <%= link_to "Ignore",     gifts_path(request.query_parameters.merge(view: "ignore")),     class: "dropdown-item" %>
+          <%= link_to "My Gifts",   gifts_path(request.query_parameters.merge(view: "created")),    class: "dropdown-item" %>
         </div>
       </details>
     </div>
 
+    <!-- SEARCH BOX -->
     <%= form_with url: gifts_path, method: :get, local: true, class: "gift-search-form" do |f| %>
-      <!-- keep sort/view when searching -->
-      <%= hidden_field_tag :sort, params[:sort] if params[:sort].present? %>
-      <%= hidden_field_tag :view, params[:view] if params[:view].present? %>
+      <!-- preserve existing filters -->
+      <% request.query_parameters.each do |key, val| %>
+        <%= hidden_field_tag key, val unless key == "search" %>
+      <% end %>
 
       <%= f.text_field :search,
                        value: params[:search],
@@ -45,7 +51,9 @@
 
       <%= f.submit "Search", class: "add-gift-btn gift-search-button" %>
     <% end %>
+    <%= link_to "Reset Filters", gifts_path, class: "add-gift-btn gift-search-button" %>
   </div>
+
   <br />
 
   <% if @gifts.empty? %>
@@ -55,6 +63,8 @@
     <div class="gift-grid">
       <% @gifts.each do |gift| %>
         <div class="gift-card">
+
+          <!-- HEADER + STATUS BUTTONS -->
           <div class="gift-header">
             <h2 class="gift-title"><%= gift.name %></h2>
 
@@ -85,25 +95,64 @@
             </div>
           </div>
 
-          <% if gift.price.present? %>
-            <p class="gift-price"><%= number_to_currency(gift.price) %></p>
-          <% end %>
+          <!-- PRICE + DESCRIPTION -->
+          <p class="gift-price"><%= number_to_currency(gift.price) %></p>
+          <p class="gift-description-preview"><%= gift.description %></p>
 
-          <p class="gift-date">Added on <%= gift.created_at.strftime("%Y-%m-%d") %></p>
+          <!-- VIEW + UPVOTE ROW -->
+          <div class="gift-bottom-row"
+               style="margin-top: 10px; display: flex; align-items: center; justify-content: space-between;">
 
-          <div class="gift-link">
-            <% if gift.purchase_url.present? %>
-              <a href="<%= gift.purchase_url %>" target="_blank">View Item</a>
-            <% else %>
-              <span class="no-url">No URL Provided</span>
-            <% end %>
+            <!-- View Item -->
+            <div class="gift-link">
+              <%= link_to "View Item",
+                          gift_path(gift, request.query_parameters),
+                          class: "add-gift-btn" %>
+            </div>
+
+            <!-- Voting -->
+            <div class="upvote-section" style="display: flex; align-items: center; gap: 10px;">
+              <% user_vote = UserGiftVote.find_by(user: current_user, gift: gift)&.vote %>
+
+              <!-- Downvote -->
+              <%= button_to downvote_gift_path(gift.id),
+                            method: :post,
+                            class: "vote-btn" do %>
+                <% if user_vote == -1 %>
+                  <span style="font-size: 22px;">🔽</span>
+                <% else %>
+                  <span style="font-size: 22px; opacity: 0.4;">🔽</span>
+                <% end %>
+              <% end %>
+
+              <!-- Vote Count -->
+              <span style="font-size: 18px; font-weight: bold;">
+                <%= gift.total_votes %> votes
+              </span>
+
+              <!-- Upvote -->
+              <%= button_to upvote_gift_path(gift.id),
+                            method: :post,
+                            class: "vote-btn" do %>
+                <% if user_vote == 1 %>
+                  <span style="font-size: 22px;">🔼</span>
+                <% else %>
+                  <span style="font-size: 22px; opacity: 0.4;">🔼</span>
+                <% end %>
+              <% end %>
+            </div>
           </div>
-        </div>
 
-    <% end %>
+          <!-- Creator -->
+          <p class="gift-date">
+            Added on <%= gift.created_at.strftime("%Y-%m-%d") %> by <%= gift.creator.username %>
+          </p>
+        </div>
+      <% end %>
     </div>
 
   <% end %>
+
   <br />
   <div class="add-gift-btn-container">
     <a href="<%= new_gift_path %>" class="add-gift-btn">+ Add New Gift</a>
