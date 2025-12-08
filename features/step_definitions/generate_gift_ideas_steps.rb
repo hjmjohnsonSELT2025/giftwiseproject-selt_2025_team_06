@@ -36,25 +36,34 @@ Given(/^the event has exactly (\d+) recipient "(.*)"$/) do |count, recipient_nam
       raise "Recipient with username '#{recipient_name}' not found"
     end
   
-    current_user = User.find(session[:user_id]) if session[:user_id]
+    unless session[:user_id]
+      raise "User must be logged in to set recipients"
+    end
+    
+    current_user = User.find(session[:user_id])
     gift_giver = GiftGiver.find_or_create_by(
-        event: event,
-        user_id: current_user.id,
+      event: event,
+      user_id: current_user.id
     ) do |gg|
-        gg.recipients = "[]" if gg.new_record?
+      gg.recipients = "[]" if gg.new_record?
     end
   
     recipient_ids = [recipient.id]
     gift_giver.update(recipients: recipient_ids.to_json)
   end
   
+
 Given(/^the event "(.*)" has (\d+) or more recipients$/) do |event_title, min_count|
     event = Event.find_by(title: event_title)
     if event.nil?
       raise "Event with title '#{event_title}' not found"
     end
     
-    current_user = User.find(session[:user_id]) if session[:user_id]
+    unless session[:user_id]
+      raise "User must be logged in to set recipients"
+    end
+    
+    current_user = User.find(session[:user_id])
     
     gift_giver = GiftGiver.find_or_create_by(
       event: event,
