@@ -3,10 +3,13 @@ Given("the following gift ideas exist:") do |table|
     status = GiftStatus.find_or_create_by(status_name: row["gift_status"])
 
     Gift.create!(
-      name: row["gift_name"],
-      price: row["gift_price"],
-      purchase_url: row["gift_url"],
-      status_id: status.id
+      name: row["name"],
+      price: row["price"],
+      purchase_url: row["purchase_url"],
+      description: row["description"],
+      upvotes: row["upvotes"],
+      status_id: status.id,
+      creator_id: User.first&.id || FactoryBot.create(:user).id
     )
   end
 end
@@ -24,7 +27,7 @@ Given("I have assigned recipients to an event") do
   GiftGiver.create!(
     event_id: @event.id,
     user_id: @giver.id,
-    recipients: [@recipient.id] # if using JSON recipients
+    recipients: [@recipient.id]
   )
 end
 
@@ -55,6 +58,7 @@ When("I submit a new gift idea named {string}") do |gift_name|
   fill_in "Name", with: gift_name
   fill_in "Price", with: 50
   fill_in "URL", with: "http://example.com"
+  fill_in "Description", with: "Some description"
   select "Wishlisted", from: "Status"
   click_button "Save Gift Idea"
 end
@@ -74,4 +78,38 @@ end
 
 Then("the gift idea should not be added") do
   expect(Gift.where(name: "").count).to eq(0)
+end
+
+When('I click "Edit" for {string}') do |gift_name|
+  find("tr", text: gift_name).click_link("Edit")
+end
+
+When("I update the description to {string}") do |new_description|
+  fill_in "Description", with: new_description
+  click_button "Save"
+end
+
+When('I click "Remove" for {string}') do |gift_name|
+  find("tr", text: gift_name).click_button("Remove")
+end
+
+Then('{string} should no longer appear in the recipient’s gift list') do |gift_name|
+  expect(page).not_to have_content(gift_name)
+end
+
+When('I sort gift ideas by {string}') do |field|
+  click_link field
+end
+
+When('I filter gift ideas by {string}') do |status|
+  select status, from: "Status Filter"
+  click_button "Apply"
+end
+
+Then('I should not see {string}') do |text|
+  expect(page).not_to have_content(text)
+end
+
+Then('I should see {string} on the page') do |text|
+  expect(page).to have_content(text)
 end

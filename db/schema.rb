@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_12_07_211554) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_08_202646) do
   create_table "events", force: :cascade do |t|
     t.string "title"
     t.date "event_date"
@@ -45,6 +45,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_07_211554) do
     t.string "name", null: false
     t.float "price"
     t.text "purchase_url"
+    t.text "description"
+    t.integer "upvotes", default: 0
     t.integer "status_id", null: false
     t.integer "creator_id", null: false
     t.datetime "created_at", null: false
@@ -80,6 +82,17 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_07_211554) do
     t.index ["status_id"], name: "index_user_gift_statuses_on_status_id"
     t.index ["user_id", "gift_id"], name: "index_user_gift_statuses_on_user_id_and_gift_id", unique: true
     t.index ["user_id"], name: "index_user_gift_statuses_on_user_id"
+  end
+
+  create_table "user_gift_votes", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "gift_id", null: false
+    t.integer "vote"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["gift_id"], name: "index_user_gift_votes_on_gift_id"
+    t.index ["user_id", "gift_id"], name: "index_user_gift_votes_on_user_id_and_gift_id", unique: true
+    t.index ["user_id"], name: "index_user_gift_votes_on_user_id"
   end
 
   create_table "user_preferences", force: :cascade do |t|
@@ -122,6 +135,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_07_211554) do
   add_foreign_key "user_gift_statuses", "gift_statuses", column: "status_id"
   add_foreign_key "user_gift_statuses", "gifts"
   add_foreign_key "user_gift_statuses", "users"
+  add_foreign_key "user_gift_votes", "gifts"
+  add_foreign_key "user_gift_votes", "users"
   add_foreign_key "user_preferences", "preferences"
   add_foreign_key "user_preferences", "users"
 end

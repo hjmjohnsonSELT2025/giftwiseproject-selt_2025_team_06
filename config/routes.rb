@@ -30,8 +30,17 @@ Rails.application.routes.draw do
   get "/gifts", to: "gifts#index", as: "gifts"
   get "/gifts/new", to: "gifts#new",   as: "new_gift"
   post "/gifts",     to: "gifts#create", as: "create_gift"
+
+  get "/gifts/:id", to: "gifts#show", as: "gift"
+  get "/gifts/:id/edit", to: "gifts#edit",   as: "edit_gift"
+  patch "/gifts/:id",      to: "gifts#update"
+  delete "/gifts/:id",      to: "gifts#destroy"
+
   post "/gifts/:id/toggle_wishlisted", to: "user_gift_statuses#toggle_wishlisted", as: "toggle_wishlisted_gift"
   post "/gifts/:id/toggle_ignored", to: "user_gift_statuses#toggle_ignored", as: "toggle_ignored_gift"
+
+  post "/gifts/:id/upvote",   to: "gifts#upvote",   as: "upvote_gift"
+  post "/gifts/:id/downvote", to: "gifts#downvote", as: "downvote_gift"
 
   get 'events/:id', to: 'events#show', as: 'event'
   post 'events/:id/invite', to: 'events#invite', as: 'invite_event'
