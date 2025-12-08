@@ -1,6 +1,7 @@
 <h2>Add Gift Idea</h2>
 
-<%= form_with model: @gift, url: gift_giver_gifts_path(@gift_giver), id: "new_gift_idea" do |f| %>
+<%= form_with model: @gift, url: create_gift_path, method: :post do |f| %>
+
   <div>
     <%= f.label :name, "Name" %>
     <%= f.text_field :name %>
@@ -14,11 +15,6 @@
   <div>
     <%= f.label :purchase_url, "URL" %>
     <%= f.text_field :purchase_url %>
-  </div>
-
-  <div>
-    <%= f.label :status_id, "Status" %>
-    <%= f.collection_select :status_id, @statuses, :id, :status_name %>
   </div>
 
   <%= f.submit "Save Gift Idea" %>
