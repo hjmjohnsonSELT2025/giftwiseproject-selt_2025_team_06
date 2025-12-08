@@ -5,7 +5,37 @@ class EventsController < ApplicationController
 
   # GET /users or /users.json
   def index
-    @events = current_user.gift_giver_events
+    @events = current_user.gift_giver_events.distinct
+    Rails.logger.debug "PARAMS => #{params.inspect}"
+
+    # Search by event title
+    if params[:title].present?
+      @events = @events.where("LOWER(title) LIKE ?", "%#{params[:title].downcase}%")
+    end
+
+    # Filter by min/max budget
+    if params[:min_budget].present?
+      @events = @events.where("budget >= ?", params[:min_budget].to_f)
+    end
+
+    if params[:max_budget].present?
+      @events = @events.where("budget <= ?", params[:max_budget].to_f)
+    end
+
+    # Sorting
+    if params[:sort_by] == "name" && params[:direction] == "asc"
+      @events = @events.order(title: :asc)
+
+    elsif params[:sort_by] == "name" && params[:direction] == "desc"
+      @events = @events.order(title: :desc)
+
+    elsif params[:sort_by] == "date" && params[:direction] == "asc"
+      @events = @events.order(event_date: :asc)
+
+    elsif params[:sort_by] == "date" && params[:direction] == "desc"
+      @events = @events.order(event_date: :desc)
+    end
+
   end
 
   # GET /users/new

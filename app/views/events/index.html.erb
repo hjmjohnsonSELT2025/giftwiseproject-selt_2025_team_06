@@ -37,6 +37,61 @@
   </style>
 </head>
 
+
+<!-- Search Bar / Sort -->
+
+<div>
+  <label>Search Title</label><br>
+  <%= text_field_tag :title, params[:title], placeholder: "Suprise Party...." %>
+</div>
+
+<%= form_with url: events_path, method: :get, local: true do %>
+  <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px;">
+
+    <div>
+      <label>Min Budget</label><br>
+      <%= number_field_tag :min_budget, params[:min_budget], placeholder: "20" %>
+    </div>
+
+    <div>
+      <label>Max Budget</label><br>
+      <%= number_field_tag :max_budget, params[:max_budget], placeholder: "100" %>
+    </div>
+
+    <div>
+      <label>Sort By</label><br>
+      <%= select_tag :sort_by,
+                     options_for_select(
+                       [["Alphabetical", "name"], ["Date", "date"]],
+                       params[:sort_by]
+                     ),
+                     include_blank: true %>
+    </div>
+
+    <div>
+      <label>Order</label><br>
+      <%= select_tag :direction,
+                     options_for_select(
+                       [["Ascending", "asc"], ["Descending", "desc"]],
+                       params[:direction]
+                     ),
+                     include_blank: true %>
+    </div>
+
+    <div style="align-self: flex-end;">
+      <%= submit_tag "Apply Filters", class: "btn btn-default" %>
+    </div>
+
+  </div>
+<% end %>
+<!-- Search Bar / Sort -->
+
+<div>
+  <%= link_to 'Create New Event', new_event_path, class: "btn btn-default", id: "new_event_button" %>
+</div>
+
+
+
 <div class="login-container">
   <h1>All Events</h1>
 
@@ -73,9 +128,6 @@
     <p>You are not a gift-giver in any events yet.</p>
   <% end %>
 
-  <div>
-    <%= link_to 'Create New Event', new_event_path, class: "btn btn-default", id: "new_event_button" %>
-  </div>
 
 </div>
 </body>
