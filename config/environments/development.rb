@@ -73,4 +73,25 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+
+  # MAIL TRAP CONFIG
+  config.action_mailer.delivery_method = :smtp
+
+  # Set up
+  config.action_mailer.smtp_settings = {
+    user_name: 'c09636f6ff80d7',
+    password: '32042bcca3b8a3',
+    address: 'sandbox.smtp.mailtrap.io',
+    # host: 'sandbox.smtp.mailtrap.io',
+    port: '2525', # use MAILTRAP ROUTING PORT (github docs said so)
+    # api_key: ENV["MAILTRAP_API_KEY"],
+    authentication: :login
+  }
+
+  # Needed so Rails can generate full URLs in mailers
+  config.action_mailer.default_url_options = {
+    host: "localhost",
+    port: 3000
+  }
 end

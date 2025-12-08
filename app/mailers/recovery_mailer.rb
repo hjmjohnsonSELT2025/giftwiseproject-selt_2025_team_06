@@ -1,19 +1,18 @@
-# Mailer used to send Account Recovery Options
+# app/mailers/recovery_mailer.rb
+# Mailer for recovery Options
 class RecoveryMailer < ApplicationMailer
-  default from: "group7@giftwise.com"  # Can be changed
+  default from: "group6@giftwise.com"
 
+  def reset_email(user)
+    @user = user
+    @token = @user.reset_token # get reset token
 
-  # TODO FIX
-  # def reset_email(user)
-  #  @user = user
-  #  @token = @user.reset_token
+    @reset_url = recovery_reset_url(token: @token) # set url in email to current link + users reset token
 
-    # http://localhost:3000/recovery/reset?token=XYZ
-  #    @reset_url = recovery_reset_url(token: @token)
-
-  # mail(
-  #   to: @user.email,
-  #    subject: "Your GiftWise Password Reset Instructions"
-  #  )
-  #end
+    # Load email template
+    mail(to: @user.email,  subject: "Your GiftWise Password Reset Instructions" ) do |format|
+      format.html # Ensure mailer sends HTML not just text ( allow for clickable link ref)
+      format.text #
+    end
   end
+end
