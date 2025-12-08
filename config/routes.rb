@@ -10,9 +10,6 @@ Rails.application.routes.draw do
   root "users#index"
 
   resources :users
-  resources :gift_givers do
-    resources :gifts, only: [:new, :create]
-  end
 
   # Here then, are our routes across the site
   get  "/login",  to: "sessions#new"
@@ -29,6 +26,12 @@ Rails.application.routes.draw do
   # Account Recovery Pass reset page
   get "/recovery/reset", to: "recovery#edit", as: :'recovery_reset'
   patch "/recovery/reset", to: "recovery#update"
+
+  get "/gifts", to: "gifts#index", as: "gifts"
+  get "/gifts/new", to: "gifts#new",   as: "new_gift"
+  post "/gifts",     to: "gifts#create", as: "create_gift"
+  post "/gifts/:id/toggle_wishlisted", to: "user_gift_statuses#toggle_wishlisted", as: "toggle_wishlisted_gift"
+  post "/gifts/:id/toggle_ignored", to: "user_gift_statuses#toggle_ignored", as: "toggle_ignored_gift"
 
   get 'events/:id', to: 'events#show', as: 'event'
   post 'events/:id/invite', to: 'events#invite', as: 'invite_event'

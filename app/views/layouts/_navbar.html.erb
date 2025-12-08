@@ -1,37 +1,16 @@
 <nav class="navbar">
   <div class="navbar-left">
-    <% if current_user %>
-      <%= link_to "GiftWise", events_path, class: "navbar-brand" %>
-    <% else %>
-      <%= link_to "GiftWise", root_path, class: "navbar-brand" %>
-    <% end %>
+    <%= link_to "GiftWise", events_path, class: "navbar-brand" %>
   </div>
 
   <ul class="navbar-links">
     <% if current_user %>
+      <li><%= link_to "Invites", invites_path, class: "navbar-button" %></li>
+      <li><%= link_to "Gifts", gifts_path, class: "navbar-button" %></li>
+      <li><%= link_to "Profile", user_path(current_user.id), class: "navbar-button" %></li>
       <li>
-        <%= button_to "Invites", invites_path,
-                      method: :get,
-                      class: "navbar-button" %>
+        <%= button_to "Logout", logout_path, method: :delete, class: "navbar-button" %>
       </li>
-
-      <li>
-        <%= button_to "Profile", user_path(current_user.id),
-                      method: :get,
-                      class: "navbar-button" %>
-      </li>
-
-      <li>
-        <%= button_to "Logout", logout_path,
-                      method: :delete,
-                      class: "navbar-button" %>
-      </li>
-    <% else %>
-      <li>
-        <%= button_to "Login", login_path,
-                      method: :get,
-                      class: "navbar-button" %>
-      </li>
-    <% end %>
+  <% end %>
   </ul>
 </nav>

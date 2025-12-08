@@ -1,5 +1,12 @@
 class Gift < ApplicationRecord
-  belongs_to :gift_status, foreign_key: :status_id
+  belongs_to :status, class_name: "GiftStatus", foreign_key: :status_id
+  belongs_to :creator, class_name: "User", foreign_key: "creator_id"
+
+  # Join table allowing users to assign status to this gift
+  has_many :user_gift_statuses
+  has_many :users, through: :user_gift_statuses
+  has_many :statuses, through: :user_gift_statuses, source: :status
+  has_many :created_gifts, class_name: "Gift", foreign_key: "creator_id"
 
   # A Gift may be linked to a giver/recipient pair through GiftGiver
   has_many :gift_givers
