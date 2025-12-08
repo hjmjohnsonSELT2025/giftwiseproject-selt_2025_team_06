@@ -1,10 +1,10 @@
 <!-- Page Users will go to Reset Password-->
 
 <div class="login-page">
-  <div class="login-container">
+  <div class="login-container" style="text-align: left;">   <!-- LEFT ALIGN FIX -->
 
-    <h1 class="login-title">🎁 GiftWise 🎁</h1>
-    <h2 class="login-subtitle">Reset Your Password</h2>
+    <h1 class="login-title" style="text-align: center;">🎁 GiftWise 🎁</h1>
+    <h2 class="login-subtitle" style="text-align: center;">Reset Your Password</h2>
 
     <% if flash[:alert] %>
       <p class="alert"><%= flash[:alert] %></p>
@@ -16,18 +16,29 @@
 
       <%= hidden_field_tag :token, params[:token] %>
 
-      <div class="field">
-        <label class="form-label">New Password</label>
-        <%= password_field_tag :password, nil, class: "form-input", placeholder: "Enter new password" %>
+      <div class="field" style="margin-bottom: 10px;">
+        <label class="form-label" style="font-weight: bold; display: block;">
+          New Password
+        </label>
+
+        <%= password_field_tag :password, nil, class: "form-input", placeholder: "Enter new password", id: "password", style: "width: 100%;" %>
       </div>
 
-      <div class="login-button-container">
+      <!-- SHOW PASSWORD CHECKBOX -->
+      <div class="field" style="margin-top: 5px;">
+        <label class="show-password" style="display: flex; align-items: center; gap: 6px;">
+          <input type="checkbox" id="toggle-password">
+          Show Password
+        </label>
+      </div>
+
+      <div class="login-button-container" style="margin-top: 20px;">
         <%= submit_tag "Update Password", class: "login-button" %>
       </div>
 
     <% end %>
 
-    <div class="footer-container-left">
+    <div class="footer-container-left" style="margin-top: 20px;">
       <%= link_to "Back to Log In", login_path, class: "back-link" %>
     </div>
 
