@@ -61,16 +61,35 @@
         color: #444;
     }
 
-    .filter-group input,
     .filter-group select {
-        padding: 6px 8px;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-        font-size: 0.9rem;
+        padding: 10px 14px;
+        border-radius: 12px;
+        border: 1px solid #d0d4ff;
+
+        font-size: 0.95rem;
+        background-color: white;
+        color: #333;
+
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .checkbox-group {
-        justify-content: center;
+    .filter-group input,
+    .filter-group select {
+        height: 44px;
+        padding: 0 14px;
+        border-radius: 12px;
+        border: 1px solid #d0d4ff;
+        background-color: white;
+        font-size: 0.95rem;
+        color: #333;
+
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .filter-actions .create-event-btn {
+        height: 44px;
+        padding: 0 18px;
     }
 
     .checkbox-group label {
@@ -86,8 +105,51 @@
         align-items: flex-end;
     }
 
+    .events-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 24px 0;
+    }
+
+    .create-event-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        background: linear-gradient(135deg, #6d73ff, #7b5cff);
+        color: white;
+        padding: 10px 18px;
+        border-radius: 12px;
+
+        font-weight: 600;
+        text-decoration: none;
+
+        box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .create-event-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+    }
+
+
+
+
   </style>
 </head>
+
+
+<div class="events-header">
+  <h1>All Events</h1>
+
+  <%= link_to new_event_path, class: "create-event-btn" do %>
+    <i class="fa-regular fa-calendar-plus"></i>
+    Create Event
+  <% end %>
+</div>
+
 
 
 <!-- Search Bar / Sort -->
@@ -130,16 +192,17 @@
     </div>
 
     <div class="filter-actions">
-      <%= submit_tag "Apply Filters", class: "btn btn-default" %>
+      <%= submit_tag "Apply Filters", class: "create-event-btn" %>
     </div>
 
   </div>
+
+
+
+
 <% end %>
 <!-- Search Bar / Sort -->
 
-<div>
-  <%= link_to 'Create New Event', new_event_path, class: "btn btn-default", id: "new_event_button" %>
-</div>
 
 
 
@@ -170,7 +233,7 @@
             <strong>Theme:</strong> <%= event.theme %>
           </div>
 
-          <%= link_to "View Event", event_path(event), class: "btn btn-default" %>
+          <%= link_to "View Event", event_path(event), class: "create-event-btn" %>
         </div>
       <% end %>
     </div>
