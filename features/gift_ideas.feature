@@ -1,3 +1,5 @@
+# TODO : Need to rewrite these user stories! :(
+
 Feature: Managing gift ideas
   As a gift giver
   I want to add gift ideas for my recipients

@@ -38,7 +38,7 @@ class GiftsController < ApplicationController
     when "name"  then @gifts = @gifts.order(:name)
     when "price" then @gifts = @gifts.order(:price)
     when "date"  then @gifts = @gifts.order(created_at: :desc)
-    when "score" then @gifts = @gifts.order(upvotes: :desc)
+    when "score" then @gifts = @gifts.order(upvotes: :desc) # TODO: Sort by upvotes not working as intended
     end
 
 
