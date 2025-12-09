@@ -1,4 +1,7 @@
 class SessionsController < ApplicationController
+  # Make sure no one is logged in
+  before_action :redirect_if_logged_in, only: [:new]
+
   def new
 
   end
@@ -32,5 +35,14 @@ class SessionsController < ApplicationController
     session.delete(:user_id)
     flash[:notice] = "You have logged out successfully."
     redirect_to login_path
+  end
+
+  private
+
+  # Redirect to home page if already logged in
+  def redirect_if_logged_in
+    if session[:user_id].present?
+      redirect_to events_path, notice: "You are already logged in."
+    end
   end
 end
