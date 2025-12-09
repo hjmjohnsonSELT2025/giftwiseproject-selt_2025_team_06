@@ -142,6 +142,7 @@ body.login-page {
     border: none;
     border-radius: 10px;
     font-size: 1.1rem;
+    display: inline-block;
     width: 100%;
     cursor: pointer;
     font-weight: 600;
@@ -164,9 +165,11 @@ body.login-page {
 
 .navbar-links a {
     text-decoration: none;
-    color: #444;
+    color: #ffffff;
     font-size: 1.1rem;
+    font-weight: 600;
     transition: color 0.2s ease;
+    box-shadow: 0 4px 14px rgba(102,126,234,0.35);
 }
 
 .navbar-links a:hover {
@@ -641,6 +644,8 @@ body.gradient-page {
     margin-top: 25px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
 .footer-container-left {
@@ -681,11 +686,16 @@ body.gradient-page {
 }
 
 .invite-container input {
+    flex:1;
     padding: 8px;
-    width: 100%;
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 6px;
+}
+.invite-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .show-password {
@@ -706,4 +716,125 @@ body.gradient-page {
   .page-header h1 {
     font-size: 32px;
   }
+}
+
+.attendee-list-scroll {
+    max-height: 200px;     /* control scroll height */
+    overflow-y: auto;      /* enable vertical scroll */
+    margin-bottom: 20px;
+    padding-right: 10px;   /* space for scrollbar */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fafafa;
+    width: 100%;
+
+}
+
+.attendee-list {
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+}
+
+.attendee-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 6px;
+    border-bottom: 1px solid #eee;
+}
+
+.attendee-item:last-child {
+    border-bottom: none;
+}
+
+.remove-attendee-btn {
+    background: #c72f2f;
+    color: white;
+    border: none;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.remove-attendee-btn:hover {
+    background: #a92626;
+}
+.event-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.event-card {
+    width: 500px;   /* wider content */
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+
+.btn-danger{
+    background: linear-gradient(135deg, #cc6e6e 0%, #730E15 100%);
+    color: white;
+    padding: 16px 48px;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0, 168, 107, 0.3);
+}
+
+.btn-warning{
+    background: linear-gradient(135deg, #fce803 0%, #fcad03 100%);
+    color: white;
+    padding: 16px 48px;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0, 168, 107, 0.3);
+}
+
+.btn-primary{
+    background: linear-gradient(135deg, #0086b3 0%, #000080 100%);
+    color: white;
+    padding: 16px 48px;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0, 168, 107, 0.3);
+}
+
+.flash-message {
+    position: fixed;       /* floats above page */
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    font-weight: 600;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.flash-success {
+    border-left: 6px solid #28a745;
+    color: #155724;
+}
+
+.flash-danger {
+    border-left: 6px solid #dc3545;
+    color: #721c24;
 }

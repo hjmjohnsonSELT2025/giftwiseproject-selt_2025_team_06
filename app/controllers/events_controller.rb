@@ -5,7 +5,7 @@ class EventsController < ApplicationController
 
   # GET /users or /users.json
   def index
-    @events = current_user.gift_giver_events
+    @events = current_user.gift_giver_events.distinct # .distinct makes sure theres no dupe events
   end
 
   # GET /users/new
@@ -30,10 +30,10 @@ class EventsController < ApplicationController
     invite = Invite.find_or_initialize_by(event_id: params[:id], user_id: user.id, status: "pending")
 
     if invite.persisted?
-      flash[:alert] = "User has already been invited"
+      flash[:alert] = "#{user.username} has already been invited"
     else
       invite.save!
-      flash[:notice] = "Invitation sent"
+      flash[:notice] = "You invited #{user.username} to #{@event.title}"
     end
     redirect_to event_path(@event)
   end
@@ -58,5 +58,34 @@ class EventsController < ApplicationController
       flash[:alert] = "Failed to create event"
       redirect_to new_event_path
     end
+  end
+
+  # Remove Attendee from event
+  def remove_attendee
+    @event = Event.find(params[:id])
+    if @event.user_id != current_user.id
+      flash[:alert] = "Only the Host can remove attendee's"
+      redirect_to event_path(@event) and return
+    end
+
+    # Find invite FIRST
+    invite = Invite.find_by(event_id: @event.id, user_id: params[:user_id])
+
+    if invite.nil?
+      flash[:alert] = "User is not attending this event"
+      redirect_to event_path(@event) and return
+    end
+
+    # Now get attendee from the invite
+    attendee = invite.user
+
+    if attendee.nil?
+      flash[:alert] = "User not found"
+      redirect_to event_path(@event) and return
+    end
+
+    flash[:notice] = "You removed #{attendee.username} from #{@event.title}"
+    invite.destroy
+    redirect_to event_path(@event)
   end
 end

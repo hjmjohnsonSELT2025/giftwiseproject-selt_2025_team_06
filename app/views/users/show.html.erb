@@ -1,0 +1,238 @@
+<!--Flash warning code -->
+<% if notice %>
+  <div class="flash-message flash-success">
+    <%= notice %>
+  </div>
+<% end %>
+
+<% if alert %>
+  <div class="flash-message flash-danger">
+    <%= alert %>
+  </div>
+<% end %>
+<script>
+    document.addEventListener("turbo:load", function() {
+        const flashMessages = document.querySelectorAll(".flash-message");
+        flashMessages.forEach(function(msg) {
+            setTimeout(() => {
+                msg.style.opacity = "0";   // fade out
+                setTimeout(() => msg.remove(), 500); // remove after fade
+            }, 4000); // wait 4 seconds before fading
+        });
+    });
+</script>
+
+
+<!--Profile page for the User-->
+<div style="
+display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  position: relative;
+">
+  <h1 style="text-decoration: underline;"> <%=@user.username %>'s Profile </h1>
+
+  <div style="display: flex; justify-content: center; gap: 20px; margin: 40px 0;">
+<!--    Edit button-->
+    <button type="button"
+            id= "edit-acct-btn" class= "btn btn-primary" style= "
+            padding: 12px 28px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.1rem;
+          ">
+      Edit Account
+    </button>
+
+    <!-- Overlay -->
+    <div id="edit-acct-overlay" class="popup-overlay">
+      <!-- Edit account modal -->
+      <div id="edit-acct-modal" class="edit-popup">
+        <div class="popup-header">
+          <span id="close-edit-acct" class="close">&times;</span>
+          <h2>Edit Account</h2>
+        </div>
+        <div class="edit-popup-body">
+          <%= form_with(model: @user, local: true) do |f| %>
+            <div class="form-group">
+              <%= f.label :username %>
+              <%= f.text_field :username, class: "text-box" %>
+            </div>
+            <div class="form-group">
+              <%= f.label :email %>
+              <%= f.email_field :email, class: "text-box" %>
+            </div>
+            <div class="form-group">
+              <%= f.label :occupation %>
+              <%= f.text_field :occupation, class: "text-box" %>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :hobbies %>
+              <%= f.text_field :hobbies, class: "text-box" %>
+            </div>
+
+            <div class="edit-popup-footer">
+              <%= f.submit "Save Changes", class: "btn btn-primary" %>
+              <%= link_to "Edit Likes/Dislikes", preferences_path(return_to: user_path(@user)), class: "btn-likes" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Script -->
+    <script>
+        document.getElementById("edit-acct-btn").addEventListener("click", function() {
+            document.getElementById("edit-acct-overlay").style.display = "block";
+            document.getElementById("edit-acct-modal").style.display = "block";
+        });
+
+        document.getElementById("close-edit-acct").addEventListener("click", function() {
+            document.getElementById("edit-acct-overlay").style.display = "none";
+            document.getElementById("edit-acct-modal").style.display = "none";
+        });
+
+        document.getElementById("edit-acct-overlay").addEventListener("click", function() {
+            if (e.target.id === "edit-acct-overlay") {
+                document.getElementById("edit-acct-overlay").style.display = "none";
+                document.getElementById("edit-acct-modal").style.display = "none";
+            }
+
+        });
+    </script>
+          <!--    Reset password button-->
+    <button type="button" class="btn btn-warning" id="change-password-btn" style="background-color: #ffcc00; padding: 12px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 1.1rem;"
+            data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+      Reset Password
+    </button>
+  </div>
+
+  <h2 style="border-bottom: 2px solid #ccc; padding-bottom: 5px; margin-bottom: 10px;"> Likes/Dislikes</h2>
+  <p> <strong> Likes: </strong>
+    <%=@user.user_preferences.where(category: "like").map {|up| up.preference.name }.join(", ") %></p>
+  <p> <strong> Dislikes: </strong>
+    <%=@user.user_preferences.where(category: "dislike").map {|up| up.preference.name }.join(", ") %></p>
+
+  <h2 style="border-bottom: 2px solid #ccc; padding-bottom: 5px; margin-bottom: 10px;"> Hobbies/Occupation</h2>
+  <p><strong>Hobbies: </strong>
+    <%=@user.hobbies %></p>
+  <p><strong>Occupation: </strong>
+    <%=@user.occupation %></p>
+
+  <h2 style="border-bottom: 2px solid #ccc; padding-bottom: 5px; margin-bottom: 10px;"> Email/Password</h2>
+  <p> <strong> Email: </strong><%=@user.email %></p>
+
+
+  <div style="margin-top: 30px">
+    <button id="delete-acct-btn" class="btn btn-danger">Delete Account</button>
+
+    <!-- Custom Popup -->
+    <div id="deletePopup" class="popup-overlay">
+      <div class="popup-box">
+        <h3>Confirm Account Deletion</h3>
+        <p>Type your username (<%= @user.username %>) to confirm deletion:</p>
+        <%= form_with url: user_path(@user), method: :delete, data: { turbo: false }, local: true do |f| %>
+          <%= f.text_field :confirm_username, placeholder: "Enter username", class: "text-box" %>
+          <%= f.submit "Delete Account", class: "btn btn-danger" %>
+        <% end %>
+        <button id="closePopup" class="btn btn-secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<style>
+    .popup-overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+    }
+    .popup-box {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* perfect center */
+        margin: 0; /* ensure no margins shift it */
+
+        background: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        max-width: 400px;
+        max-height: 800px;
+        text-align: center;
+    }
+
+    .edit-popup{
+
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* perfect center */
+        margin: 0; /* ensure no margins shift it */
+
+        background: #fff;
+        padding: 30px 40px;
+        border-radius: 16px;
+        width: 600px;       /* wider box */
+        max-height: 90vh;
+        overflow-y: auto;
+        text-align: center;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+
+    .btn-likes{
+        padding: 12px 28px;
+        background-color: #007bff;
+        color: white;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 1.1rem;
+    }
+
+    .text-box {
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 20px; /* adds space below input */
+        font-size: 16px;
+    }
+    .btn-secondary{
+        color: black;
+        padding: 16px 48px;
+        border: none;
+        border-radius: 12px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 20px rgba(0, 168, 107, 0.3);
+    }
+
+
+</style>
+
+<script>
+    const deleteBtn = document.getElementById("delete-acct-btn");
+    const popup = document.getElementById("deletePopup");
+    const closeBtn = document.getElementById("closePopup");
+
+    deleteBtn.addEventListener("click", () => {
+        popup.style.display = "flex"; // show popup
+    });
+
+    closeBtn.addEventListener("click", () => {
+        popup.style.display = "none"; //hide popup
+    });
+</script>
