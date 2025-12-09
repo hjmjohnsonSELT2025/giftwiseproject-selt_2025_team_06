@@ -26,7 +26,7 @@ When(/^I enter (.*) in the password box$/) do |password|
 end
 
 When(/^I press the “Log In” button$/) do
-  click_button 'LOGIN'
+  click_button 'Log In'
 end
 
 Then(/^I should be taken to the home page$/) do
@@ -53,4 +53,9 @@ end
 Then(/^I should see "(.*)"$/) do |message|
   expect(page).to have_content(message)
 end
+
+Then(/^I should not see "(.*)"$/) do |message|
+  expect(page).not_to have_content(message)
+end
+
 

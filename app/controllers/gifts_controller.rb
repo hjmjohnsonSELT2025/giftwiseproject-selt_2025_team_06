@@ -38,7 +38,7 @@ class GiftsController < ApplicationController
     when "name"  then @gifts = @gifts.order(:name)
     when "price" then @gifts = @gifts.order(:price)
     when "date"  then @gifts = @gifts.order(created_at: :desc)
-    when "score" then @gifts = @gifts.order(upvotes: :desc) # TODO: Sort by upvotes not working as intended
+    when "upvotes" then @gifts = @gifts.order(upvotes: :desc)
     end
 
 
@@ -52,35 +52,15 @@ class GiftsController < ApplicationController
                        .to_h
   end
 
-  def increment_upvote
+  def upvote
     gift = Gift.find(params[:id])
     gift.update(upvotes: gift.upvotes + 1)
     redirect_to gifts_path
   end
 
-  def decrement_upvote
-    gift = Gift.find(params[:id])
-    gift.update(upvotes: [gift.upvotes - 1, 0].max)  # prevent negative votes
-    redirect_to gifts_path
-  end
-
-  def upvote
-    gift = Gift.find(params[:id])
-    record = UserGiftVote.find_or_initialize_by(user: current_user, gift: gift)
-
-    record.vote = 1  # upvote
-    record.save
-
-    redirect_to gifts_path
-  end
-
   def downvote
     gift = Gift.find(params[:id])
-    record = UserGiftVote.find_or_initialize_by(user: current_user, gift: gift)
-
-    record.vote = -1  # downvote
-    record.save
-
+    gift.update(upvotes: [gift.upvotes - 1, 0].max)  # prevent negative votes
     redirect_to gifts_path
   end
 
