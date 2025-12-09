@@ -87,9 +87,9 @@
         box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
         transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
-    .filter-actions .create-event-btn {
-        height: 44px;
-        padding: 0 18px;
+    .filter-actions {
+        display: flex;
+        gap: 12px;
     }
 
     .checkbox-group label {
@@ -133,10 +133,6 @@
         transform: translateY(-2px);
         box-shadow: 0 8px 18px rgba(0,0,0,0.2);
     }
-
-
-
-
   </style>
 </head>
 
@@ -193,6 +189,8 @@
 
     <div class="filter-actions">
       <%= submit_tag "Apply Filters", class: "create-event-btn" %>
+      <%= link_to "Reset Filters", events_path, class: "create-event-btn"  %>
+
     </div>
 
   </div>
