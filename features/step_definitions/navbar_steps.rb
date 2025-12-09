@@ -1,6 +1,10 @@
-When(/^I click the "(.*)" link in the navbar$/) do |link_text|
-  within('nav.navbar') do
-    click_link link_text
+When(/^I click the "(.*)" link in the navbar$/) do |label|
+  within("nav") do
+    if page.has_link?(label)
+      click_link(label)
+    else
+      click_button(label)
+    end
   end
 end
 
