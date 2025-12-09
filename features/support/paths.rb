@@ -14,8 +14,12 @@ module NavigationHelpers
     case page_name
 
       # Add the rest of our mappings here for our pages
-    when /^the home page$/ then '/'
+    when /^the landing page$/ then '/'
+    when /^the home page$/ then '/events'
+    when /^the events page$/ then '/events'
     when /^the login page$/ then '/login'
+    when /^the invites page$/ then '/invites'
+    when /^the profile page$/ then '/profile'
     when /^the Account Recovery page$/ then '/recovery'
     when /^the view event page for "(.+)"$/
       event = Event.find_by!(title: $1)
