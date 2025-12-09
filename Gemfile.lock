@@ -180,6 +180,8 @@ GEM
       net-imap
       net-pop
       net-smtp
+    mailtrap (2.5.0)
+      base64
     marcel (1.1.0)
     matrix (0.4.3)
     memoist3 (1.0.0)
@@ -352,6 +354,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kredis
+  mailtrap
   pg (~> 1.5)
   puma (>= 5.0)
   rails (~> 7.1.5)

@@ -11,7 +11,7 @@ class User < ApplicationRecord
   # Events the user is hosting
   has_many :hosted_events,
            class_name: "Event",
-           foreign_key: "host_id",
+           foreign_key: "user_id",
            dependent: :nullify
 
   # Gift-giver relationship (user → event)s
@@ -32,5 +32,5 @@ class User < ApplicationRecord
   # Validations
   validates :email, presence: true, uniqueness: true
   validates :username, presence: true, uniqueness: true
-  validates :password, presence: true
+  validates :password, presence: true, on: :create # only on create so not needed when updating pass (not required for updating reset_token)
 end
