@@ -5,12 +5,19 @@ class EventsController < ApplicationController
 
   # GET /users or /users.json
   def index
-    @events = current_user.gift_giver_events.distinct
-    Rails.logger.debug "PARAMS => #{params.inspect}"
+    # Events the user created
+    user_created_ids = Event.where(user_id: current_user.id).select(:id)
 
-    # Search by event title
+    # Events the user was invited to (gift_givers)
+    user_invited_to_ids = GiftGiver.where(user_id: current_user.id).select(:event_id)
+
+    # Union of both invited and created events
+    @events = Event.where(id: user_created_ids).or(Event.where(id: user_invited_to_ids)).distinct
+
+    # Title search
     if params[:title].present?
-      @events = @events.where("LOWER(title) LIKE ?", "%#{params[:title].downcase}%")
+      search = "%#{params[:title].strip.downcase}%"
+      @events = @events.where("LOWER(title) LIKE ?", search)
     end
 
     # Filter by min/max budget

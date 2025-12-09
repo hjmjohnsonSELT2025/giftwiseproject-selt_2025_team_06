@@ -40,12 +40,21 @@
 
 <!-- Search Bar / Sort -->
 
-<div>
-  <label>Search Title</label><br>
-  <%= text_field_tag :title, params[:title], placeholder: "Suprise Party...." %>
-</div>
 
 <%= form_with url: events_path, method: :get, local: true do %>
+
+  <div>
+    <label>Search Title</label><br>
+    <%= text_field_tag :title, params[:title], placeholder: "Suprise Party...." %>
+  </div>
+
+  <div style="align-self: flex-end;">
+    <label>
+      <%= check_box_tag :created_only, "1", params[:created_only].present? %>
+      Show only events I created
+    </label>
+  </div>
+
   <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px;">
 
     <div>
