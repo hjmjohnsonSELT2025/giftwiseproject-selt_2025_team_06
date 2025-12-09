@@ -5,14 +5,25 @@ class EventsController < ApplicationController
 
   # GET /users or /users.json
   def index
-    # Events the user created
-    user_created_ids = Event.where(user_id: current_user.id).select(:id)
+    # Get
+    created_ids = Event.where(user_id: current_user.id).select(:id)
+    invited_ids = GiftGiver.where(user_id: current_user.id).select(:event_id)
 
-    # Events the user was invited to (gift_givers)
-    user_invited_to_ids = GiftGiver.where(user_id: current_user.id).select(:event_id)
+    if params[:created_by] == "me"
+      # Events created by me
+      @events = Event.where(user_id: current_user.id)
 
-    # Union of both invited and created events
-    @events = Event.where(id: user_created_ids).or(Event.where(id: user_invited_to_ids)).distinct
+    elsif params[:created_by] == "not_me"
+      # Events not created by me, but I was invited to
+      @events = Event.where(id: invited_ids).where.not(user_id: current_user.id)
+
+    else
+      # created by me OR invited to ( ANYONE)
+      @events = Event.where(id: created_ids).or(Event.where(id: invited_ids))
+    end
+
+    @events = @events.distinct # Else normal
+
 
     # Title search
     if params[:title].present?

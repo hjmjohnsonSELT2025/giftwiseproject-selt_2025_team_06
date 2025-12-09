@@ -34,60 +34,102 @@
         color: #555;
         margin-bottom: 6px;
     }
+    .filters-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: flex-end;
+
+        background: #f8f9fc;
+        padding: 16px 20px;
+        border-radius: 12px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+
+        margin: 20px 0;
+    }
+
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        min-width: 160px;
+    }
+
+    .filter-group label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 4px;
+        color: #444;
+    }
+
+    .filter-group input,
+    .filter-group select {
+        padding: 6px 8px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 0.9rem;
+    }
+
+    .checkbox-group {
+        justify-content: center;
+    }
+
+    .checkbox-group label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-weight: 500;
+        margin-bottom: 0;
+    }
+
+    .filter-actions {
+        display: flex;
+        align-items: flex-end;
+    }
+
   </style>
 </head>
 
 
 <!-- Search Bar / Sort -->
 
-
 <%= form_with url: events_path, method: :get, local: true do %>
+  <div class="filters-bar">
 
-  <div>
-    <label>Search Title</label><br>
-    <%= text_field_tag :title, params[:title], placeholder: "Suprise Party...." %>
-  </div>
+    <div class="filter-group">
+      <label>Search Title</label>
+      <%= text_field_tag :title, params[:title], placeholder: "Surprise Party..." %>
+    </div>
 
-  <div style="align-self: flex-end;">
-    <label>
-      <%= check_box_tag :created_only, "1", params[:created_only].present? %>
-      Show only events I created
-    </label>
-  </div>
+    <div class="filter-group">
+      <label>Created by</label>
+      <%= select_tag :created_by,options_for_select([["Anyone", ""], ["Me", "me"], ["Not me", "not_me"]], params[:created_by]) %>
+    </div>
 
-  <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px;">
-
-    <div>
-      <label>Min Budget</label><br>
+    <div class="filter-group">
+      <label>Min Budget</label>
       <%= number_field_tag :min_budget, params[:min_budget], placeholder: "20" %>
     </div>
 
-    <div>
-      <label>Max Budget</label><br>
+    <div class="filter-group">
+      <label>Max Budget</label>
       <%= number_field_tag :max_budget, params[:max_budget], placeholder: "100" %>
     </div>
 
-    <div>
-      <label>Sort By</label><br>
+    <div class="filter-group">
+      <label>Sort By</label>
       <%= select_tag :sort_by,
-                     options_for_select(
-                       [["Alphabetical", "name"], ["Date", "date"]],
-                       params[:sort_by]
-                     ),
+                     options_for_select([["Alphabetical", "name"], ["Date", "date"]], params[:sort_by]),
                      include_blank: true %>
     </div>
 
-    <div>
-      <label>Order</label><br>
+    <div class="filter-group">
+      <label>Order</label>
       <%= select_tag :direction,
-                     options_for_select(
-                       [["Ascending", "asc"], ["Descending", "desc"]],
-                       params[:direction]
-                     ),
+                     options_for_select([["Ascending", "asc"], ["Descending", "desc"]], params[:direction]),
                      include_blank: true %>
     </div>
 
-    <div style="align-self: flex-end;">
+    <div class="filter-actions">
       <%= submit_tag "Apply Filters", class: "btn btn-default" %>
     </div>
 
@@ -134,7 +176,7 @@
     </div>
 
   <% else %>
-    <p>You are not a gift-giver in any events yet.</p>
+    <p>You Currently Have No Events</p>
   <% end %>
 
 
