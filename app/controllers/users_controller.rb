@@ -11,6 +11,10 @@ class UsersController < ApplicationController
 
   # GET /users/1 or /users/1.json
   def show
+    @user = User.find_by(id: params[:id])
+    if @user.nil?
+      redirect_to users_path, alert: "User not found."
+    end
   end
 
   # GET /users/new
@@ -80,13 +84,25 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1 or /users/1.json
   def update
-
+    if @user.update(user_params)
+      redirect_to @user, notice: "Account updated successfully!"
+    else
+      flash[:alert] = "Account not updated!"
+      redirect_to user_path(@user)
+    end
   end
 
   # DELETE /users/1 or /users/1.json
   def destroy
-    @user.destroy!
+    @user = User.find(params[:id])
 
+    if params[:confirm_username] == @user.username
+      @user.destroy
+      reset_session
+      redirect_to login_path, notice: "User deleted successfully."
+    else
+      redirect_to @user, alert: "Username confirmation failed. Account not deleted."
+    end
   end
 
   private
@@ -103,7 +119,9 @@ class UsersController < ApplicationController
         :password,
         :first_name,
         :last_name,
-        :user_information_id
+        :user_information_id,
+        :occupation,
+        :hobbies
       )
   end
 end

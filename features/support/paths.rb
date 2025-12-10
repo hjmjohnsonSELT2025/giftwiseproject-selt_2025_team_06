@@ -1,4 +1,4 @@
-# TL;DR: YOU SHOULD DELETE THIS FILE
+  # TL;DR: YOU SHOULD DELETE THIS FILE
 #
 # This file is used by web_steps.rb, which you should also delete
 #
@@ -14,11 +14,18 @@ module NavigationHelpers
     case page_name
 
       # Add the rest of our mappings here for our pages
-    when /^the home page$/ then '/'
+    when /^the landing page$/ then '/'
+    when /^the home page$/ then '/events'
+    when /^the events page$/ then '/events'
     when /^the login page$/ then '/login'
+    when /^the invites page$/ then '/invites'
+    when /^the profile page$/ then '/profile'
     when /^the Account Recovery page$/ then '/recovery'
+    when /^the view event page for "(.+)"$/
+      event = Event.find_by!(title: $1)
+      "/events/#{event.id}"
 
-    else
+  else
       begin
         page_name =~ /^the (.*) page$/
         path_components = ::Regexp.last_match(1).split(/\s+/)

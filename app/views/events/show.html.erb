@@ -1,28 +1,64 @@
-<div class="login-container">
-  <h1>View Event</h1>
+<div class="event-wrapper">
+  <div class="event-card">
 
-  <% if flash[:alert] %>
-    <p class="alert"><%= flash[:alert] %></p>
-  <% elsif flash[:notice] %>
-    <p class="notice"><%= flash[:notice] %></p>
-  <% end %>
+    <h1>View Event</h1>
 
-  <div>
-    <%= link_to "Back to All Events", events_path, class: "btn btn-default" %>
-  </div>
-
-  <div class="event-detail">
-    <p><strong>Date:</strong> <%= @event.event_date %></p>
-    <p><strong>Location:</strong> <%= @event.location %></p>
-    <p><strong>Budget:</strong> <%= @event.budget %></p>
-    <p><strong>Theme:</strong> <%= @event.theme %></p>
-  </div>
-
-  <div class="invite-container">
-    <h3>Invite a User</h3>
-    <%= form_tag invite_event_path(@event), :method => :post, :id => 'invite_event_form' do %>
-        <%= text_field_tag :username, nil, placeholder: "Enter username..." %>
-        <%= submit_tag "Invite", :id => 'invite-user', class: "btn btn-default" %>
+    <% if flash[:alert] %>
+      <p class="alert"><%= flash[:alert] %></p>
+    <% elsif flash[:notice] %>
+      <p class="notice"><%= flash[:notice] %></p>
     <% end %>
+
+    <div>
+      <%= link_to "Back to All Events", events_path, class: "btn btn-default" %>
+    </div>
+
+    <div class="event-detail">
+      <p><strong>Date:</strong> <%= @event.event_date %></p>
+      <p><strong>Location:</strong> <%= @event.location %></p>
+      <p><strong>Budget:</strong> <%= @event.budget %></p>
+      <p><strong>Theme:</strong> <%= @event.theme %></p>
+    </div>
+
+    <h2>Attendees</h2>
+    <div class="attendee-list-scroll">
+      <% accepted_invites = @event.invites.where(status: "accepted") %>
+
+      <% if accepted_invites.empty? %>
+        <p class="no-attendees">  No one is coming yet.</p>
+      <% else %>
+        <ul class="attendee-list">
+          <% accepted_invites.each do |invite| %>
+            <% attendee = invite.user %>
+            <% next if attendee.nil? %>
+            <li id="attendee-<%= attendee.username %>" class="attendee-item">
+              <span><strong><%= attendee.username %></strong> is going</span>
+
+              <% if current_user.id == @event.user_id %>
+                <%= button_to "Remove",
+                              remove_attendee_event_path(@event, user_id: attendee.id),
+                              method: :delete,
+                              local: true do  %>
+                  <%= hidden_field_tag :user_id, attendee.id %>
+                  <%= submit_tag "Remove Attendee" %>
+                <% end %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+
+    <div class="invite-container">
+      <h3>Invite a User</h3>
+      <%= form_tag invite_event_path(@event), method: :post, class: "invite-form" do %>
+        <input type="text"
+               name="username"
+               placeholder="Enter username..."
+               class="invite-input" />
+        <button type="submit" class="invite-button">Invite</button>
+      <% end %>
+    </div>
+
   </div>
 </div>

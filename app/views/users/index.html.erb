@@ -21,8 +21,24 @@ display: flex;
 
   <div style="margin-top: 40px; display: flex; gap: 20px;">
 
-    <%= link_to "Login", login_path,
-                style: "
+    <div style="margin-top: 40px; display: flex; gap: 20px;">
+
+      <% if current_user %>
+
+        <%= link_to "Go to Home", events_path,
+                    style: "
+            padding: 12px 28px;
+            background-color: #17a2b8;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.1rem;
+          " %>
+
+      <% else %>
+
+        <%= link_to "Login", login_path,
+                    style: "
             padding: 12px 28px;
             background-color: #007bff;
             color: white;
@@ -31,8 +47,8 @@ display: flex;
             font-size: 1.1rem;
           " %>
 
-    <%= link_to "Sign Up", new_user_path,
-                style: "
+        <%= link_to "Sign Up", new_user_path,
+                    style: "
             padding: 12px 28px;
             background-color: #28a745;
             color: white;
@@ -40,6 +56,11 @@ display: flex;
             text-decoration: none;
             font-size: 1.1rem;
           " %>
+
+      <% end %>
+
+    </div>
+
 
   </div>
 </div>
