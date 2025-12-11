@@ -29,6 +29,12 @@ class User < ApplicationRecord
            through: :recipients,
            source: :event
 
+  has_many :user_gift_statuses, dependent: :destroy
+  has_many :gifts_with_status, through: :user_gift_statuses, source: :gift
+
+  has_many :user_gift_votes, dependent: :destroy
+  has_many :voted_gifts, through: :user_gift_votes, source: :gift
+
   # Validations
   validates :email, presence: true, uniqueness: true
   validates :username, presence: true, uniqueness: true

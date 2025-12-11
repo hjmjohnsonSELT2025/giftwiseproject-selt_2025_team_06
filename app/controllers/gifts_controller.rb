@@ -41,6 +41,11 @@ class GiftsController < ApplicationController
     when "upvotes" then @gifts = @gifts.order(upvotes: :desc)
     end
 
+    # Limit the # of gifts to view per page
+    @per_page = 16
+    @page     = (params[:page] || 1).to_i
+    @total_pages = (@gifts.count / @per_page.to_f).ceil
+    @gifts = @gifts.offset((@page - 1) * @per_page).limit(@per_page)
 
     # Status icons
     @wishlisted_status = GiftStatus.find_by(status_name: "Wishlisted")
@@ -54,14 +59,50 @@ class GiftsController < ApplicationController
 
   def upvote
     gift = Gift.find(params[:id])
-    gift.update(upvotes: gift.upvotes + 1)
-    redirect_to gifts_path
+    vote_record = UserGiftVote.find_or_initialize_by(user: current_user, gift: gift)
+
+    old_vote = vote_record.vote || 0
+    new_vote = nil
+
+    if old_vote == 1
+      # Clicking upvote again removes the vote
+      new_vote = 0
+      vote_record.destroy
+    else
+      # Either no vote or a downvote → set to +1
+      new_vote = 1
+      vote_record.vote = 1
+      vote_record.save!
+    end
+
+    delta = new_vote - old_vote
+    gift.update!(upvotes: gift.upvotes + delta)
+
+    redirect_to gifts_path(page: params[:page])
   end
 
   def downvote
     gift = Gift.find(params[:id])
-    gift.update(upvotes: [gift.upvotes - 1, 0].max)  # prevent negative votes
-    redirect_to gifts_path
+    vote_record = UserGiftVote.find_or_initialize_by(user: current_user, gift: gift)
+
+    old_vote = vote_record.vote || 0
+    new_vote = nil
+
+    if old_vote == -1
+      # Clicking downvote again removes the vote
+      new_vote = 0
+      vote_record.destroy
+    else
+      # Either no vote or an upvote → set to -1
+      new_vote = -1
+      vote_record.vote = -1
+      vote_record.save!
+    end
+
+    delta = new_vote - old_vote
+    gift.update!(upvotes: gift.upvotes + delta)
+
+    redirect_to gifts_path(page: params[:page])
   end
 
   def new

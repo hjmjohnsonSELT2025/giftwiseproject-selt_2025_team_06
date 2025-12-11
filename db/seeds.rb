@@ -104,3 +104,163 @@ Gift.find_or_create_by!(
   status_id: gift_statuses["Default"].id,
   creator_id: 3
 )
+
+Gift.find_or_create_by!(
+  name: "LED Desk Lamp",
+  price: 25,
+  purchase_url: "http://localhost:3000/",
+  description: "A brightness-adjustable LED lamp perfect for studying, reading, or office work.",
+  status_id: gift_statuses["Default"].id,
+  upvotes: 142,
+  creator_id: 1
+)
+
+Gift.find_or_create_by!(
+  name: "Bluetooth Speaker",
+  price: 45,
+  purchase_url: "http://localhost:3000/",
+  description: "Portable Bluetooth speaker with rich bass and long battery life for outdoor or indoor use.",
+  status_id: gift_statuses["Default"].id,
+  upvotes: 311,
+  creator_id: 2
+)
+
+Gift.find_or_create_by!(
+  name: "Scented Candle Set",
+  price: 30,
+  purchase_url: "http://localhost:3000/",
+  description: "A relaxing 3-pack of aromatic candles—perfect for unwinding at home.",
+  status_id: gift_statuses["Default"].id,
+  upvotes: 87,
+  creator_id: 3
+)
+
+Gift.find_or_create_by!(
+  name: "Art Sketchbook",
+  price: 18,
+  purchase_url: "http://localhost:3000/",
+  description: "A high-quality sketchbook for artists—smooth paper ideal for pencils, pens, and markers.",
+  status_id: gift_statuses["Default"].id,
+  upvotes: 204,
+  creator_id: 1
+)
+
+Gift.find_or_create_by!(
+  name: "Wireless Earbuds",
+  price: 55,
+  purchase_url: "http://localhost:3000/",
+  description: "Noise-isolating wireless earbuds with touch controls and a compact charging case.",
+  status_id: gift_statuses["Default"].id,
+  upvotes: 496,
+  creator_id: 1
+)
+
+Gift.find_or_create_by!(
+  name: "Travel Mug",
+  price: 22,
+  purchase_url: "http://localhost:3000/",
+  description: "A stainless-steel insulated mug that keeps drinks hot or cold for hours.",
+  status_id: gift_statuses["Default"].id,
+  upvotes: 53,
+  creator_id: 2
+)
+
+Gift.find_or_create_by!(
+  name: "Board Game",
+  price: 35,
+  purchase_url: "http://localhost:3000/",
+  description: "A fun and strategic board game—great for family nights or group gatherings.",
+  status_id: gift_statuses["Default"].id,
+  upvotes: 421,
+  creator_id: 3
+)
+
+Gift.find_or_create_by!(
+  name: "Throw Pillow",
+  price: 28,
+  purchase_url: "http://localhost:3000/",
+  description: "A cozy decorative pillow to add comfort and color to any living space.",
+  status_id: gift_statuses["Default"].id,
+  upvotes: 112,
+  creator_id: 1
+)
+
+Gift.find_or_create_by!(
+  name: "Smartwatch Band",
+  price: 15,
+  purchase_url: "http://localhost:3000/",
+  description: "A stylish replacement band compatible with popular smartwatch models.",
+  status_id: gift_statuses["Default"].id,
+  upvotes: 267,
+  creator_id: 2
+)
+
+Gift.find_or_create_by!(
+  name: "Mini Succulent Plant",
+  price: 12,
+  purchase_url: "http://localhost:3000/",
+  description: "A small, low-maintenance succulent—perfect for desks, shelves, or windowsills.",
+  status_id: gift_statuses["Default"].id,
+  upvotes: 39,
+  creator_id: 3
+)
+
+Gift.find_or_create_by!(
+  name: "Puzzle Set",
+  price: 20,
+  purchase_url: "http://localhost:3000/",
+  description: "A 500-piece puzzle featuring a relaxing scenic design.",
+  status_id: gift_statuses["Default"].id,
+  upvotes: 178,
+  creator_id: 1
+)
+
+Gift.find_or_create_by!(
+  name: "Water Bottle",
+  price: 18,
+  purchase_url: "http://localhost:3000/",
+  description: "A lightweight, reusable water bottle with leak-proof design.",
+  status_id: gift_statuses["Default"].id,
+  upvotes: 84,
+  creator_id: 2
+)
+
+Gift.find_or_create_by!(
+  name: "Car Air Freshener",
+  price: 10,
+  purchase_url: "http://localhost:3000/",
+  description: "A long-lasting air freshener with a clean, refreshing scent.",
+  status_id: gift_statuses["Default"].id,
+  upvotes: 315,
+  creator_id: 3
+)
+
+Gift.find_or_create_by!(
+  name: "Notebook Set",
+  price: 14,
+  purchase_url: "http://localhost:3000/",
+  description: "A set of three lined notebooks—perfect for journaling, notes, and planning.",
+  status_id: gift_statuses["Default"].id,
+  upvotes: 51,
+  creator_id: 1
+)
+
+Gift.find_or_create_by!(
+  name: "Phone Stand",
+  price: 16,
+  purchase_url: "http://localhost:3000/",
+  description: "Adjustable phone stand ideal for video calls, watching content, or desk setups.",
+  status_id: gift_statuses["Default"].id,
+  upvotes: 226,
+  creator_id: 2
+)
+
+Gift.find_or_create_by!(
+  name: "Fuzzy Socks",
+  price: 9,
+  purchase_url: "http://localhost:3000/",
+  description: "Warm and ultra-soft socks perfect for cold days or lounging at home.",
+  status_id: gift_statuses["Default"].id,
+  upvotes: 492,
+  creator_id: 3
+)

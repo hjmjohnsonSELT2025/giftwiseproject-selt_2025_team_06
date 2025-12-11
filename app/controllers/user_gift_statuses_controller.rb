@@ -8,36 +8,6 @@ class UserGiftStatusesController < ApplicationController
     @user_gift_statuses = current_user.user_gift_statuses.includes(:gift, :status)
   end
 
-  def toggle_wishlisted
-    gift = Gift.find(params[:id])
-
-    wishlisted_status = GiftStatus.find_by(status_name: "Wishlisted")
-    default_status = GiftStatus.find_by(status_name: "Default")
-
-    # Safety check
-    if wishlisted_status.nil? || default_status.nil?
-      return redirect_to gifts_path, alert: "Required statuses missing."
-    end
-
-    record = UserGiftStatus.find_or_initialize_by(
-      user_id: current_user.id,
-      gift_id: gift.id
-    )
-
-    if record.status_id == wishlisted_status.id
-      # Already wishlisted → toggle OFF
-      record.status_id = default_status.id
-      message = "#{gift.name} removed from wishlist."
-    else
-      # Not wishlisted → toggle ON
-      record.status_id = wishlisted_status.id
-      message = "#{gift.name} added to wishlist!"
-    end
-
-    record.save!
-    redirect_to gifts_path, notice: message
-  end
-
   # GET /user_gift_statuses/new?gift_id=#
   def new
     @gift = Gift.find(params[:gift_id])
@@ -59,9 +29,37 @@ class UserGiftStatusesController < ApplicationController
     end
   end
 
-  def toggle_ignored
+  def toggle_wishlisted
+    page = params[:page] || 1
     gift = Gift.find(params[:id])
 
+    wishlisted_status = GiftStatus.find_by(status_name: "Wishlisted")
+    default_status     = GiftStatus.find_by(status_name: "Default")
+
+    if wishlisted_status.nil? || default_status.nil?
+      return redirect_to gifts_path(page: page), alert: "Required statuses missing."
+    end
+
+    record = UserGiftStatus.find_or_initialize_by(
+      user_id: current_user.id,
+      gift_id: gift.id
+    )
+
+    if record.status_id == wishlisted_status.id
+      record.status_id = default_status.id
+      message = "#{gift.name} removed from wishlist."
+    else
+      record.status_id = wishlisted_status.id
+      message = "#{gift.name} added to wishlist!"
+    end
+
+    record.save!
+    redirect_to gifts_path(page: page), notice: message
+  end
+
+  def toggle_ignored
+    page = params[:page] || 1
+    gift = Gift.find(params[:id])
     ignored_status = GiftStatus.find_by(status_name: "Ignore")
 
     user_status = UserGiftStatus.find_or_initialize_by(
@@ -69,15 +67,14 @@ class UserGiftStatusesController < ApplicationController
       gift_id: gift.id
     )
 
-    # Toggle behaviour
-    if user_status.status_id == ignored_status.id
+    if user_status.status_id == ignored_status&.id
       user_status.destroy
     else
       user_status.status_id = ignored_status.id
       user_status.save!
     end
 
-    redirect_to gifts_path
+    redirect_to gifts_path(page: page)
   end
 
   # GET /user_gift_statuses/:id/edit

@@ -71,7 +71,7 @@
             <div class="gift-actions">
               <% is_wishlisted = @user_statuses[gift.id] == @wishlisted_status&.id %>
 
-              <%= button_to toggle_wishlisted_gift_path(gift.id),
+              <%= button_to toggle_wishlisted_gift_path(gift.id, page: @page),
                             method: :post,
                             class: "star-button action-btn" do %>
                 <% if is_wishlisted %>
@@ -83,7 +83,7 @@
 
               <% is_ignored = @user_statuses[gift.id] == @ignored_status&.id %>
 
-              <%= button_to toggle_ignored_gift_path(gift.id),
+              <%= button_to toggle_ignored_gift_path(gift.id, page: @page),
                             method: :post,
                             class: "x-button action-btn" do %>
                 <% if is_ignored %>
@@ -151,6 +151,30 @@
       <% end %>
     </div>
 
+  <% end %>
+
+  <% if @total_pages > 1 %>
+    <div class="pagination-controls" style="text-align: center; margin-top: 2rem;">
+
+      <% if @page > 1 %>
+        <%= link_to "← Previous",
+                    gifts_path(request.query_parameters.merge(page: @page - 1)),
+                    class: "add-gift-btn",
+                    style: "margin-right: 10px;" %>
+      <% end %>
+
+      <span style="font-size: 1.2rem; font-weight: 600;">
+        Page <%= @page %> of <%= @total_pages %>
+      </span>
+
+      <% if @page < @total_pages %>
+        <%= link_to "Next →",
+                    gifts_path(request.query_parameters.merge(page: @page + 1)),
+                    class: "add-gift-btn",
+                    style: "margin-left: 10px;" %>
+      <% end %>
+
+    </div>
   <% end %>
 
   <br />
