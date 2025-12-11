@@ -1,17 +1,15 @@
 <div class="event-wrapper">
+
+  <!-- EVENT DETAILS CARD -->
   <div class="event-card">
 
-    <h1>View Event</h1>
+    <h1><%= @event.title %></h1>
 
     <% if flash[:alert] %>
       <p class="alert"><%= flash[:alert] %></p>
     <% elsif flash[:notice] %>
       <p class="notice"><%= flash[:notice] %></p>
     <% end %>
-
-    <div>
-      <%= link_to "Back to All Events", events_path, class: "btn btn-default" %>
-    </div>
 
     <div class="event-detail">
       <p><strong>Date:</strong> <%= @event.event_date %></p>
@@ -25,25 +23,27 @@
       <% accepted_invites = @event.invites.where(status: "accepted") %>
 
       <% if accepted_invites.empty? %>
-        <p class="no-attendees">  No one is coming yet.</p>
+        <p class="no-attendees">No one is coming yet.</p>
       <% else %>
         <ul class="attendee-list">
           <% accepted_invites.each do |invite| %>
             <% attendee = invite.user %>
             <% next if attendee.nil? %>
+
             <li id="attendee-<%= attendee.username %>" class="attendee-item">
-              <span><strong><%= attendee.username %></strong> is going</span>
+              <span><strong><%= attendee.username %></strong></span>
 
               <% if current_user.id == @event.user_id %>
                 <%= button_to "Remove",
                               remove_attendee_event_path(@event, user_id: attendee.id),
                               method: :delete,
-                              local: true do  %>
+                              local: true do %>
                   <%= hidden_field_tag :user_id, attendee.id %>
                   <%= submit_tag "Remove Attendee" %>
                 <% end %>
               <% end %>
             </li>
+
           <% end %>
         </ul>
       <% end %>
@@ -58,7 +58,112 @@
                class="invite-input" />
         <button type="submit" class="invite-button">Invite</button>
       <% end %>
+    </div><br />
+
+    <div>
+      <%= link_to "Back to All Events", events_path, class: "btn btn-default" %>
     </div>
 
   </div>
+
+
+  <div class="event-card gift-card">
+
+    <h2>Your Gift Assignments</h2>
+
+    <div class="gift-assignments">
+
+      <h3>People You Are Giving Gifts To</h3>
+      <% if @recipients_for_current_user.empty? %>
+        <p class="no-assignments">You have no assigned recipients for this event.</p>
+      <% else %>
+        <ul>
+          <% @recipients_for_current_user.each do |entry| %>
+            <% next if entry.recipient.nil? %>
+
+            <li>
+              <strong><%= entry.recipient.username %></strong>
+
+              <% if entry.gift %>
+                — Gift: <%= entry.gift.name %>
+                <%= link_to "Change Gift",
+                            select_gift_event_path(@event.id, entry.recipient.id),
+                            class: "btn choose-gift-btn" %>
+                <%= button_to "Remove Gift",
+                              remove_gift_event_path(@event.id, entry.recipient.id),
+                              method: :post,
+                              class: "btn small-btn danger-btn" %>
+              <% else %>
+                <%= link_to "Choose Gift",
+                            select_gift_event_path(@event.id, entry.recipient.id),
+                            class: "btn choose-gift-btn" %>
+              <% end %>
+            </li>
+
+          <% end %>
+        </ul>
+    <% end %>
+
+    </div>
+
+    <% if @selected_recipient %>
+      <div class="event-card gift-card">
+
+        <!-- TODO: We should limit the gift ideas to 5 and wishlisted items to 3 -->
+        <!-- TODO: Make sure none of their "Ignore" items are listed ever -->
+        <h2>Gift Ideas for <%= @selected_recipient.username %></h2>
+        <p>Budget: <%= number_to_currency(@event.budget) %></p>
+
+        <h3>Wishlisted Options</h3>
+        <% if @wishlist_gifts.empty? %>
+          <p>No wishlisted gifts match your event budget.</p>
+        <% else %>
+          <ul>
+            <% @wishlist_gifts.each do |gift| %>
+              <li>
+                <strong><%= gift.name %></strong> — $<%= gift.price %>
+
+                <!-- TODO: When assigning gift, make sure we take note of the user's budget and how it will be affected -->
+                <%= button_to "Assign This Gift",
+                              assign_gift_event_path(@event.id, @selected_recipient.id, gift.id),
+                              method: :post,
+                              class: "btn assign-gift-btn" %>
+
+                <% if gift.description.present? %>
+                  <p><%= gift.description %></p>
+                <% end %>
+              </li>
+          <% end %>
+          </ul>
+        <% end %>
+
+        <h3>Other Suggestions</h3>
+        <% if @general_suggestions.empty? %>
+          <p>No additional gifts fit the event budget.</p>
+        <% else %>
+          <ul>
+            <% @general_suggestions.each do |gift| %>
+              <li>
+                <strong><%= gift.name %></strong> — $<%= gift.price %>
+
+                <!-- TODO: We want the recommended gifts to come from AI and / or their likes/dislikes -->
+                <%= button_to "Assign This Gift",
+                              assign_gift_event_path(@event.id, @selected_recipient.id, gift.id),
+                              method: :post,
+                              class: "btn assign-gift-btn" %>
+
+                <% if gift.description.present? %>
+                  <p><%= gift.description %></p>
+                <% end %>
+              </li>
+          <% end %>
+          </ul>
+        <% end %>
+        <!-- TODO: Add "Add Gift" option if you do not see any good gifts listed -->
+
+      </div>
+    <% end %>
+
+  </div>
+
 </div>

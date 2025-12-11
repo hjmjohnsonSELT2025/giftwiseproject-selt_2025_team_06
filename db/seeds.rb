@@ -322,24 +322,25 @@ end
 
 gift_giver_entries = [
   # Event 1 assignments
-  { event_id: 1, user_id: 1, recipient_id: 2, gift_id: 1 },
-  { event_id: 1, user_id: 2, recipient_id: 3, gift_id: 2 },
+  { event_id: 1, user_id: 1, recipient_id: 2 },
+  { event_id: 1, user_id: 2, recipient_id: 3 },
 
   # Event 2 assignments
-  { event_id: 2, user_id: 2, recipient_id: 1, gift_id: 3 },
-  { event_id: 2, user_id: 3, recipient_id: 1, gift_id: 4 },
+  { event_id: 2, user_id: 2, recipient_id: 1 },
+  { event_id: 2, user_id: 3, recipient_id: 1 },
 
   # Event 3 assignments
-  { event_id: 3, user_id: 3, recipient_id: 2, gift_id: 5 },
-  { event_id: 3, user_id: 1, recipient_id: 3, gift_id: 1 },
+  { event_id: 3, user_id: 3, recipient_id: 2 },
+  { event_id: 3, user_id: 1, recipient_id: 3 },
 
   # Event 4 assignments
-  { event_id: 4, user_id: 1, recipient_id: 3, gift_id: 2 },
-  { event_id: 4, user_id: 3, recipient_id: 2, gift_id: 3 },
+  { event_id: 4, user_id: 1, recipient_id: 3 },
+  { event_id: 4, user_id: 3, recipient_id: 2 },
+  { event_id: 4, user_id: 3, recipient_id: 1 },
 
   # Event 5 assignments
-  { event_id: 5, user_id: 2, recipient_id: 3, gift_id: 4 },
-  { event_id: 5, user_id: 3, recipient_id: 1, gift_id: 5 }
+  { event_id: 5, user_id: 2, recipient_id: 3 },
+  { event_id: 5, user_id: 3, recipient_id: 1 }
 ]
 
 gift_giver_entries.each do |entry|
