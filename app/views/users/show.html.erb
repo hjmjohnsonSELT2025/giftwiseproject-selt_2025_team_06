@@ -106,14 +106,11 @@ display: flex;
 
         });
     </script>
-          <!--    Reset password button-->
-    <button type="button" class="btn btn-warning" id="change-password-btn" style="background-color: #ffcc00; padding: 12px 28px;
+          <!--    Change password button-->
+    <%= link_to "Change Password", change_password_path, style: "background-color: #ffcc00; padding: 12px 28px;
       border-radius: 8px;
       text-decoration: none;
-      font-size: 1.1rem;"
-            data-bs-toggle="modal" data-bs-target="#changePasswordModal">
-      Reset Password
-    </button>
+      font-size: 1.1rem;" %>
   </div>
 
   <h2 style="border-bottom: 2px solid #ccc; padding-bottom: 5px; margin-bottom: 10px;"> Likes/Dislikes</h2>

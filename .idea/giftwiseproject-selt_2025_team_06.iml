@@ -67,6 +67,7 @@
     <orderEntry type="library" scope="PROVIDED" name="logger (v1.7.0, Remote: ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="loofah (v2.24.1, Remote: ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mail (v2.9.0, Remote: ruby-3.3.8-p144) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="mailtrap (v2.5.0, Remote: ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="marcel (v1.1.0, Remote: ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="matrix (v0.4.3, Remote: ruby-3.3.8-p144) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="memoist3 (v1.0.0, Remote: ruby-3.3.8-p144) [gem]" level="application" />

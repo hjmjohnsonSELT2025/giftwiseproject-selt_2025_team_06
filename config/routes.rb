@@ -27,6 +27,10 @@ Rails.application.routes.draw do
   get "/recovery/reset", to: "recovery#edit", as: :'recovery_reset'
   patch "/recovery/reset", to: "recovery#update"
 
+  #Change Password
+  patch '/change_password', to: 'users#update_password', as: :change_password
+  get '/change_password', to: 'users#change_password'  # page itself
+
 
   get 'events/:id', to: 'events#show', as: 'event'
   post 'events/:id/invite', to: 'events#invite', as: 'invite_event'
