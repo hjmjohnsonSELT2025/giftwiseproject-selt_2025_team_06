@@ -1,5 +1,7 @@
-<h1 class="page-title">Your Friends</h1>
-
+<div class="page-container">
+<h1 class="page-title">
+  <%= current_user.username %>’s Friends
+</h1>
 <!-- Flash Messages -->
 <% flash.each do |type, message| %>
   <div class="flash <%= type %>">
@@ -10,14 +12,12 @@
 <!-- Add Friend -->
 <section class="card">
   <h2>Add a Friend</h2>
-
-  <%= form_with url: friendships_path, method: :post, local: true, class: "inline-form" do %>
-    <div class="form-group">
+  <%= form_with url: friendships_path, method: :post, local: true do %>
+    <div class="add-friend-row">
       <%= label_tag :username, "Friend's Username" %>
       <%= text_field_tag :username, nil, placeholder: "Enter username" %>
+      <%= submit_tag "Add Friend", class: "btn" %>
     </div>
-
-    <%= submit_tag "Add Friend", class: "btn" %>
   <% end %>
 </section>
 
@@ -31,7 +31,7 @@
         <li class="list-item">
           <span class="username"><%= friend.username %></span>
 
-          <%= button_to "Remove",
+          <%= button_to "Remove Friend",
                         friendship_path(
                           Friendship.find_by(
                             user_id: [current_user.id, friend.id],
@@ -51,10 +51,13 @@
 
 <!-- Incoming Requests -->
 <section class="card">
-  <h2>
+  <h2 class="section-header">
     Friend Requests
-    <span class="badge"><%= @incoming_requests.count %></span>
+    <% if @incoming_requests.any? %>
+      <span class="badge">!</span>
+    <% end %>
   </h2>
+
   <% if @incoming_requests.any? %>
     <ul class="list">
       <% @incoming_requests.each do |request| %>
@@ -66,7 +69,7 @@
                           friendship_path(request),
                           method: :patch,
                           params: { status: "accepted" },
-                          class: "btn" %>
+                          class: "btn-success" %>
 
             <%= button_to "Decline",
                           friendship_path(request),
@@ -80,6 +83,7 @@
     <p class="muted">No pending requests.</p>
   <% end %>
 </section>
+</div>
 
 <style>
     .page-title {
@@ -150,8 +154,8 @@
 
     .btn,
     .btn-danger {
-        min-width: 96px;      /* forces same width */
-        height: 36px;         /* forces same height */
+        min-width: 96px;
+        height: 36px;         =
         padding: 0 14px;
         border-radius: 6px;
         font-weight: 500;
@@ -160,9 +164,65 @@
         align-items: center;
         justify-content: center;
     }
+    .btn-success {
+        min-width: 96px;
+        height: 36px;
+        padding: 0 14px;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 0.9rem;
+
+        background: #16a34a;      /* green */
+        color: white;
+        border: none;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
 
     .muted {
         color: #6b7280;
+    }
+
+    .page-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 24px;
+    }
+    .add-friend-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .add-friend-row label {
+        font-weight: 500;
+    }
+
+    .add-friend-row input[type="text"] {
+        height: 36px;
+        padding: 0 10px;
+    }
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .badge {
+        background: #dc2626;
+        color: white;
+        border-radius: 999px;
+        width: 20px;
+        height: 20px;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 0.75rem;
+        font-weight: bold;
     }
 
 </style>
