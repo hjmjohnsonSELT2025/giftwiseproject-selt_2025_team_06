@@ -29,6 +29,7 @@ end
 
 group :test do
   gem "simplecov", require: false
+  gem "selenium-webdriver"
 end
 
 group :development, :test do
@@ -39,4 +40,5 @@ group :development, :test do
   gem "rspec-expectations"
   gem "rspec-rails"
   gem "rails-controller-testing"
+  gem "dotenv-rails" 
 end

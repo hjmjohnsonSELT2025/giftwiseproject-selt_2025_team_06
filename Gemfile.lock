@@ -142,6 +142,10 @@ GEM
       reline (>= 0.3.8)
     diff-lcs (1.6.2)
     docile (1.4.1)
+    dotenv (3.2.0)
+    dotenv-rails (3.2.0)
+      dotenv (= 3.2.0)
+      railties (>= 6.1)
     drb (2.2.3)
     erb (5.1.3)
     erubi (1.13.1)
@@ -271,6 +275,7 @@ GEM
     regexp_parser (2.11.3)
     reline (0.6.2)
       io-console (~> 0.5)
+    rexml (3.4.4)
     rspec-core (3.13.6)
       rspec-support (~> 3.13.0)
     rspec-expectations (3.13.5)
@@ -291,7 +296,14 @@ GEM
     ruby-vips (2.2.5)
       ffi (~> 1.12)
       logger
+    rubyzip (3.2.2)
     securerandom (0.4.1)
+    selenium-webdriver (4.39.0)
+      base64 (~> 0.2)
+      logger (~> 1.4)
+      rexml (~> 3.2, >= 3.2.5)
+      rubyzip (>= 1.2.2, < 4.0)
+      websocket (~> 1.0)
     simplecov (0.22.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -327,6 +339,7 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
+    websocket (1.2.11)
     websocket-driver (0.8.0)
       base64
       websocket-extensions (>= 0.1.0)
@@ -348,6 +361,7 @@ DEPENDENCIES
   cucumber-rails
   database_cleaner-active_record
   debug
+  dotenv-rails
   image_processing (~> 1.2)
   importmap-rails
   jbuilder
@@ -359,6 +373,7 @@ DEPENDENCIES
   redis (>= 4.0.1)
   rspec-expectations
   rspec-rails
+  selenium-webdriver
   simplecov
   sprockets-rails
   sqlite3 (~> 1.4)
