@@ -7,38 +7,61 @@
   <title>Your Events | GiftWise</title>
   <%= stylesheet_link_tag "default", "data-turbo-track": "reload" %>
   <style>
-    .events-grid{
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-        gap: 16px;
-        margin-top: 20px;
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 30px;
+      margin-bottom: 30px;
+      padding: 0 20px;
     }
 
-    .event-card {
-        background: #ffffff;
-        border-radius: 8px;
-        padding: 16px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        border: 1px solid #eee;
+    .events-grid .event-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border: 1px solid #e0e0e0;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
 
-    .event-card h3 {
-        margin-top: 0;
-        margin-bottom: 8px;
-        font-size: 1.2rem;
-        color: #333;
+    .events-grid .event-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
     }
 
-    .event-detail{
-        font-size: 0.9rem;
-        color: #555;
-        margin-bottom: 6px;
+    .events-grid .event-card h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-size: 1.3rem;
+      color: #333;
+      font-weight: 600;
     }
+
+    .events-grid .event-detail {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+
+    .events-grid .event-detail strong {
+      color: #333;
+      font-weight: 600;
+    }
+
     .events-page-container {
-        max-width: 1100px;
-        margin: 0 auto;        /* Centers the page */
-        padding: 20px;
-        text-align: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .events-page-container h1 {
+      margin-bottom: 10px;
     }
   </style>
 </head>
@@ -70,7 +93,7 @@
             <strong>Theme:</strong> <%= event.theme %>
           </div>
 
-          <%= link_to "View Event", event_path(event), class: "btn btn-default" %>
+          <%= link_to "View Event", event_path(event), class: "btn btn-default", style: "margin-top: 12px; display: inline-block;" %>
         </div>
       <% end %>
     </div>
@@ -79,7 +102,7 @@
     <p>You are not a gift-giver in any events yet.</p>
   <% end %>
 
-  <div>
+  <div style="margin-top: 30px;">
     <%= link_to 'Create New Event', new_event_path, class: "btn btn-default", id: "new_event_button" %>
   </div>
 
