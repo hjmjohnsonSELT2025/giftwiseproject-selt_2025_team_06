@@ -30,6 +30,8 @@ Rails.application.routes.draw do
 
   get 'events/:id', to: 'events#show', as: 'event'
   post 'events/:id/invite', to: 'events#invite', as: 'invite_event'
+  get 'events/:event_id/gift_ideas/recipients', to: 'events/gift_ideas#recipients', defaults: { format: :json }
+  post 'events/:event_id/gift_ideas/generate', to: 'events/gift_ideas#generate', defaults: { format: :json }
   get "/invites", to: "invites#index", as: 'invites'
   post "invites/:id/accept", to: "invites#accept", as: 'accept_invite'
 
