@@ -15,10 +15,13 @@
                       class: "navbar-button" %>
       </li>
       <!--Friends Tab -->
-      <li>
-        <%= link_to "Friends", friendships_path,
-                      method: :get,
-                      class: "navbar-button" %>
+      <li class="nav-item">
+        <%= link_to friendships_path, class: "navbar-button nav-friends" do %>
+          Friends
+          <% if @pending_friend_requests_count.to_i > 0 %>
+            <span class="nav-badge">!</span>
+          <% end %>
+        <% end %>
       </li>
 
       <li>
@@ -41,3 +44,26 @@
     <% end %>
   </ul>
 </nav>
+
+<style>
+    .nav-friends {
+        position: relative;
+    }
+
+    .nav-badge {
+        position: absolute;
+        top: -6px;
+        right: -10px;
+        background: #dc2626;
+        color: white;
+        font-size: 0.7rem;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+
+</style>
