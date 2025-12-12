@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Your Gifts | GiftWise</title>
+  <%= stylesheet_link_tag "default", "data-turbo-track": "reload" %>
+</head>
+
+<body>
+<div class="login-container">
+  <h1>All Gifts</h1>
+
+  <div class="gift-top-buttons">
+    <!-- SORT DROPDOWN -->
+    <div class="gift-dropdown">
+      <details class="dropdown">
+        <summary class="add-gift-btn gift-search-button">Sort ▼</summary>
+
+        <div class="dropdown-menu">
+          <%= link_to "Name (A–Z)", gifts_path(request.query_parameters.merge(sort: "name")), class: "dropdown-item" %>
+          <%= link_to "Price (Low → High)", gifts_path(request.query_parameters.merge(sort: "price")), class: "dropdown-item" %>
+          <%= link_to "Date Added (Newest)", gifts_path(request.query_parameters.merge(sort: "date")), class: "dropdown-item" %>
+          <%= link_to "Upvotes (High → Low)", gifts_path(request.query_parameters.merge(sort: "upvotes")), class: "dropdown-item" %>
+        </div>
+      </details>
+    </div>
+
+    <!-- VIEW DROPDOWN -->
+    <div class="gift-dropdown">
+      <details class="dropdown">
+        <summary class="add-gift-btn gift-search-button">View ▼</summary>
+
+        <div class="dropdown-menu">
+          <%= link_to "Wishlisted", gifts_path(request.query_parameters.merge(view: "wishlisted")), class: "dropdown-item" %>
+          <%= link_to "Ignore",     gifts_path(request.query_parameters.merge(view: "ignore")),     class: "dropdown-item" %>
+          <%= link_to "My Gifts",   gifts_path(request.query_parameters.merge(view: "created")),    class: "dropdown-item" %>
+        </div>
+      </details>
+    </div>
+
+    <!-- SEARCH BOX -->
+    <%= form_with url: gifts_path, method: :get, local: true, class: "gift-search-form" do |f| %>
+      <!-- preserve existing filters -->
+      <% request.query_parameters.each do |key, val| %>
+        <%= hidden_field_tag key, val unless key == "search" %>
+      <% end %>
+
+      <%= f.text_field :search,
+                       value: params[:search],
+                       placeholder: "Search gifts...",
+                       class: "gift-search-input" %>
+
+      <%= f.submit "Search", class: "add-gift-btn gift-search-button" %>
+    <% end %>
+    <%= link_to "Reset Filters", gifts_path, class: "add-gift-btn gift-search-button" %>
+  </div>
+
+  <br />
+
+  <% if @gifts.empty? %>
+    <p>No gifts have been added yet.</p>
+  <% else %>
+
+    <div class="gift-grid">
+      <% @gifts.each do |gift| %>
+        <div class="gift-card">
+
+          <!-- HEADER + STATUS BUTTONS -->
+          <div class="gift-header">
+            <h2 class="gift-title"><%= gift.name %></h2>
+
+            <div class="gift-actions">
+              <% is_wishlisted = @user_statuses[gift.id] == @wishlisted_status&.id %>
+
+              <%= button_to toggle_wishlisted_gift_path(gift.id, page: @page),
+                            method: :post,
+                            class: "star-button action-btn" do %>
+                <% if is_wishlisted %>
+                  <span class="gift-star filled">★</span>
+                <% else %>
+                  <span class="gift-star">☆</span>
+                <% end %>
+              <% end %>
+
+              <% is_ignored = @user_statuses[gift.id] == @ignored_status&.id %>
+
+              <%= button_to toggle_ignored_gift_path(gift.id, page: @page),
+                            method: :post,
+                            class: "x-button action-btn" do %>
+                <% if is_ignored %>
+                  <span class="gift-x filled">✘</span>
+                <% else %>
+                  <span class="gift-x">✘</span>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- PRICE + DESCRIPTION -->
+          <p class="gift-price"><%= number_to_currency(gift.price) %></p>
+          <p class="gift-description-preview"><%= gift.description %></p>
+
+          <!-- VIEW + UPVOTE ROW -->
+          <div class="gift-bottom-row"
+               style="margin-top: 10px; display: flex; align-items: center; justify-content: space-between;">
+
+            <!-- View Item -->
+            <div class="gift-link">
+              <%= link_to "View Item",
+                          gift_path(gift, request.query_parameters),
+                          class: "add-gift-btn" %>
+            </div>
+
+            <!-- Voting -->
+            <div class="upvote-section" style="display: flex; align-items: center; gap: 10px;">
+              <% user_vote = UserGiftVote.find_by(user: current_user, gift: gift)&.vote %>
+
+              <!-- Downvote -->
+              <%= button_to downvote_gift_path(gift.id),
+                            method: :post,
+                            class: "vote-btn" do %>
+                <% if user_vote == -1 %>
+                  <span style="font-size: 22px;">🔽</span>
+                <% else %>
+                  <span style="font-size: 22px; opacity: 0.4;">🔽</span>
+                <% end %>
+              <% end %>
+
+              <!-- Vote Count -->
+              <span style="font-size: 18px; font-weight: bold;">
+                <%= gift.upvotes %> votes
+              </span>
+
+              <!-- Upvote -->
+              <%= button_to upvote_gift_path(gift.id),
+                            method: :post,
+                            class: "vote-btn" do %>
+                <% if user_vote == 1 %>
+                  <span style="font-size: 22px;">🔼</span>
+                <% else %>
+                  <span style="font-size: 22px; opacity: 0.4;">🔼</span>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- Creator -->
+          <p class="gift-date">
+            Added on <%= gift.created_at.strftime("%Y-%m-%d") %> by <%= gift.creator.username %>
+          </p>
+        </div>
+      <% end %>
+    </div>
+
+  <% end %>
+
+  <% if @total_pages > 1 %>
+    <div class="pagination-controls" style="text-align: center; margin-top: 2rem;">
+
+      <% if @page > 1 %>
+        <%= link_to "← Previous",
+                    gifts_path(request.query_parameters.merge(page: @page - 1)),
+                    class: "add-gift-btn",
+                    style: "margin-right: 10px;" %>
+      <% end %>
+
+      <span style="font-size: 1.2rem; font-weight: 600;">
+        Page <%= @page %> of <%= @total_pages %>
+      </span>
+
+      <% if @page < @total_pages %>
+        <%= link_to "Next →",
+                    gifts_path(request.query_parameters.merge(page: @page + 1)),
+                    class: "add-gift-btn",
+                    style: "margin-left: 10px;" %>
+      <% end %>
+
+    </div>
+  <% end %>
+
+  <br />
+  <div class="add-gift-btn-container">
+    <a href="<%= new_gift_path %>" class="add-gift-btn">+ Add New Gift</a>
+  </div>
+
+</div>
+</body>
+</html>

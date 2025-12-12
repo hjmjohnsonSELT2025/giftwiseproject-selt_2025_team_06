@@ -13,6 +13,21 @@
   <%= javascript_importmap_tags %>
 </head>
 
+<script>
+    // Save scroll position before redirecting
+    document.addEventListener("turbo:before-visit", () => {
+        sessionStorage.setItem("scrollPosition", window.scrollY);
+    });
+
+    // Restore scroll position after the page reloads
+    document.addEventListener("turbo:load", () => {
+        const pos = sessionStorage.getItem("scrollPosition");
+        if (pos !== null) {
+            window.scrollTo(0, parseInt(pos, 10));
+            sessionStorage.removeItem("scrollPosition");
+        }
+    });
+</script>
 <body>
 <!-- Displaying our Navbar only if we have a user logged in -->
 <% if session[:user_id] %>
