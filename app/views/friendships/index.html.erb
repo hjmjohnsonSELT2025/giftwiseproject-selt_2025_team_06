@@ -1,0 +1,73 @@
+<h1>Your Friends</h1>
+
+<!-- Add Friend -->
+<section class="friends-section">
+  <h2>Add a Friend</h2>
+
+  <%= form_with url: friendships_path, method: :post, local: true do |f| %>
+    <%= label_tag :username, "Friend's Username" %>
+    <%= text_field_tag :username %>
+    <%= submit_tag "Add Friend", class: "btn" %>
+  <% end %>
+</section>
+
+<hr>
+
+<!-- Friends List -->
+<section class="friends-section">
+  <h2>Friends</h2>
+
+  <% if @friends.any? %>
+    <ul>
+      <% @friends.each do |friend| %>
+        <li>
+          <%= friend.username %>
+
+          <%= button_to "Remove",
+                        friendship_path(
+                          Friendship.find_by(
+                            user_id: [current_user.id, friend.id],
+                            friend_id: [current_user.id, friend.id]
+                          )
+                        ),
+                        method: :delete,
+                        class: "btn-danger" %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>You don’t have any friends yet.</p>
+  <% end %>
+</section>
+
+<hr>
+
+<!-- Incoming Requests -->
+<section class="friends-section">
+  <h2>Friend Requests</h2>
+
+  <% if @incoming_requests.any? %>
+    <% @incoming_requests.each do |request| %>
+      <p>
+        <%= request.user.username %>
+
+        <%= button_to "Accept",
+                      friendship_path(request),
+                      method: :patch,
+                      params: { status: "accepted" },
+                      class: "btn" %>
+
+        <%= button_to "Decline",
+                      friendship_path(request),
+                      method: :delete,
+                      class: "btn-danger" %>
+      </p>
+    <% end %>
+  <% else %>
+    <p>No pending requests.</p>
+  <% end %>
+</section>
+
+<style>
+
+</style>

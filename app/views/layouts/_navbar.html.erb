@@ -14,6 +14,12 @@
                       method: :get,
                       class: "navbar-button" %>
       </li>
+      <!--Friends Tab -->
+      <li>
+        <%= link_to "Friends", friendships_path,
+                      method: :get,
+                      class: "navbar-button" %>
+      </li>
 
       <li>
         <%= button_to "Profile", user_path(current_user.id),

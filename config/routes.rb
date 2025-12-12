@@ -38,4 +38,7 @@ Rails.application.routes.draw do
   resources :user_preferences, only: [:create, :destroy]
   get "/preferences", to: "preferences#index", as: :preferences
   post "/preferences/bulk_save", to: "preferences#bulk_save", as: :bulk_save_preferences
+
+  resources :friendships, only: %i[index create update destroy]
+
 end
