@@ -1,1 +1,78 @@
-<!-- TODO: Implement an add page for aligning gifts to recipients at the event -->
+<div class="add-gift-wrapper">
+
+  <div class="add-gift-card gift-card">
+
+    <div class="event-header-row">
+      <h1>Gift Ideas for <%= @selected_recipient.username %></h1>
+      <div class="add-gift-fallback" style="margin-top: 20px;">
+        <p>Don’t like what you see?</p>
+        <%= link_to "Add New Gift",
+                    new_gift_path(
+                      event_id: @event.id,
+                      recipient_id: @selected_recipient.id
+                    ),
+                    class: "add-gift-btn" %>
+      </div>
+    </div>
+    <div class="event-detail">
+      <h4><strong>Event:</strong> <%= @event.title %></h4>
+      <h4><strong>Budget:</strong> <%= number_to_currency(@event.budget) %></h4>
+    </div>
+
+    <h2>Wishlisted Options</h2>
+
+    <% if @wishlist_gifts.empty? %>
+      <p>No wishlisted gifts match your event budget.</p>
+    <% else %>
+      <div class="gift-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+        <% @wishlist_gifts.each do |gift| %>
+          <div class="gift-card">
+            <strong><%= gift.name %></strong>
+            <p><%= gift.description %></p>
+            <div class="gift-price"><%= number_to_currency(gift.price) %> (<%= gift.upvotes %> upvotes)</div>
+
+            <%= button_to "Assign This Gift",
+                          assign_gift_event_path(
+                            @event,
+                            recipient_id: @selected_recipient.id,
+                            gift_id: gift.id
+                          ),
+                          method: :post,
+                          class: "add-btn" %>
+          </div>
+        <% end %>
+      </div>
+  <% end %>
+
+    <h2>Other Suggestions</h2>
+
+    <% if @general_suggestions.empty? %>
+      <p>No additional gifts fit the event budget.</p>
+    <% else %>
+      <div class="gift-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+        <% @general_suggestions.each do |gift| %>
+          <div class="gift-card">
+            <strong><%= gift.name %></strong>
+            <p><%= gift.description %></p>
+            <div class="gift-price"><%= number_to_currency(gift.price) %> (<%= gift.upvotes %> upvotes)</div>
+
+            <%= button_to "Assign This Gift",
+                          assign_gift_event_path(
+                            @event,
+                            recipient_id: @selected_recipient.id,
+                            gift_id: gift.id
+                          ),
+                          method: :post,
+                          class: "add-btn" %>
+          </div>
+        <% end %>
+      </div>
+  <% end %>
+
+    <div style="margin-top: 20px;">
+      <%= link_to "Cancel", event_path(@event), class: "back-link" %>
+    </div>
+
+  </div>
+
+</div>

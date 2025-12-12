@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   post "/gifts/:id/upvote",   to: "gifts#upvote",   as: "upvote_gift"
   post "/gifts/:id/downvote", to: "gifts#downvote", as: "downvote_gift"
 
+  get "events/:id/add", to: "events#add", as: "add_event_gift"
   get "events/:id/select_gift/:recipient_id", to: "events#show", as: "select_gift_event"
   post "events/:id/assign_gift/:recipient_id/:gift_id", to: "events#assign_gift", as: "assign_gift_event"
   post "events/:id/remove_gift/:recipient_id", to: "events#remove_gift", as: "remove_gift_event"

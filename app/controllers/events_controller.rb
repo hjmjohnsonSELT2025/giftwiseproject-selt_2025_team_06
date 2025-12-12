@@ -2,6 +2,8 @@
 class EventsController < ApplicationController
   # before_action :set_user, only: %i[ show edit update destroy ]
   # before_action :require_login
+  MAX_TOTAL_GIFTS = 5
+  MAX_WISHLIST_GIFTS = 3
 
   # GET /users or /users.json
   def index
@@ -23,21 +25,6 @@ class EventsController < ApplicationController
     @gift_giver_entries = GiftGiver.where(event_id: @event.id)
     @recipients_for_current_user = @gift_giver_entries.where(user_id: current_user.id).includes(:recipient, :gift)
     @givers_for_current_user = @gift_giver_entries.where(recipient_id: current_user.id).includes(:user, :gift)
-
-    # Finding wishlisted and ignored gifts based on the current user's recipient
-    if params[:recipient_id]
-      @selected_recipient = User.find(params[:recipient_id])
-
-      # Based off of the budget and status of gifts
-      budget = @event.budget.to_f
-      wishlisted_status = GiftStatus.find_by(status_name: "Wishlisted")
-      ignored_status    = GiftStatus.find_by(status_name: "Ignore")
-      @wishlist_gifts = Gift.joins(:user_gift_statuses).where(user_gift_statuses: { user_id: @selected_recipient.id, status_id: wishlisted_status&.id }).where("price <= ?", budget)
-      ignored_ids = Gift.joins(:user_gift_statuses).where(user_gift_statuses: { user_id: @selected_recipient.id, status_id: ignored_status&.id }).pluck(:id)
-
-      # Generating our suggestions based on the preferences
-      @general_suggestions = Gift.where("price <= ?", budget).where.not(id: ignored_ids).limit(10)
-    end
   end
 
   def assign_gift
@@ -119,6 +106,22 @@ class EventsController < ApplicationController
       flash[:alert] = "Failed to create event"
       redirect_to new_event_path
     end
+  end
+
+  def add
+    @event = Event.find(params[:id])
+    @selected_recipient = User.find(params[:recipient_id])
+
+    # Based off of the budget and status of gifts
+    budget = @event.budget.to_f
+    wishlisted_status = GiftStatus.find_by(status_name: "Wishlisted")
+    wishlisted_ids = Gift.joins(:user_gift_statuses).where(user_gift_statuses: { user_id: @selected_recipient.id, status_id: wishlisted_status&.id }).pluck(:id)
+    ignored_status    = GiftStatus.find_by(status_name: "Ignore")
+    ignored_ids = Gift.joins(:user_gift_statuses).where(user_gift_statuses: { user_id: @selected_recipient.id, status_id: ignored_status&.id }).pluck(:id)
+
+    # Generating our suggestions based on the preferences
+    @wishlist_gifts = Gift.joins(:user_gift_statuses).where(user_gift_statuses: { user_id: @selected_recipient.id, status_id: wishlisted_status&.id }).where("price <= ?", budget).limit(MAX_WISHLIST_GIFTS)
+    @general_suggestions = Gift.where("price <= ?", budget).where.not(id: ignored_ids).where.not(id: wishlisted_ids).limit(MAX_TOTAL_GIFTS)
   end
 
   # Remove Attendee from event
