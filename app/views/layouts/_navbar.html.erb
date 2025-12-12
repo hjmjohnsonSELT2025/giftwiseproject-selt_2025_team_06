@@ -1,6 +1,10 @@
 <nav class="navbar">
-  <div class="navbar-left">
-    <%= link_to "GiftWise", events_path, class: "navbar-brand" %>
+  <div>
+    <% if current_user %>
+      <%= link_to "GiftWise", events_path, class: "navbar-brand" %>
+    <% else %>
+      <%= link_to "GiftWise", root_path, class: "navbar-brand" %>
+    <% end %>
   </div>
 
   <ul class="navbar-links">
