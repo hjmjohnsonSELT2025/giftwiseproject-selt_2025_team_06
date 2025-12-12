@@ -20,6 +20,29 @@ describe EventsController do
       expect(flash[:alert]).to eq('Please fill out all the fields')
     end
   end
+
+  describe 'attendees page' do
+    let(:host) { User.create!(username: "host", email: "host@example.com", password: "password") }
+    let(:event) { Event.create!(title: "Holiday Party", event_date: Date.today, location: "Clubhouse", budget: 100, theme: "Festive", user: host) }
+    let(:giver) { User.create!(username: "giver", email: "giver@example.com", password: "password") }
+    let(:recipient) { User.create!(username: "recipient", email: "recipient@example.com", password: "password") }
+
+    before do
+      GiftGiver.create!(event: event, user: giver, recipients: "[]")
+      Invite.create!(event: event, user: recipient, status: "accepted")
+    end
+
+    it 'renders the attendees template' do
+      get :attendees, params: { id: event.id }
+      expect(response).to render_template(:attendees)
+    end
+
+    it 'shows gift givers and recipients in the response body' do
+      get :attendees, params: { id: event.id }
+      expect(response.body).to include("giver")
+      expect(response.body).to include("recipient")
+    end
+  end
 end
 
 # Here, we will add out search features as well alongsids the events controller
