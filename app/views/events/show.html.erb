@@ -35,12 +35,10 @@
               <span><strong><%= attendee.username %></strong> is going</span>
 
               <% if current_user.id == @event.user_id %>
-                <%= button_to "Remove",
-                              remove_attendee_event_path(@event, user_id: attendee.id),
+                <%= button_to remove_attendee_event_path(@event, user_id: attendee.id),
                               method: :delete,
                               local: true do  %>
-                  <%= hidden_field_tag :user_id, attendee.id %>
-                  <%= submit_tag "Remove Attendee" %>
+                  Remove Attendee
                 <% end %>
               <% end %>
             </li>
