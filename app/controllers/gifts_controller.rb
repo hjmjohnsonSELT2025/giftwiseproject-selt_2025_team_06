@@ -1,4 +1,6 @@
 class GiftsController < ApplicationController
+  before_action :require_login
+
   def index
     @gifts = Gift.all
 

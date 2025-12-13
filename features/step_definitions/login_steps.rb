@@ -26,7 +26,7 @@ When(/^I enter (.*) in the password box$/) do |password|
 end
 
 When(/^I press the “Log In” button$/) do
-  click_button 'Log In'
+  click_button 'Log_In'
 end
 
 Then(/^I should be taken to the home page$/) do

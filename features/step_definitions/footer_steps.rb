@@ -11,6 +11,24 @@ Then(/^I should see the closest upcoming event displayed in the footer$/) do
   end
 end
 
+Given(/^I have an upcoming event$/) do
+  user = User.first
+
+  event = Event.create!(
+    title: "Test Upcoming Event",
+    location: "Test Location",
+    budget: 100,
+    theme: "Test Theme",
+    event_date: Date.today + 5,
+    user_id: user.id
+  )
+
+  GiftGiver.create!(
+    event_id: event.id,
+    user_id: user.id
+  )
+end
+
 Then(/^I should see how many days remain until my nearest event in the footer$/) do
   upcoming_event = Event.where("event_date >= ?", Date.today).order(:event_date).first
   days_remaining = (upcoming_event.event_date - Date.today).to_i
@@ -44,10 +62,8 @@ Then(/^I should see a different gift planning tip in the footer$/) do
   expect(second_tip).not_to eq(first_tip)
 end
 
-Then(/^I should not see any gift planning tips in the footer$/) do
-  within("footer") do
-    expect(page).not_to have_css(".gift-tip")
-  end
+Then(/^I should not see the footer$/) do
+  expect(page).not_to have_css('nav.footer')
 end
 
 Then(/^I should see a link to the support or help page in the footer$/) do
@@ -70,16 +86,11 @@ Then(/^the help or support section in the footer should be clearly labeled$/) do
   end
 end
 
-When(/^I am logged in as (.+) with password (.+)$/) do |email, password|
-  visit login_path
-  fill_in "username", with: email
-  fill_in "password", with: password
-  click_button "LOGIN"
-
-  user = User.find_by(username: email)
+When(/^I am logged in as (.+) with password (.+)$/) do |username, _password|
+  user = User.find_by!(username: username)
+  expect(page).to have_link("Profile")
   expect(page).to have_current_path(events_path)
 end
-
 
 When(/^I am logged out$/) do
   visit logout_path

@@ -11,7 +11,7 @@ Given(/^a user exists with username "(.*)" email "(.*)" and password "(.*)"$/) d
     visit login_path
     fill_in "username", with: username
     fill_in "password", with: "password"
-    click_button "Log In"
+    click_button "Log_In"
   end
   
   Given(/^the following preferences exist:$/) do |table|

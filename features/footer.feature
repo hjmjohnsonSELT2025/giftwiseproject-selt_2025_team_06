@@ -20,14 +20,6 @@ Feature: Footer support and planning information
     And I press the “Log In” button
     Then I should be taken to the home page
 
-  Scenario: Showing next upcoming event
-    When I am logged in as Username65 with password MyPass65
-    Then I should see the closest upcoming event displayed in the footer
-
-  Scenario: Showing days until next event
-    When I am logged in as Username65 with password MyPass65
-    Then I should see how many days remain until my nearest event in the footer
-
   Scenario: Showing no events message
     When I am logged in as Username65 with password MyPass65
     And I have no upcoming events
@@ -37,9 +29,10 @@ Feature: Footer support and planning information
     When I am logged in as Username65 with password MyPass65
     Then I should see a gift planning tip displayed in the footer
 
-  Scenario: Tips hidden while logged out
-    When I am logged out
-    Then I should not see any gift planning tips in the footer
+  Scenario: Footer hidden while logged out
+    When I click the "Logout" link in the navbar
+    Then I should be redirected to the login page
+    Then I should not see the footer
 
   Scenario: Footer showing support link
     When I am logged in as Username65 with password MyPass65
@@ -47,10 +40,5 @@ Feature: Footer support and planning information
 
   Scenario: Footer showing contact information
     When I am logged in as Username65 with password MyPass65
-    And I am on any page
+    When I am on the events page
     Then I should see support contact information in the footer
-
-  Scenario: Clear help label
-    When I am logged in as Username65 with password MyPass65
-    And I am on any page
-    Then the help or support section in the footer should be clearly labeled

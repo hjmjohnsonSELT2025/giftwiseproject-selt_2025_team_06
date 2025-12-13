@@ -1,5 +1,6 @@
 # This controller is used for handling Account Recovery / Checks
 class RecoveryController < ApplicationController
+  before_action :require_login
 
   # when the user opens the reset page
   def new

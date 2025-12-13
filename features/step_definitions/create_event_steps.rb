@@ -13,7 +13,7 @@ Given(/^that I am logged in with username "(.*)"$/) do |username|
   visit login_path
   fill_in 'username', with: username
   fill_in 'password', with: '12345678'
-  click_button 'Log In'
+  click_button 'Log_In'
 end
 
 Given(/^that I am on the event creation page$/) do
