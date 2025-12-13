@@ -2,11 +2,14 @@
     box-sizing: border-box;
 }
 
+html, body {
+    height: 100%;
+}
+
 body {
-    font-family: system-ui, -apple-system, sans-serif;
-    background: #f0f2f5;
-    margin: 0;
-    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 body.login-page {
@@ -129,8 +132,6 @@ body.login-page {
     color: white;
     text-decoration: none;
     transition: opacity 0.25s ease, transform 0.25s ease;
-    -webkit-text-stroke: 2px black;
-    text-stroke: 2px black;
 }
 
 
@@ -179,7 +180,7 @@ body.login-page {
 .footer {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     padding: 3rem 6rem;
-    margin-top: 5rem;
+    margin-top: auto;
     border-top: 3px solid #eaeaea;
     box-shadow: 0 -4px 14px rgba(0,0,0,0.08);
 }

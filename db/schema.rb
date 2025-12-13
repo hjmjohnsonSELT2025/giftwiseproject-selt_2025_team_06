@@ -110,6 +110,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_08_202646) do
     t.string "email", null: false
     t.string "username", null: false
     t.string "password_digest", null: false
+    t.string "first_name", default: ""
+    t.string "last_name", default: ""
     t.text "likes", default: "[]"
     t.text "dislikes", default: "[]"
     t.date "birthdate"

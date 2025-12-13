@@ -1,12 +1,7 @@
-<!-- app/views/sessions/new.html.erb -->
-<!-- This is the login page, creating a new session each time -->
+<!-- app/views/events/index.html.erb -->
+<!-- This is the events index page with filters, sorting, and event cards -->
 
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Your Events | GiftWise</title>
-  <%= stylesheet_link_tag "default", "data-turbo-track": "reload" %>
-  <style>
+<style>
     .events-grid{
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -34,14 +29,150 @@
         color: #555;
         margin-bottom: 6px;
     }
-    .events-page-container {
-        max-width: 1100px;
-        margin: 0 auto;        /* Centers the page */
-        padding: 20px;
-        text-align: center;
+
+    .filters-wrapper {
+        display: flex;
+        align-items: flex-end;
+        gap: 20px;
+        width: 100%;
+        margin: 20px 0;
     }
-  </style>
-</head>
+
+    .filters-bar {
+        display: flex;
+        flex-wrap: wrap;
+        flex: 1;
+        gap: 16px;
+        align-items: flex-end;
+
+        background: #f8f9fc;
+        padding: 16px 20px;
+        border-radius: 12px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        min-width: 160px;
+    }
+
+    .filter-group label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 4px;
+        color: #444;
+    }
+
+    .filter-group input,
+    .filter-group select {
+        height: 44px;
+        padding: 0 14px;
+        border-radius: 12px;
+        border: 1px solid #d0d4ff;
+        background-color: white;
+        font-size: 0.95rem;
+        color: #333;
+
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .filter-actions {
+        display: flex;
+        gap: 12px;
+    }
+
+    .create-event-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        height: 44px;
+        padding: 0 18px;
+
+        background: linear-gradient(135deg, #6d73ff, #7b5cff);
+        color: white;
+
+        border-radius: 12px;
+        border: none;
+        outline: none;
+
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-decoration: none;
+
+        box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+        cursor: pointer;
+
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .create-event-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+    }
+
+    .create-event-left {
+        white-space: nowrap;
+    }
+</style>
+
+<!-- Search Bar / Sort -->
+
+<%= form_with url: events_path, method: :get, local: true do %>
+  <div class="filters-wrapper">
+
+    <!-- Create Event button (left of filters) -->
+    <%= link_to new_event_path, class: "create-event-btn create-event-left" do %>
+      <i class="fa-regular fa-calendar-plus"></i>
+      Create Event
+    <% end %>
+
+    <!-- Filters -->
+    <div class="filters-bar">
+      <div class="filter-group">
+        <label>Search Title</label>
+        <%= text_field_tag :title, params[:title], placeholder: "Surprise Party..." %>
+      </div>
+
+      <div class="filter-group">
+        <label>Created by</label>
+        <%= select_tag :created_by,
+                       options_for_select([["Anyone", ""], ["Me", "me"], ["Not me", "not_me"]], params[:created_by]) %>
+      </div>
+
+      <div class="filter-group">
+        <label for="min_budget">Min Budget</label>
+        <%= number_field_tag :min_budget, params[:min_budget], id: "min_budget", placeholder: "20" %>
+      </div>
+
+      <div class="filter-group">
+        <label for="max_budget">Max Budget</label>
+        <%= number_field_tag :max_budget, params[:max_budget], id: "max_budget", placeholder: "100" %>
+      </div>
+
+      <div class="filter-group">
+        <label>Sort By</label>
+        <%= select_tag :sort_by, options_for_select([["Alphabetical", "name"], ["Date", "date"]], params[:sort_by]), include_blank: true %>
+      </div>
+
+      <div class="filter-group">
+        <label>Order</label>
+        <%= select_tag :direction,
+                       options_for_select([["Ascending", "asc"], ["Descending", "desc"]], params[:direction]),
+                       include_blank: true %>
+      </div>
+
+      <div class="filter-actions">
+        <%= submit_tag "Apply Filters", class: "create-event-btn" %>
+        <%= link_to "Reset Filters", events_path, class: "create-event-btn" %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<!-- Events List -->
 
 <div class="events-page-container">
   <h1>All Events</h1>
@@ -57,32 +188,28 @@
       <% @events.each do |event| %>
         <div class="event-card">
           <h3><%= event.title %></h3>
+
           <div class="event-detail">
             <strong>Date:</strong> <%= event.event_date %>
           </div>
+
           <div class="event-detail">
             <strong>Location:</strong> <%= event.location %>
           </div>
+
           <div class="event-detail">
             <strong>Budget:</strong> $<%= event.budget %>
           </div>
+
           <div class="event-detail">
             <strong>Theme:</strong> <%= event.theme %>
           </div>
 
-          <%= link_to "View Event", event_path(event), class: "btn btn-default" %>
+          <%= link_to "View Event", event_path(event), class: "create-event-btn" %>
         </div>
       <% end %>
     </div>
-
   <% else %>
-    <p>You are not a gift-giver in any events yet.</p>
+    <p>You Currently Have No Events</p>
   <% end %>
-
-  <div>
-    <%= link_to 'Create New Event', new_event_path, class: "btn btn-default", id: "new_event_button" %>
-  </div>
-
 </div>
-</body>
-</html>
