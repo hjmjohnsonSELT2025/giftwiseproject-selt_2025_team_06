@@ -43,15 +43,15 @@ Feature: Managing gift ideas
 
   Scenario: Sorting gifts based on rating
     When I visit the gifts page
-    And I sort gifts by "Upvotes (High → Low)"
+    And I sort gifts by "Upvotes"
     Then "Blanket" should appear before "Pokemon Cards"
     And "Pokemon Cards" should appear before "Bakugan"
 
   Scenario: Sorting gifts based on name
     When I visit the gifts page
-    And I sort gifts by "Name (A–Z)"
-    Then "Bakugan" should appear before "Blanket"
-    And "Blanket" should appear before "Pokemon Cards"
+    And I sort gifts by "Name"
+    Then "Blanket" should appear before "Bakugan"
+    And "Pokemon Cards" should appear before "Blanket"
 
   Scenario: Sorting gifts based on search
     When I visit the gifts page
