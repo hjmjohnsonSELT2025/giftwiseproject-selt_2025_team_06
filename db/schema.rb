@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_12_08_202646) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_13_195357) do
   create_table "events", force: :cascade do |t|
     t.string "title"
     t.date "event_date"
@@ -72,6 +72,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_08_202646) do
     t.index ["name"], name: "index_preferences_on_name", unique: true
   end
 
+  create_table "recipients", force: :cascade do |t|
+    t.integer "event_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id", "user_id"], name: "index_recipients_on_event_id_and_user_id", unique: true
+    t.index ["event_id"], name: "index_recipients_on_event_id"
+    t.index ["user_id"], name: "index_recipients_on_user_id"
+  end
+
   create_table "user_gift_statuses", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "gift_id", null: false
@@ -110,8 +120,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_08_202646) do
     t.string "email", null: false
     t.string "username", null: false
     t.string "password_digest", null: false
-    t.string "first_name", default: ""
-    t.string "last_name", default: ""
     t.text "likes", default: "[]"
     t.text "dislikes", default: "[]"
     t.date "birthdate"
@@ -134,6 +142,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_08_202646) do
   add_foreign_key "gifts", "users", column: "creator_id"
   add_foreign_key "invites", "events"
   add_foreign_key "invites", "users"
+  add_foreign_key "recipients", "events"
+  add_foreign_key "recipients", "users"
   add_foreign_key "user_gift_statuses", "gift_statuses", column: "status_id"
   add_foreign_key "user_gift_statuses", "gifts"
   add_foreign_key "user_gift_statuses", "users"
