@@ -12,8 +12,14 @@
 
         <div class="invite-card">
           <div class="invite-info">
-            <h2 class="event-title"><%= event.title %></h2>
 
+            <h2 class="event-title badge-wrapper">
+              <%= event.title %>
+
+              <% if invite.status == "pending" %>
+                <span class="invite-badge">NEW</span>
+              <% end %>
+            </h2>
             <p class="meta">
               <strong>Host:</strong>
               <%= event.host&.username || event.user.username %>
@@ -108,5 +114,21 @@
   cursor: pointer;
   }
 
+  .badge-wrapper {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+  }
+
+  .invite-badge {
+      background: #dc2626;
+      color: white;
+      font-size: 0.65rem;
+      padding: 3px 6px;
+      border-radius: 999px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+  }
 
 </style>
