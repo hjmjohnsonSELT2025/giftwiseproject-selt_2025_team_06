@@ -1,17 +1,15 @@
 <div class="event-wrapper">
+
+  <!-- EVENT DETAILS CARD -->
   <div class="event-card">
 
-    <h1>View Event</h1>
+    <h1><%= @event.title %></h1>
 
     <% if flash[:alert] %>
       <p class="alert"><%= flash[:alert] %></p>
     <% elsif flash[:notice] %>
       <p class="notice"><%= flash[:notice] %></p>
     <% end %>
-
-    <div>
-      <%= link_to "Back to All Events", events_path, class: "btn btn-default" %>
-    </div>
 
     <div class="event-detail">
       <p><strong>Date:</strong> <%= @event.event_date %></p>
@@ -25,23 +23,27 @@
       <% accepted_invites = @event.invites.where(status: "accepted") %>
 
       <% if accepted_invites.empty? %>
-        <p class="no-attendees">  No one is coming yet.</p>
+        <p class="no-attendees">No one is coming yet.</p>
       <% else %>
         <ul class="attendee-list">
           <% accepted_invites.each do |invite| %>
             <% attendee = invite.user %>
             <% next if attendee.nil? %>
+
             <li id="attendee-<%= attendee.username %>" class="attendee-item">
-              <span><strong><%= attendee.username %></strong> is going</span>
+              <span><strong><%= attendee.username %></strong></span>
 
               <% if current_user.id == @event.user_id %>
-                <%= button_to remove_attendee_event_path(@event, user_id: attendee.id),
+                <%= button_to "Remove",
+                              remove_attendee_event_path(@event, user_id: attendee.id),
                               method: :delete,
-                              local: true do  %>
-                  Remove Attendee
+                              local: true do %>
+                  <%= hidden_field_tag :user_id, attendee.id %>
+                  <%= submit_tag "Remove Attendee" %>
                 <% end %>
               <% end %>
             </li>
+
           <% end %>
         </ul>
       <% end %>
@@ -58,5 +60,43 @@
       <% end %>
     </div>
 
+    <div class="invite-container">
+      <h3>Your Gift Assignments</h3>
+      <% if @recipients_for_current_user.empty? %>
+        <p class="no-assignments">You have no assigned recipients for this event.</p>
+      <% else %>
+        <ul class="attendee-list">
+          <% @recipients_for_current_user.each do |entry| %>
+            <% next if entry.recipient.nil? %>
+            <li class="attendee-item">
+            <span>
+              <strong><%= entry.recipient.username %></strong>
+              <% if entry.gift %>
+                — <em><%= entry.gift.name %></em>
+              <% end %>
+            </span>
+              <div>
+                <% if entry.gift %>
+                  <%= button_to "Remove Gift",
+                                remove_gift_event_path(@event.id, entry.recipient.id),
+                                method: :post,
+                                class: "remove-attendee-btn" %>
+                <% else %>
+                  <%= link_to "Choose Gift",
+                              add_event_gift_path(@event, recipient_id: entry.recipient.id),
+                              class: "invite-button" %>
+                <% end %>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div><br />
+
+    <div>
+      <%= link_to "Back to All Events", events_path, class: "btn btn-default" %>
+    </div>
+
   </div>
+
 </div>

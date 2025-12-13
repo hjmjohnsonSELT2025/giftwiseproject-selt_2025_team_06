@@ -15,11 +15,6 @@ Feature: Footer support and planning information
     And I am on the login page
     Then 3 seed users should exist
 
-    When I enter Username65 in the username box
-    And I enter MyPass65 in the password box
-    And I press the “Log In” button
-    Then I should be taken to the home page
-
   Scenario: Showing next upcoming event
     When I am logged in as Username65 with password MyPass65
     Then I should see the closest upcoming event displayed in the footer
