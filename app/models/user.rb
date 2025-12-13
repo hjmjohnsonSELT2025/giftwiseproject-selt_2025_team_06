@@ -25,7 +25,7 @@ class User < ApplicationRecord
 
   # Recipient relationship (user → event)
   has_many :recipients, dependent: :destroy
-  has_many :received_events,
+  has_many :recipient_events,
            through: :recipients,
            source: :event
 
