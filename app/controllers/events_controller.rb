@@ -5,55 +5,8 @@ class EventsController < ApplicationController
 
   # GET /users or /users.json
   def index
-    # Get
-    created_ids = Event.where(user_id: current_user.id).select(:id)
-    invited_ids = GiftGiver.where(user_id: current_user.id).select(:event_id)
-
-    if params[:created_by] == "me"
-      # Events created by me
-      @events = Event.where(user_id: current_user.id)
-
-    elsif params[:created_by] == "not_me"
-      # Events not created by me, but I was invited to
-      @events = Event.where(id: invited_ids).where.not(user_id: current_user.id)
-
-    else
-      # created by me OR invited to ( ANYONE)
-      @events = Event.where(id: created_ids).or(Event.where(id: invited_ids))
-    end
-
-    @events = @events.distinct # Else normal
-
-
-    # Title search
-    if params[:title].present?
-      search = "%#{params[:title].strip.downcase}%"
-      @events = @events.where("LOWER(title) LIKE ?", search)
-    end
-
-    # Filter by min/max budget
-    if params[:min_budget].present?
-      @events = @events.where("budget >= ?", params[:min_budget].to_f)
-    end
-
-    if params[:max_budget].present?
-      @events = @events.where("budget <= ?", params[:max_budget].to_f)
-    end
-
-    # Sorting
-    if params[:sort_by] == "name" && params[:direction] == "asc"
-      @events = @events.order(title: :asc)
-
-    elsif params[:sort_by] == "name" && params[:direction] == "desc"
-      @events = @events.order(title: :desc)
-
-    elsif params[:sort_by] == "date" && params[:direction] == "asc"
-      @events = @events.order(event_date: :asc)
-
-    elsif params[:sort_by] == "date" && params[:direction] == "desc"
-      @events = @events.order(event_date: :desc)
-    end
-
+    @gift_giver_events = current_user.gift_giver_events.distinct
+    @recipient_events = current_user.recipient_events.distinct
   end
 
   # GET /users/new
@@ -83,6 +36,25 @@ class EventsController < ApplicationController
       invite.save!
       flash[:notice] = "You invited #{user.username} to #{@event.title}"
     end
+    redirect_to event_path(@event)
+  end
+
+  def add_recipient
+    @event = Event.find(params[:id])
+    username = params[:username]
+    user = User.find_by(username: username)
+    if user.nil?
+      flash[:alert] = "User not found"
+      redirect_to event_path(@event) and return
+    end
+    recipient = Recipient.find_or_initialize_by(event_id: @event.id, user_id: user.id)
+    if recipient.persisted?
+      flash[:alert] = "That user is already a recipient in this event"
+    else
+      recipient.save!
+      flash[:notice] = "Recipient added successfully"
+    end
+
     redirect_to event_path(@event)
   end
 

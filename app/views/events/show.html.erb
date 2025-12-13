@@ -58,5 +58,16 @@
       <% end %>
     </div>
 
+    <div class="invite-container">
+      <h3>Add a Recipient</h3>
+      <%= form_tag add_recipient_event_path(@event), method: :post, class: "invite-form" do %>
+        <input type="text"
+               name="username"
+               placeholder="Enter recipient username..."
+               class="invite-input" />
+        <button type="submit" class="invite-button">Add Recipient</button>
+      <% end %>
+    </div>
+
   </div>
 </div>
