@@ -183,9 +183,11 @@
     <p class="notice"><%= flash[:notice] %></p>
   <% end %>
 
-  <% if @events.present? %>
+  <h2>Events where you are a Gift-Giver</h2>
+
+  <% if @gift_giver_events.present? %>
     <div class="events-grid">
-      <% @events.each do |event| %>
+      <% @gift_giver_events.each do |event| %>
         <div class="event-card">
           <h3><%= event.title %></h3>
 
@@ -211,5 +213,37 @@
     </div>
   <% else %>
     <p>You Currently Have No Events</p>
+  <% end %>
+
+  <h2 style="margin-top: 30px;">Events where you are a Recipient</h2>
+
+  <% if @recipient_events.present? %>
+    <div class="events-grid">
+      <% @recipient_events.each do |event| %>
+        <div class="event-card">
+          <h3><%= event.title %></h3>
+
+          <div class="event-detail">
+            <strong>Date:</strong> <%= event.event_date %>
+          </div>
+
+          <div class="event-detail">
+            <strong>Location:</strong> <%= event.location %>
+          </div>
+
+          <div class="event-detail">
+            <strong>Budget:</strong> $<%= event.budget %>
+          </div>
+
+          <div class="event-detail">
+            <strong>Theme:</strong> <%= event.theme %>
+          </div>
+
+          <%= link_to "View Event", event_path(event), class: "create-event-btn" %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p>You Currently are not a recipient in any events.</p>
   <% end %>
 </div>
