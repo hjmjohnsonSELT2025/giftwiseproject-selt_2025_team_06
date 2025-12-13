@@ -11,10 +11,9 @@
 
 <!-- Add Friend -->
 <section class="card">
-  <h2>Add a Friend</h2>
+  <h2>Add Friends </h2>
   <%= form_with url: friendships_path, method: :post, local: true do %>
     <div class="add-friend-row">
-      <%= label_tag :username, "Friend's Username" %>
       <%= text_field_tag :username, nil, placeholder: "Enter username" %>
       <%= submit_tag "Add Friend", class: "btn" %>
     </div>

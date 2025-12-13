@@ -50,7 +50,7 @@
     </div>
 
     <div class="invite-container">
-      <h3>Invite a User</h3>
+      <h3>Invite Someone!</h3>
       <%= form_tag invite_event_path(@event), method: :post, class: "invite-form" do %>
         <input type="text"
                name="username"
@@ -60,5 +60,52 @@
       <% end %>
     </div>
 
+    <div class="invite-container">
+      <h3>Invite a Friend</h3>
+
+      <% if @friends_not_coming.any? %>
+        <%= form_with url: invite_friends_event_path(@event),
+                      method: :post,
+                      local: true,
+                      class: "invite-form" do %>
+
+          <div class="friend-scroll">
+            <% @friends_not_coming.each do |friend| %>
+              <label class="friend-row">
+                <%= check_box_tag "friend_ids[]", friend.id %>
+                <span><%= friend.username %></span>
+              </label>
+            <% end %>
+          </div>
+
+          <button type="submit" class="invite-button">
+            Invite Selected Friends
+          </button>
+        <% end %>
+      <% else %>
+        <p class="no-attendees">All your friends are already invited or attending.</p>
+      <% end %>
+    </div>
+
+
+
   </div>
 </div>
+<style>
+    .friend-scroll {
+        max-height: 140px;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 8px;
+        margin-bottom: 10px;
+    }
+
+    .friend-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 0;
+        cursor: pointer;
+    }
+</style>
