@@ -23,6 +23,10 @@ Rails.application.routes.draw do
   get  "/recovery", to: "recovery#new",    as: :'recovery'
   post "/recovery", to: "recovery#create"     # Handles Form Submission
 
+  # Will be changed potentially -- CJ
+  post   "/recipients",     to: "recipients#create",  as: "create_recipient"
+  delete "/recipients/:id", to: "recipients#destroy", as: "delete_recipient"
+
   # Account Recovery Pass reset page
   get "/recovery/reset", to: "recovery#edit", as: :'recovery_reset'
   patch "/recovery/reset", to: "recovery#update"
@@ -53,8 +57,9 @@ Rails.application.routes.draw do
   get "/invites", to: "invites#index", as: 'invites'
   post "invites/:id/accept", to: "invites#accept", as: 'accept_invite'
 
-
   resources :user_preferences, only: [:create, :destroy]
   get "/preferences", to: "preferences#index", as: :preferences
   post "/preferences/bulk_save", to: "preferences#bulk_save", as: :bulk_save_preferences
+
+  match "*path", to: redirect("/events"), via: :all
 end

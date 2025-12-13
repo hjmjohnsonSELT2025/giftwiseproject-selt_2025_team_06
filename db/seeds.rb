@@ -34,7 +34,7 @@ users.each do |user_data|
   end
 end
 
-# Load all seed files from db/seeds/ directory and its subdirectories 
+# Load all seed files from db/seeds/ directory and its subdirectories
 Dir[Rails.root.join("db/seeds/**/*.rb")].sort.each do |seed_file|
   puts "Seeding from #{seed_file}..."
   load seed_file
@@ -318,6 +318,35 @@ events.each do |event_data|
     title: event_data[:title],
     user_id: event_data[:user_id]
   ).update!(event_data)
+end
+
+recipient_entries = [
+  # Event 1
+  { event_id: 1, user_id: 2 },
+  { event_id: 1, user_id: 3 },
+
+  # Event 2
+  { event_id: 2, user_id: 1 },
+
+  # Event 3
+  { event_id: 3, user_id: 2 },
+  { event_id: 3, user_id: 3 },
+
+  # Event 4
+  { event_id: 4, user_id: 1 },
+  { event_id: 4, user_id: 2 },
+  { event_id: 4, user_id: 3 },
+
+  # Event 5
+  { event_id: 5, user_id: 1 },
+  { event_id: 5, user_id: 3 }
+]
+
+recipient_entries.each do |entry|
+  Recipient.find_or_create_by!(
+    event_id: entry[:event_id],
+    user_id: entry[:user_id]
+  )
 end
 
 gift_giver_entries = [

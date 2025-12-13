@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_12_08_202646) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_13_212401) do
   create_table "events", force: :cascade do |t|
     t.string "title"
     t.date "event_date"
@@ -27,11 +27,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_08_202646) do
   create_table "gift_givers", force: :cascade do |t|
     t.integer "event_id", null: false
     t.integer "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.integer "recipient_id"
     t.integer "gift_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_gift_givers_on_event_id"
+    t.index ["gift_id"], name: "index_gift_givers_on_gift_id"
+    t.index ["recipient_id"], name: "index_gift_givers_on_recipient_id"
     t.index ["user_id"], name: "index_gift_givers_on_user_id"
   end
 
@@ -70,6 +72,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_08_202646) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_preferences_on_name", unique: true
+  end
+
+  create_table "recipients", force: :cascade do |t|
+    t.integer "event_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id", "user_id"], name: "index_recipients_on_event_id_and_user_id", unique: true
+    t.index ["event_id"], name: "index_recipients_on_event_id"
+    t.index ["user_id"], name: "index_recipients_on_user_id"
   end
 
   create_table "user_gift_statuses", force: :cascade do |t|
@@ -126,12 +138,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_08_202646) do
   add_foreign_key "events", "users"
   add_foreign_key "gift_givers", "events"
   add_foreign_key "gift_givers", "gifts"
+  add_foreign_key "gift_givers", "recipients"
   add_foreign_key "gift_givers", "users"
-  add_foreign_key "gift_givers", "users", column: "recipient_id"
   add_foreign_key "gifts", "gift_statuses", column: "status_id"
   add_foreign_key "gifts", "users", column: "creator_id"
   add_foreign_key "invites", "events"
   add_foreign_key "invites", "users"
+  add_foreign_key "recipients", "events"
+  add_foreign_key "recipients", "users"
   add_foreign_key "user_gift_statuses", "gift_statuses", column: "status_id"
   add_foreign_key "user_gift_statuses", "gifts"
   add_foreign_key "user_gift_statuses", "users"
