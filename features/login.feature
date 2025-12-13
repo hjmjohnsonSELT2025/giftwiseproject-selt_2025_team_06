@@ -7,10 +7,10 @@ Feature: Logging in to account for website
   Background: Users have already been added to the database
 
     Given the following users exist:
-      | email           | username   | password  | first_name | last_name |
-      | user65@mojo.com | Username65 | MyPass65  | Paul       | Jones     |
-      | user32@mojo.com | Username32 | MyPass32  | Aaron      | Senior    |
-      | user40@mojo.com | Username40 | MyPass40  | Billy      | Bill      |
+      | email           | username   | password  |
+      | user65@mojo.com | Username65 | MyPass65  |
+      | user32@mojo.com | Username32 | MyPass32  |
+      | user40@mojo.com | Username40 | MyPass40  |
 
     And I am on the login page
     Then 3 seed users should exist
