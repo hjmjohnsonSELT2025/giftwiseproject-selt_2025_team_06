@@ -58,7 +58,7 @@
   </h2>
 
   <% if @incoming_requests.any? %>
-    <ul class="list">
+    <ul class="list friend-requests">
       <% @incoming_requests.each do |request| %>
         <li class="list-item">
           <span class="username"><%= request.user.username %></span>

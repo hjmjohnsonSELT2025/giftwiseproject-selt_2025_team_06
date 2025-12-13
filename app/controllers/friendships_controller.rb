@@ -10,10 +10,8 @@ class FriendshipsController < ApplicationController
 
 
   def create
-    Rails.logger.debug "CREATE FRIENDSHIP PARAMS: #{params.inspect}"
 
     friend = User.find_by(username: params[:username])
-    Rails.logger.debug "FOUND FRIEND: #{friend.inspect}"
 
     # 1. Validate user exists
     if friend.nil?
@@ -22,7 +20,7 @@ class FriendshipsController < ApplicationController
 
     # 2. Prevent self-friend
     if friend.id == current_user.id
-      redirect_to friendships_path, alert: "You can’t add yourself" and return
+      redirect_to friendships_path, alert: "Can't add yourself as a friend" and return
     end
 
     # 3. Prevent duplicates (in both directions)

@@ -7,15 +7,6 @@ Given(/^a user exists with username "(.*)" email "(.*)" and password "(.*)"$/) d
     )
   end
   
-  Given(/^I am logged in as "(.*)"$/) do |username|
-    user = User.find_by!(username: username)
-
-    visit login_path
-    fill_in "Username / Email", with: user.username
-    fill_in "Password", with: "password123"
-    click_button "Log In"
-  end
-  
   Given(/^the following preferences exist:$/) do |table|
     table.hashes.each do |row|
       Preference.find_or_create_by!(name: row["name"])

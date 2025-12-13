@@ -11,6 +11,16 @@ Given(/the following users exist/) do |users_table|
   end
 end
 
+Given(/^I am logged in as "(.*)"$/) do |username|
+  @logged_in_username = username # save for test
+  user = User.find_by!(username: username)
+
+  visit login_path
+  fill_in "Username / Email", with: user.username
+  fill_in "Password", with: "password123"
+  click_button "Log In"
+end
+
 Given(/^(?:|I )am on (.+)$/) do |page_name|
   visit path_to(page_name)
 end
