@@ -9,11 +9,17 @@
 
   <ul class="navbar-links">
     <% if current_user %>
-      <li>
-        <%= button_to "Invites", invites_path,
-                      method: :get,
-                      class: "navbar-button" %>
+
+      <li class="nav-item">
+        <%= link_to invites_path,method: :get, class: "navbar-button badge-wrapper" do %>
+          Invites
+          <% if @pending_event_invites_count.to_i > 0 %>
+            <span class="nav-badge">!</span>
+          <% end %>
+        <% end %>
       </li>
+
+
       <!--Friends Tab -->
       <li class="nav-item">
         <%= link_to friendships_path, class: "navbar-button nav-friends" do %>
@@ -46,14 +52,16 @@
 </nav>
 
 <style>
-    .nav-friends {
+    .badge-wrapper {
         position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
     }
-
     .nav-badge {
         position: absolute;
         top: -6px;
-        right: -10px;
+        right: -12px;
         background: #dc2626;
         color: white;
         font-size: 0.7rem;
@@ -64,6 +72,8 @@
         align-items: center;
         justify-content: center;
         font-weight: bold;
+        pointer-events: none;
     }
+
 
 </style>
