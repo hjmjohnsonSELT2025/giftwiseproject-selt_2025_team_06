@@ -4,8 +4,8 @@ Given(/the following users exist/) do |users_table|
       email: user[:email],
       username: user[:username],
       password: user[:password],
-      first_name: user[:first_name],
-      last_name: user[:last_name],
+      # first_name: user[:first_name],
+      # last_name: user[:last_name],
       password_confirmation: user[:password]
     )
   end

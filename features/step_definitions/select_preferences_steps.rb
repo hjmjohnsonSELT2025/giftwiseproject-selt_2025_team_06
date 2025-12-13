@@ -8,9 +8,11 @@ Given(/^a user exists with username "(.*)" email "(.*)" and password "(.*)"$/) d
   end
   
   Given(/^I am logged in as "(.*)"$/) do |username|
+    user = User.find_by!(username: username)
+
     visit login_path
-    fill_in "username", with: username
-    fill_in "password", with: "password"
+    fill_in "Username / Email", with: user.username
+    fill_in "Password", with: "password123"
     click_button "Log In"
   end
   
