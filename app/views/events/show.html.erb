@@ -36,13 +36,11 @@
               <span><strong><%= attendee.username %></strong> is going</span>
 
               <% if current_user.id == @event.user_id %>
-                <%= button_to "Remove",
+                <%= button_to "Remove Attendee",
                               remove_attendee_event_path(@event, user_id: attendee.id),
                               method: :delete,
-                              local: true do  %>
-                  <%= hidden_field_tag :user_id, attendee.id %>
-                  <%= submit_tag "Remove Attendee" %>
-                <% end %>
+                              local: true,
+                              class: "btn btn-danger" %>
               <% end %>
             </li>
           <% end %>
