@@ -47,7 +47,7 @@ Rails.application.routes.draw do
   delete "events/:id/remove_attendee", to: "events#remove_attendee", as: "remove_attendee_event"
   get "/invites", to: "invites#index", as: 'invites'
   post "invites/:id/accept", to: "invites#accept", as: 'accept_invite'
-
+  post "events/:id/add_recipient", to: "events#add_recipient", as: 'add_recipient_event'
 
   resources :user_preferences, only: [:create, :destroy]
   get "/preferences", to: "preferences#index", as: :preferences
