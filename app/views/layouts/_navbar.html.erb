@@ -22,7 +22,7 @@
 
       <!--Friends Tab -->
       <li class="nav-item">
-        <%= link_to friendships_path, class: "navbar-button nav-friends" do %>
+        <%= link_to friendships_path, class: "navbar-button nav-friends badge-wrapper" do %>
           Friends
           <% if @pending_friend_requests_count.to_i > 0 %>
             <span class="nav-badge">!</span>
