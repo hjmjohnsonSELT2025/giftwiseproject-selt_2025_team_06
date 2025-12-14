@@ -17,6 +17,7 @@ gem "bootsnap", require: false
 gem "image_processing", "~> 1.2"
 gem "tzinfo-data", platforms: %i[windows jruby]
 gem 'mailtrap' # Used for Sending Emails
+gem 'ruby-openai'
 
 
 group :development, :test do
