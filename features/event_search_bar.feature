@@ -7,7 +7,7 @@ Feature: Event search and filtering
   Background:
     Given a user exists with username "testuser" email "test@example.com" and password "password"
     And I am currently logged in as "testuser"
-    And the following events exist:
+    And these following events exist:
       | event_name     | event_date  | event_owner    | event_budget |
       | Birthday Party | 2025-11-20  | Sarah Miller   | 50           |
       | Family Dinner  | 2025-12-25  | James Carter   | 250          |

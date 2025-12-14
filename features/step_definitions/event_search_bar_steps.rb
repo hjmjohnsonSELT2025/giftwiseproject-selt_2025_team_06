@@ -1,6 +1,6 @@
 # features/step_definitions/event_search_bar_steps.rb
 
-Given(/^the following events exist:$/) do |table|
+Given(/^these following events exist:$/) do |table|
   table.hashes.each do |row|
     owner = User.find_by(username: row["event_owner"].parameterize)
 
@@ -20,11 +20,11 @@ Given(/^the following events exist:$/) do |table|
       budget: row["event_budget"],
       location: "Test Location",
       theme: "Test Theme",
-      user: owner
+      user_id: owner.id,
+      host_id: owner.id
     )
   end
 end
-
 
 
 Given(/^I am currently logged in as "(.*)"$/) do |username|
