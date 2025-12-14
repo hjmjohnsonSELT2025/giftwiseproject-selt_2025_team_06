@@ -27,6 +27,10 @@ Rails.application.routes.draw do
   get "/recovery/reset", to: "recovery#edit", as: :'recovery_reset'
   patch "/recovery/reset", to: "recovery#update"
 
+  #Change Password
+  patch '/change_password', to: 'users#update_password', as: :change_password
+  get '/change_password', to: 'users#change_password'  # page itself
+
   get "/gifts", to: "gifts#index", as: "gifts"
   get "/gifts/new", to: "gifts#new",   as: "new_gift"
   post "/gifts",     to: "gifts#create", as: "create_gift"
