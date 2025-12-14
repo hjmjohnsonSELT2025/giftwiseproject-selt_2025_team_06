@@ -1,6 +1,9 @@
 # This controller should be used also for account creation
 class EventsController < ApplicationController
   # before_action :set_user, only: %i[ show edit update destroy ]
+  # before_action :require_login
+  MAX_TOTAL_GIFTS = 5
+  MAX_WISHLIST_GIFTS = 3
   before_action :require_login
 
   # GET /users or /users.json
@@ -8,31 +11,22 @@ class EventsController < ApplicationController
     # Get
     created_ids = Event.where(user_id: current_user.id).select(:id)
     invited_ids = GiftGiver.where(user_id: current_user.id).select(:event_id)
-    recipient_ids = Recipient.where(user_id: current_user.id).select(:event_id)
+    recipient_event_ids = GiftGiver.where(recipient_id: current_user.id).select(:event_id)
 
     if params[:created_by] == "me"
-      # Events created by me
       @gift_giver_events = Event.where(user_id: current_user.id)
-
     elsif params[:created_by] == "not_me"
-      # Events not created by me, but I was invited to
       @gift_giver_events = Event.where(id: invited_ids).where.not(user_id: current_user.id)
-
     else
-      # created by me OR invited to ( ANYONE)
       @gift_giver_events = Event.where(id: created_ids).or(Event.where(id: invited_ids))
     end
-
     @gift_giver_events = @gift_giver_events.distinct # Else normal
 
-
-    # Title search
     if params[:title].present?
       search = "%#{params[:title].strip.downcase}%"
       @gift_giver_events = @gift_giver_events.where("LOWER(title) LIKE ?", search)
     end
 
-    # Filter by min/max budget
     if params[:min_budget].present?
       @gift_giver_events = @gift_giver_events.where("budget >= ?", params[:min_budget].to_f)
     end
@@ -55,7 +49,7 @@ class EventsController < ApplicationController
       @gift_giver_events = @gift_giver_events.order(event_date: :desc)
     end
 
-    @recipient_events = Event.where(id: recipient_ids).distinct
+    @recipient_events = Event.where(id: recipient_event_ids).distinct
 
   end
 
@@ -66,7 +60,61 @@ class EventsController < ApplicationController
 
   def show
     @event = Event.find(params[:id])
+
+    # Accepted attendees via invites table
+    @accepted_invites = @event.invites.where(status: "accepted").includes(:user)
+
+    # Gift givers and recipients from the event
+    @gift_giver_entries = GiftGiver.where(event_id: @event.id)
+    @recipients_for_current_user = @gift_giver_entries.where(user_id: current_user.id).includes(:recipient, :gift)
+    @givers_for_current_user = @gift_giver_entries.where(recipient_id: current_user.id).includes(:user, :gift)
+    @gift_assignments = GiftGiver.where(event_id: @event.id).includes(:user, :recipient, :gift).group_by(&:user)
+
+    accepted_ids = @event.invites.where(status: "accepted").pluck(:user_id)
+    @friends_not_coming = current_user.all_friends.reject { |f| accepted_ids.include?(f.id) }
   end
+
+  def assign_gift
+    event = Event.find(params[:id])
+    recipient_id = params[:recipient_id]
+    gift_id = params[:gift_id]
+
+    entry = GiftGiver.find_by(event_id: event.id,
+                              user_id: current_user.id,
+                              recipient_id: recipient_id)
+
+    if entry.nil?
+      flash[:alert] = "Gift assignment not found."
+      redirect_to event_path(event) and return
+    end
+
+    entry.update(gift_id: gift_id)
+
+    flash[:notice] = "Gift assigned successfully!"
+    redirect_to event_path(event)
+  end
+
+  def remove_gift
+    event = Event.find(params[:id])
+    recipient_id = params[:recipient_id]
+
+    entry = GiftGiver.find_by(event_id: event.id,
+                              user_id: current_user.id,
+                              recipient_id: recipient_id)
+
+    if entry.nil?
+      flash[:alert] = "Gift assignment not found."
+    else
+      entry.update(gift_id: nil)
+      flash[:notice] = "Gift removed successfully."
+    end
+
+    redirect_to event_path(event)
+    accepted_ids = @event.invites.where(status: "accepted").pluck(:user_id)
+
+    @friends_not_coming = current_user.all_friends.reject { |f| accepted_ids.include?(f.id) }
+  end
+
 
   def invite
     @event = Event.find(params[:id])
@@ -119,14 +167,102 @@ class EventsController < ApplicationController
       flash[:alert] = "Please fill out all the fields"
       redirect_to new_event_path and return
     end
-    @event = Event.new(title: title, event_date: event_date, location: location, budget: budget, theme: theme, user_id: session[:user_id])
+
+    @event = Event.new(
+      title: title,
+      event_date: event_date,
+      location: location,
+      budget: budget,
+      theme: theme,
+      user_id: current_user.id,
+      host_id: current_user.id
+    )
+
     if @event.save
-      GiftGiver.create!(event: @event, user_id: session[:user_id])
       flash[:notice] = "Event created successfully"
       redirect_to events_path
     else
       flash[:alert] = "Failed to create event"
       redirect_to new_event_path
+    end
+  end
+
+  def add
+    @event = Event.find(params[:id])
+    @selected_recipient = User.find(params[:recipient_id])
+
+    # Based off of the budget and status of gifts
+    budget = @event.budget.to_f
+    wishlisted_status = GiftStatus.find_by(status_name: "Wishlisted")
+    wishlisted_ids = Gift.joins(:user_gift_statuses).where(user_gift_statuses: { user_id: @selected_recipient.id, status_id: wishlisted_status&.id }).pluck(:id)
+    ignored_status    = GiftStatus.find_by(status_name: "Ignore")
+    ignored_ids = Gift.joins(:user_gift_statuses).where(user_gift_statuses: { user_id: @selected_recipient.id, status_id: ignored_status&.id }).pluck(:id)
+
+    # Generating our suggestions based on the preferences
+    @wishlist_gifts = Gift.joins(:user_gift_statuses).where(user_gift_statuses: { user_id: @selected_recipient.id, status_id: wishlisted_status&.id }).where("price <= ?", budget).limit(MAX_WISHLIST_GIFTS)
+    @general_suggestions = Gift.where("price <= ?", budget).where.not(id: ignored_ids).where.not(id: wishlisted_ids).limit(MAX_TOTAL_GIFTS)
+  end
+
+  def assign_roles
+    @event = Event.find(params[:id])
+
+    unless @event.user_id == current_user.id
+      redirect_to event_path(@event), alert: "Only the host can assign roles"
+      return
+    end
+
+    giver_id     = params[:giver_id].to_i
+    recipient_id = params[:recipient_id].to_i
+
+    if giver_id == recipient_id
+      redirect_to event_path(@event), alert: "A user cannot gift themselves"
+      return
+    end
+
+    unless Invite.exists?(event_id: @event.id, user_id: giver_id, status: "accepted") &&
+           Invite.exists?(event_id: @event.id, user_id: recipient_id, status: "accepted")
+      redirect_to event_path(@event), alert: "Both users must be attendees"
+      return
+    end
+
+    # Prevent duplicate assignment (same giver → same recipient)
+    if GiftGiver.exists?(
+      event_id: @event.id,
+      user_id: giver_id,
+      recipient_id: recipient_id
+    )
+      redirect_to event_path(@event), alert: "This assignment already exists"
+      return
+    end
+
+    GiftGiver.create!(
+      event_id: @event.id,
+      user_id: giver_id,
+      recipient_id: recipient_id
+    )
+
+    redirect_to event_path(@event), notice: "Recipient assigned"
+  end
+
+  def remove_assignment
+    @event = Event.find(params[:id])
+
+    unless current_user.id == @event.user_id
+      redirect_to event_path(@event), alert: "Only the host can remove assignments"
+      return
+    end
+
+    entry = GiftGiver.find_by(
+      event_id: @event.id,
+      user_id: params[:giver_id],
+      recipient_id: params[:recipient_id]
+    )
+
+    if entry
+      entry.destroy
+      redirect_to event_path(@event), notice: "Assignment removed"
+    else
+      redirect_to event_path(@event), alert: "Assignment not found"
     end
   end
 
@@ -158,4 +294,26 @@ class EventsController < ApplicationController
     invite.destroy
     redirect_to event_path(@event)
   end
+
+  # invite a group of selected friends
+  def invite_friends
+    @event = Event.find(params[:id])
+    friend_ids = params[:friend_ids] || []
+
+    if friend_ids.empty?
+      redirect_to event_path(@event), alert: "No friends selected"
+      return
+    end
+
+    friend_ids.each do |friend_id|
+      Invite.find_or_create_by!(
+        event_id: @event.id,
+        user_id: friend_id
+      )
+    end
+
+    redirect_to event_path(@event), notice: "Invites sent!"
+  end
+
+
 end

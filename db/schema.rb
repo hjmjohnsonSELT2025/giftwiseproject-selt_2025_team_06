@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_12_13_214033) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_14_011320) do
   create_table "events", force: :cascade do |t|
     t.string "title"
     t.date "event_date"
@@ -24,14 +24,27 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_13_214033) do
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 
+  create_table "friendships", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "friend_id", null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["friend_id"], name: "index_friendships_on_friend_id"
+    t.index ["user_id", "friend_id"], name: "index_friendships_on_user_id_and_friend_id", unique: true
+    t.index ["user_id"], name: "index_friendships_on_user_id"
+  end
+
   create_table "gift_givers", force: :cascade do |t|
     t.integer "event_id", null: false
     t.integer "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.integer "recipient_id"
     t.integer "gift_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_gift_givers_on_event_id"
+    t.index ["gift_id"], name: "index_gift_givers_on_gift_id"
+    t.index ["recipient_id"], name: "index_gift_givers_on_recipient_id"
     t.index ["user_id"], name: "index_gift_givers_on_user_id"
   end
 
@@ -134,6 +147,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_13_214033) do
   end
 
   add_foreign_key "events", "users"
+  add_foreign_key "friendships", "users"
+  add_foreign_key "friendships", "users", column: "friend_id"
   add_foreign_key "gift_givers", "events"
   add_foreign_key "gift_givers", "gifts"
   add_foreign_key "gift_givers", "users"
