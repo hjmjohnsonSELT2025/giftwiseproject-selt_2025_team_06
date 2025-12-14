@@ -12,7 +12,7 @@ Given(/^I am logged in as user "(.*)"$/) do |username|
   
   fill_in 'username', with: username
   fill_in 'password', with: '12345678'
-  click_button 'Log_In'
+  click_button 'Log In'
 end
 
 Given(/^the following users are created in the database:$/) do |users_table|

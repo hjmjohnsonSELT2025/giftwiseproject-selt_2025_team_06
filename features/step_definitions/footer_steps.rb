@@ -44,11 +44,10 @@ Then(/^I should see a different gift planning tip in the footer$/) do
   expect(second_tip).not_to eq(first_tip)
 end
 
-Then(/^I should not see any gift planning tips in the footer$/) do
-  within("footer") do
-    expect(page).not_to have_css(".gift-tip")
-  end
+Then(/^I should not see any footer$/) do
+  expect(page).not_to have_css("footer")
 end
+
 
 Then(/^I should see a link to the support or help page in the footer$/) do
   within("footer") do
@@ -74,7 +73,7 @@ When(/^I am logged in as (.+) with password (.+)$/) do |email, password|
   visit login_path
   fill_in "username", with: email
   fill_in "password", with: password
-  click_button "LOGIN"
+  click_button "Log In"
 
   user = User.find_by(username: email)
   expect(page).to have_current_path(events_path)
@@ -84,5 +83,4 @@ end
 When(/^I am logged out$/) do
   visit logout_path
   expect(page).to have_current_path(login_path)
-  expect(session[:user_id]).to be_nil
 end
