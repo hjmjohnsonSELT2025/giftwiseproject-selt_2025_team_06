@@ -66,7 +66,12 @@ class EventsController < ApplicationController
 
   def show
     @event = Event.find(params[:id])
+
+    accepted_ids = @event.invites.where(status: "accepted").pluck(:user_id)
+
+    @friends_not_coming = current_user.all_friends.reject { |f| accepted_ids.include?(f.id) }
   end
+
 
   def invite
     @event = Event.find(params[:id])
@@ -158,4 +163,26 @@ class EventsController < ApplicationController
     invite.destroy
     redirect_to event_path(@event)
   end
+
+  # invite a group of selected friends
+  def invite_friends
+    @event = Event.find(params[:id])
+    friend_ids = params[:friend_ids] || []
+
+    if friend_ids.empty?
+      redirect_to event_path(@event), alert: "No friends selected"
+      return
+    end
+
+    friend_ids.each do |friend_id|
+      Invite.find_or_create_by!(
+        event_id: @event.id,
+        user_id: friend_id
+      )
+    end
+
+    redirect_to event_path(@event), notice: "Invites sent!"
+  end
+
+
 end
