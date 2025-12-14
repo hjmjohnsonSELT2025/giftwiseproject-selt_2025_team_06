@@ -66,9 +66,9 @@ RSpec.describe AIService do
       service = AIService.new
       allow(service).to receive(:call_openai_api).and_raise(StandardError.new("API Error"))
       
-      result = service.generate_gift_ideas(recipient)
-      expect(result).to be_an(Array)
-      expect(result.length).to be > 0
+      expect {
+        service.generate_gift_ideas(recipient)
+      }.to raise_error(StandardError, "API Error")
     end
 
     it "parses gift ideas from API response correctly" do
