@@ -38,11 +38,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_14_011320) do
   create_table "gift_givers", force: :cascade do |t|
     t.integer "event_id", null: false
     t.integer "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.integer "recipient_id"
     t.integer "gift_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_gift_givers_on_event_id"
+    t.index ["gift_id"], name: "index_gift_givers_on_gift_id"
+    t.index ["recipient_id"], name: "index_gift_givers_on_recipient_id"
     t.index ["user_id"], name: "index_gift_givers_on_user_id"
   end
 
