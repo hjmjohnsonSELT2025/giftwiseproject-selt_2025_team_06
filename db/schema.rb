@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_12_14_011320) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_14_063021) do
   create_table "events", force: :cascade do |t|
     t.string "title"
     t.date "event_date"
@@ -150,6 +150,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_14_011320) do
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id"
   add_foreign_key "gift_givers", "events"
+  add_foreign_key "gift_givers", "gifts"
   add_foreign_key "gift_givers", "gifts"
   add_foreign_key "gift_givers", "users"
   add_foreign_key "gift_givers", "users", column: "recipient_id"
