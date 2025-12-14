@@ -90,23 +90,21 @@ class EventsController < ApplicationController
     event = Event.find(params[:id])
     recipient_id = params[:recipient_id]
 
-    entry = GiftGiver.find_by(event_id: event.id,
-                              user_id: current_user.id,
-                              recipient_id: recipient_id)
+    entry = GiftGiver.find_by(
+      event_id: event.id,
+      user_id: current_user.id,
+      recipient_id: recipient_id
+    )
 
     if entry.nil?
       flash[:alert] = "Gift assignment not found."
     else
-      entry.update(gift_id: nil)
+      entry.update!(gift_id: nil)
       flash[:notice] = "Gift removed successfully."
     end
 
     redirect_to event_path(event)
-    accepted_ids = @event.invites.where(status: "accepted").pluck(:user_id)
-
-    @friends_not_coming = current_user.all_friends.reject { |f| accepted_ids.include?(f.id) }
   end
-
 
   def invite
     @event = Event.find(params[:id])
