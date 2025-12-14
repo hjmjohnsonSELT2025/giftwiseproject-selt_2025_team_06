@@ -73,8 +73,8 @@ Then(/^my vote indicator for "(.*)" should show that I downvoted it$/) do |gift_
 end
 
 When(/^I sort gifts by "(.*)"$/) do |sort_label|
-  find("summary", text: /Sort/).click
-  click_link sort_label
+  select sort_label, from: "sort"
+  click_button "Apply Filters"
 end
 
 Then(/^"(.*)" should appear before "(.*)"$/) do |first, second|
@@ -88,10 +88,9 @@ Then(/^"(.*)" should appear before "(.*)"$/) do |first, second|
   expect(index_first).to be < index_second
 end
 
-
 When(/^I search for "(.*)"$/) do |term|
   fill_in placeholder: "Search gifts...", with: term
-  click_button "Search"
+  click_button "Apply Filters"
 end
 
 When(/^I click "(.*)" for "(.*)"$/) do |button_text, gift_name|
@@ -113,7 +112,6 @@ end
 When(/^I click the option to "(.*)"$/) do |text|
   click_link text
 end
-
 
 Then("no filters should be applied") do
   expect(current_url).to eq(gifts_url)

@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "/Users/moaizabrar/Desktop/UIowa/Uiowa_Fall_2025/SELT/SELT_Project/giftwiseproject-selt_2025_team_06/app/helpers/application_helper.rb": {
+      "/home/cjtobler/giftwiseproject-selt_2025_team_06/app/helpers/application_helper.rb": {
         "lines": [
           1,
           null
@@ -26,7 +26,55 @@
           null,
           null,
           1,
+          null,
           0,
+          0,
+          null,
+          0,
+          null,
+          0,
+          null,
+          0,
+          null,
+          0,
+          null,
+          null,
+          null,
+          0,
+          null,
+          null,
+          0,
+          null,
+          null,
+          null,
+          0,
+          0,
+          0,
+          null,
+          null,
+          null,
+          0,
+          0,
+          null,
+          null,
+          0,
+          0,
+          null,
+          null,
+          null,
+          0,
+          0,
+          null,
+          0,
+          0,
+          null,
+          0,
+          0,
+          null,
+          0,
+          0,
+          null,
+          null,
           null,
           null,
           null,
@@ -112,29 +160,69 @@
           null
         ],
         "branches": {
-          "[:if, 0, 23, 4, 26, 7]": {
-            "[:then, 1, 24, 6, 25, 43]": 1,
-            "[:else, 2, 23, 4, 26, 7]": 1
+          "[:if, 0, 12, 4, 23, 7]": {
+            "[:then, 1, 14, 6, 14, 53]": 0,
+            "[:else, 2, 16, 4, 22, 77]": 0
           },
-          "[:if, 6, 48, 4, 51, 7]": {
-            "[:then, 7, 49, 6, 50, 43]": 1,
-            "[:else, 8, 48, 4, 51, 7]": 1
+          "[:if, 3, 16, 4, 22, 77]": {
+            "[:then, 4, 18, 6, 18, 80]": 0,
+            "[:else, 5, 22, 6, 22, 77]": 0
           },
-          "[:if, 9, 53, 4, 60, 7]": {
-            "[:then, 10, 54, 6, 56, 29]": 1,
-            "[:else, 11, 58, 6, 59, 32]": 0
+          "[:if, 6, 29, 4, 32, 7]": {
+            "[:then, 7, 30, 6, 31, 60]": 0,
+            "[:else, 8, 29, 4, 32, 7]": 0
           },
-          "[:if, 12, 66, 4, 69, 7]": {
-            "[:then, 13, 67, 6, 68, 47]": 0,
-            "[:else, 14, 66, 4, 69, 7]": 0
+          "[:if, 9, 35, 4, 37, 7]": {
+            "[:then, 10, 36, 6, 36, 70]": 0,
+            "[:else, 11, 35, 4, 37, 7]": 0
           },
-          "[:if, 15, 74, 4, 77, 7]": {
-            "[:then, 16, 75, 6, 76, 47]": 0,
-            "[:else, 17, 74, 4, 77, 7]": 0
+          "[:if, 12, 39, 4, 41, 7]": {
+            "[:then, 13, 40, 6, 40, 70]": 0,
+            "[:else, 14, 39, 4, 41, 7]": 0
           },
-          "[:if, 18, 82, 4, 85, 7]": {
-            "[:then, 19, 83, 6, 84, 47]": 0,
-            "[:else, 20, 82, 4, 85, 7]": 0
+          "[:if, 15, 44, 4, 55, 7]": {
+            "[:then, 16, 45, 6, 45, 42]": 0,
+            "[:else, 17, 47, 4, 54, 48]": 0
+          },
+          "[:if, 18, 47, 4, 54, 48]": {
+            "[:then, 19, 48, 6, 48, 43]": 0,
+            "[:else, 20, 50, 4, 54, 48]": 0
+          },
+          "[:if, 21, 50, 4, 54, 48]": {
+            "[:then, 22, 51, 6, 51, 47]": 0,
+            "[:else, 23, 53, 4, 54, 48]": 0
+          },
+          "[:if, 24, 53, 4, 54, 48]": {
+            "[:then, 25, 54, 6, 54, 48]": 0,
+            "[:else, 26, 53, 4, 54, 48]": 0
+          },
+          "[:if, 27, 73, 4, 76, 7]": {
+            "[:then, 28, 74, 6, 75, 47]": 0,
+            "[:else, 29, 73, 4, 76, 7]": 0
+          },
+          "[:if, 30, 80, 4, 85, 7]": {
+            "[:then, 31, 81, 6, 81, 65]": 0,
+            "[:else, 32, 83, 6, 84, 72]": 0
+          },
+          "[:if, 33, 96, 4, 99, 7]": {
+            "[:then, 34, 97, 6, 98, 43]": 1,
+            "[:else, 35, 96, 4, 99, 7]": 1
+          },
+          "[:if, 36, 101, 4, 108, 7]": {
+            "[:then, 37, 102, 6, 104, 29]": 1,
+            "[:else, 38, 106, 6, 107, 32]": 0
+          },
+          "[:if, 39, 114, 4, 117, 7]": {
+            "[:then, 40, 115, 6, 116, 47]": 0,
+            "[:else, 41, 114, 4, 117, 7]": 0
+          },
+          "[:if, 42, 122, 4, 125, 7]": {
+            "[:then, 43, 123, 6, 124, 47]": 0,
+            "[:else, 44, 122, 4, 125, 7]": 0
+          },
+          "[:if, 45, 130, 4, 133, 7]": {
+            "[:then, 46, 131, 6, 132, 47]": 0,
+            "[:else, 47, 130, 4, 133, 7]": 0
           }
         }
       },
@@ -175,6 +263,7 @@
           1,
           1,
           3,
+          3,
           null,
           null,
           3,
@@ -216,6 +305,11 @@
           null,
           null,
           null,
+          3,
+          3,
+          3,
+          3,
+          null,
           null,
           3,
           3,
@@ -229,12 +323,48 @@
           1,
           1,
           1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          null,
+          0,
+          0,
+          null,
+          null,
+          1,
+          1,
+          1,
+          null,
+          null,
+          1,
+          1,
+          null,
           1,
           null,
           null,
           1,
           4,
           4,
+          null,
+          4,
+          4,
+          null,
+          4,
+          null,
+          2,
+          2,
+          null,
+          null,
+          2,
+          2,
+          2,
+          null,
+          null,
+          4,
+          4,
+          null,
           4,
           null,
           null,
@@ -306,50 +436,62 @@
           null
         ],
         "branches": {
-          "[:if, 0, 6, 4, 28, 7]": {
-            "[:then, 1, 7, 6, 27, 9]": 0,
-            "[:else, 2, 6, 4, 28, 7]": 3
+          "[:if, 0, 4, 16, 4, 58]": {
+            "[:then, 1, 4, 46, 4, 50]": 0,
+            "[:else, 2, 4, 53, 4, 58]": 3
           },
-          "[:case, 3, 7, 6, 27, 9]": {
-            "[:when, 4, 10, 8, 15, 25]": 0,
-            "[:when, 5, 18, 8, 23, 25]": 0,
-            "[:when, 6, 26, 8, 26, 58]": 0,
-            "[:else, 7, 7, 6, 27, 9]": 0
+          "[:if, 3, 7, 4, 29, 7]": {
+            "[:then, 4, 8, 6, 28, 9]": 0,
+            "[:else, 5, 7, 4, 29, 7]": 3
           },
-          "[:if, 8, 31, 4, 34, 7]": {
-            "[:then, 9, 32, 6, 33, 55]": 1,
-            "[:else, 10, 31, 4, 34, 7]": 2
+          "[:case, 6, 8, 6, 28, 9]": {
+            "[:when, 7, 11, 8, 16, 25]": 0,
+            "[:when, 8, 19, 8, 24, 25]": 0,
+            "[:when, 9, 27, 8, 27, 58]": 0,
+            "[:else, 10, 8, 6, 28, 9]": 0
           },
-          "[:case, 11, 37, 4, 42, 7]": {
-            "[:when, 12, 38, 22, 38, 50]": 0,
-            "[:when, 13, 39, 22, 39, 51]": 0,
-            "[:when, 14, 40, 22, 40, 62]": 0,
-            "[:when, 15, 41, 24, 41, 61]": 1,
-            "[:else, 16, 37, 4, 42, 7]": 2
+          "[:if, 11, 32, 4, 35, 7]": {
+            "[:then, 12, 33, 6, 34, 55]": 1,
+            "[:else, 13, 32, 4, 35, 7]": 2
           },
-          "[:if, 17, 79, 4, 84, 7]": {
-            "[:then, 18, 80, 6, 80, 64]": 1,
-            "[:else, 19, 82, 6, 83, 48]": 1
+          "[:case, 14, 38, 4, 43, 7]": {
+            "[:when, 15, 39, 21, 39, 59]": 0,
+            "[:when, 16, 40, 22, 40, 61]": 0,
+            "[:when, 17, 41, 21, 41, 65]": 0,
+            "[:when, 18, 42, 24, 42, 65]": 1,
+            "[:else, 19, 38, 4, 43, 7]": 2
           },
-          "[:if, 20, 82, 6, 82, 81]": {
-            "[:then, 21, 82, 6, 82, 49]": 1,
-            "[:else, 22, 82, 6, 82, 81]": 0
+          "[:if, 20, 68, 4, 77, 7]": {
+            "[:then, 21, 70, 6, 71, 25]": 0,
+            "[:else, 22, 74, 6, 76, 23]": 1
           },
-          "[:if, 23, 90, 4, 92, 7]": {
-            "[:then, 24, 91, 6, 91, 75]": 0,
-            "[:else, 25, 90, 4, 92, 7]": 0
+          "[:if, 23, 92, 4, 101, 7]": {
+            "[:then, 24, 94, 6, 95, 25]": 2,
+            "[:else, 25, 98, 6, 100, 23]": 2
           },
-          "[:if, 26, 98, 4, 101, 7]": {
-            "[:then, 27, 99, 6, 100, 12]": 1,
-            "[:else, 28, 98, 4, 101, 7]": 1
+          "[:if, 26, 121, 4, 126, 7]": {
+            "[:then, 27, 122, 6, 122, 64]": 1,
+            "[:else, 28, 124, 6, 125, 48]": 1
           },
-          "[:if, 29, 103, 4, 108, 7]": {
-            "[:then, 30, 104, 6, 104, 66]": 1,
-            "[:else, 31, 106, 6, 107, 49]": 0
+          "[:if, 29, 124, 6, 124, 81]": {
+            "[:then, 30, 124, 6, 124, 49]": 1,
+            "[:else, 31, 124, 6, 124, 81]": 0
           },
-          "[:if, 32, 114, 4, 117, 7]": {
-            "[:then, 33, 115, 6, 116, 12]": 1,
-            "[:else, 34, 114, 4, 117, 7]": 1
+          "[:if, 32, 132, 4, 134, 7]": {
+            "[:then, 33, 133, 6, 133, 75]": 0,
+            "[:else, 34, 132, 4, 134, 7]": 0
+          },
+          "[:if, 35, 140, 4, 143, 7]": {
+            "[:then, 36, 141, 6, 142, 12]": 1,
+            "[:else, 37, 140, 4, 143, 7]": 1
+          },
+          "[:if, 38, 145, 4, 150, 7]": {
+            "[:then, 39, 146, 6, 146, 66]": 1,
+            "[:else, 40, 148, 6, 149, 49]": 0
+          },
+          "[:if, 41, 156, 4, 159, 7]": {
+            "[:then, 42, 157, 6, 158, 12]": 1,
+            "[:else, 43, 156, 4, 159, 7]": 1
           }
         }
       },
@@ -396,14 +538,10 @@
           null,
           null,
           null,
-          1,
-          1,
           null,
           16,
           7,
           null,
-          1,
-          1,
           null,
           null,
           null,
@@ -496,14 +634,12 @@
           1,
           null,
           null,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
+          null,
+          1,
+          1,
+          null,
+          1,
+          1,
           null,
           null,
           1,
@@ -544,20 +680,6 @@
           null,
           1,
           null,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
           null,
           1,
           1,
@@ -620,38 +742,18 @@
       "/home/cjtobler/giftwiseproject-selt_2025_team_06/app/controllers/sessions_controller.rb": {
         "lines": [
           1,
-          1,
           null,
           1,
           null,
+          1,
           null,
-          0
-        ],
-        "branches": {
-        }
-      },
-      "/mnt/c/Users/wrigh/RubymineProjects/giftwiseproject-selt_2025_team_06/app/controllers/invites_controller.rb": {
-        "lines": [
-          0,
-          0,
+          null,
+          null,
           null,
           1,
           null,
           14,
           null,
-          0,
-          0,
-          0,
-          0
-        ],
-        "branches": {
-        }
-      },
-      "/mnt/c/Users/wrigh/RubymineProjects/giftwiseproject-selt_2025_team_06/app/controllers/preferences_controller.rb": {
-        "lines": [
-          0,
-          0,
-          0,
           null,
           14,
           null,
@@ -664,65 +766,57 @@
           null,
           14,
           null,
-          0,
-          0,
-          0,
-          0,
           null,
           0,
           0,
           null,
           null,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
           null,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
           null,
           1,
           null,
           0,
           0,
           0,
+          null,
+          null,
+          1,
+          null,
+          null,
+          1,
+          5,
+          0,
+          null,
           null,
           null
         ],
         "branches": {
-          "[:if, 0, 12, 4, 26, 7]": {
-            "[:then, 1, 14, 6, 15, 28]": 0,
-            "[:else, 2, 16, 4, 25, 28]": 14
+          "[:if, 0, 15, 4, 29, 7]": {
+            "[:then, 1, 17, 6, 18, 28]": 0,
+            "[:else, 2, 19, 4, 28, 28]": 14
           },
-          "[:if, 3, 16, 4, 25, 28]": {
-            "[:then, 4, 17, 6, 21, 29]": 14,
-            "[:else, 5, 24, 6, 25, 28]": 0
+          "[:if, 3, 19, 4, 28, 28]": {
+            "[:then, 4, 20, 6, 24, 29]": 14,
+            "[:else, 5, 27, 6, 28, 28]": 0
+          },
+          "[:if, 6, 44, 4, 46, 7]": {
+            "[:then, 7, 45, 6, 45, 67]": 0,
+            "[:else, 8, 44, 4, 46, 7]": 5
           }
         }
       },
       "/home/cjtobler/giftwiseproject-selt_2025_team_06/app/controllers/users_controller.rb": {
         "lines": [
           null,
-          0,
-          0,
+          1,
+          1,
+          1,
+          null,
+          null,
+          1,
           null,
           null,
           null,
-          0,
-          null,
-          null,
-          0,
-          0,
-          0,
-          0,
           null,
           null,
           1,
@@ -730,19 +824,13 @@
           1,
           0,
           null,
-          0,
-          null,
-          0,
-          0,
           null,
           null,
-          0,
+          null,
+          1,
           0,
           null,
           null,
-          0,
-          0,
-          0,
           null,
           1,
           null,
@@ -758,18 +846,20 @@
           0,
           null,
           null,
-          null,
           0,
-          null,
-          null,
-          1,
-          0,
-          null,
           0,
           0,
           null,
           null,
-          1,
+          null,
+          0,
+          0,
+          0,
+          null,
+          null,
+          null,
+          0,
+          0,
           0,
           null,
           null,
@@ -837,20 +927,11 @@
           null,
           null,
           null,
-          0,
-          null,
-          null,
-          0,
-          0,
-          0,
-          0,
           null,
           null,
           null,
-          0,
-          0,
-          0,
-          0,
+          null,
+          null,
           null,
           null
         ],
@@ -931,14 +1012,6 @@
       "/home/cjtobler/giftwiseproject-selt_2025_team_06/app/controllers/gift_statuses_controller.rb": {
         "lines": [
           0,
-          null,
-          0,
-          null,
-          0,
-          null,
-          0,
-          null,
-          null,
           0,
           null,
           null,
@@ -956,7 +1029,6 @@
           0,
           0,
           null,
-          0,
           null,
           0,
           0,
@@ -1116,53 +1188,7 @@
         "branches": {
         }
       },
-      "/mnt/c/Users/wrigh/RubymineProjects/giftwiseproject-selt_2025_team_06/app/mailers/recovery_mailer.rb": {
-        "lines": [
-          null,
-          null,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          null,
-          0,
-          null,
-          null,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "branches": {
-        }
-      },
-      "/mnt/c/Users/wrigh/RubymineProjects/giftwiseproject-selt_2025_team_06/app/models/event.rb": {
-        "lines": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "branches": {
-        }
-      },
-      "/mnt/c/Users/wrigh/RubymineProjects/giftwiseproject-selt_2025_team_06/app/models/gift_giver.rb": {
-        "lines": [
-          0,
-          0,
-          0,
-          0
-        ],
-        "branches": {
-        }
-      },
-      "/mnt/c/Users/wrigh/RubymineProjects/giftwiseproject-selt_2025_team_06/app/models/invite.rb": {
+      "/home/cjtobler/giftwiseproject-selt_2025_team_06/app/controllers/user_gift_statuses_controller.rb": {
         "lines": [
           0,
           0,
@@ -1174,36 +1200,6 @@
           0,
           0,
           null,
-          0,
-          0,
-          null,
-          0,
-          0,
-          null,
-          null,
-          0,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0,
-          null,
-          0,
-          null,
-          0,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          null,
           null,
           0,
           0,
@@ -1227,14 +1223,41 @@
           null,
           0,
           0,
-          null,
           0,
           null,
           0,
           0,
+          null,
+          0,
           0,
           0,
           null,
+          0,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          0,
           null,
           0,
           0,
@@ -1357,44 +1380,8 @@
         ],
         "branches": {
         }
-      },
-      "/mnt/c/Users/wrigh/RubymineProjects/giftwiseproject-selt_2025_team_06/app/models/preference.rb": {
-        "lines": [
-          0,
-          0,
-          0,
-          null,
-          0,
-          0
-        ],
-        "branches": {
-        }
-      },
-      "/mnt/c/Users/wrigh/RubymineProjects/giftwiseproject-selt_2025_team_06/app/models/recipient.rb": {
-        "lines": [
-          0,
-          0,
-          0,
-          0
-        ],
-        "branches": {
-        }
-      },
-      "/mnt/c/Users/wrigh/RubymineProjects/giftwiseproject-selt_2025_team_06/app/models/user_preference.rb": {
-        "lines": [
-          0,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0
-        ],
-        "branches": {
-        }
       }
     },
-    "timestamp": 1763181050
+    "timestamp": 1765644356
   }
 }

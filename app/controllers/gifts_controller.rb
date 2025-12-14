@@ -1,6 +1,7 @@
 class GiftsController < ApplicationController
   def index
     @gifts = Gift.all
+    direction = params[:direction] == "asc" ? :asc : :desc
 
     # VIEW FILTERS (reduce the dataset first)
     if params[:view].present?
@@ -35,10 +36,10 @@ class GiftsController < ApplicationController
 
     # SORTING (apply LAST so it sorts the filtered dataset)
     case params[:sort]
-    when "name"  then @gifts = @gifts.order(:name)
-    when "price" then @gifts = @gifts.order(:price)
-    when "date"  then @gifts = @gifts.order(created_at: :desc)
-    when "upvotes" then @gifts = @gifts.order(upvotes: :desc)
+    when "name" then @gifts = @gifts.order(name: direction)
+    when "price" then @gifts = @gifts.order(price: direction)
+    when "date" then @gifts = @gifts.order(created_at: direction)
+    when "upvotes" then @gifts = @gifts.order(upvotes: direction)
     end
 
     # Limit the # of gifts to view per page
@@ -108,6 +109,8 @@ class GiftsController < ApplicationController
   def new
     @gift = Gift.new
     @statuses = GiftStatus.all
+    @event_id = params[:event_id]
+    @recipient_id = params[:recipient_id]
   end
 
   def create
@@ -117,8 +120,26 @@ class GiftsController < ApplicationController
     @gift.status_id = default_status.id
     @gift.creator_id = current_user.id
 
+    event_id     = params[:event_id]
+    recipient_id = params[:recipient_id]
+
     if @gift.save
-      redirect_to gifts_path, notice: "Gift added successfully!"
+      if event_id.present? && recipient_id.present?
+        entry = GiftGiver.find_by(
+          event_id: event_id,
+          user_id: current_user.id,
+          recipient_id: recipient_id
+        )
+
+        if entry
+          entry.update!(gift_id: @gift.id)
+        end
+
+        redirect_to event_path(event_id, recipient_id: recipient_id),
+                    notice: "Gift added and assigned successfully!"
+      else
+        redirect_to gifts_path, notice: "Gift added successfully!"
+      end
     else
       flash.now[:alert] = "Gift name is required" if @gift.errors[:name].present?
       render :new, status: :unprocessable_entity

@@ -17,6 +17,7 @@ gem "bootsnap", require: false
 gem "image_processing", "~> 1.2"
 gem "tzinfo-data", platforms: %i[windows jruby]
 gem 'mailtrap' # Used for Sending Emails
+gem 'ruby-openai'
 
 
 group :development, :test do
@@ -32,6 +33,7 @@ end
 
 group :test do
   gem "simplecov", require: false
+  gem "selenium-webdriver"
   gem 'rack_session_access'
 end
 
@@ -43,4 +45,5 @@ group :development, :test do
   gem "rspec-expectations"
   gem "rspec-rails"
   gem "rails-controller-testing"
+  gem "dotenv-rails" 
 end

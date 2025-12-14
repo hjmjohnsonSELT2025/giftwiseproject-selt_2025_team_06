@@ -1,0 +1,227 @@
+<div class="page-container">
+<h1 class="page-title">
+  <%= current_user.username %>’s Friends
+</h1>
+<!-- Flash Messages -->
+<% flash.each do |type, message| %>
+  <div class="flash <%= type %>">
+    <%= message %>
+  </div>
+<% end %>
+
+<!-- Add Friend -->
+<section class="card">
+  <h2>Add Friends </h2>
+  <%= form_with url: friendships_path, method: :post, local: true do %>
+    <div class="add-friend-row">
+      <%= text_field_tag :username, nil, placeholder: "Enter username" %>
+      <%= submit_tag "Add Friend", class: "btn" %>
+    </div>
+  <% end %>
+</section>
+
+<!-- Friends List -->
+<section class="card">
+  <h2>Friends List:</h2>
+
+  <% if @friends.any? %>
+    <ul class="list">
+      <% @friends.each do |friend| %>
+        <li class="list-item">
+          <span class="username"><%= friend.username %></span>
+
+          <%= button_to "Remove Friend",
+                        friendship_path(
+                          Friendship.find_by(
+                            user_id: [current_user.id, friend.id],
+                            friend_id: [current_user.id, friend.id]
+                          )
+                        ),
+                        method: :delete,
+                        class: "btn btn-danger",
+                        form: { class: "inline-form" } %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="muted">You don’t have any friends yet.</p>
+  <% end %>
+</section>
+
+<!-- Incoming Requests -->
+<section class="card">
+  <h2 class="section-header">
+    Friend Requests
+    <% if @incoming_requests.any? %>
+      <span class="badge">!</span>
+    <% end %>
+  </h2>
+
+  <% if @incoming_requests.any? %>
+    <ul class="list friend-requests">
+      <% @incoming_requests.each do |request| %>
+        <li class="list-item">
+          <span class="username"><%= request.user.username %></span>
+
+          <div class="actions">
+            <%= button_to "Accept",
+                          friendship_path(request),
+                          method: :patch,
+                          params: { status: "accepted" },
+                          class: "btn-success" %>
+
+            <%= button_to "Decline",
+                          friendship_path(request),
+                          method: :delete,
+                          class: "btn btn-danger" %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="muted">No pending requests.</p>
+  <% end %>
+</section>
+</div>
+
+<style>
+    .page-title {
+        margin-bottom: 20px;
+    }
+
+    .card {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 24px;
+    }
+
+    .flash {
+        padding: 10px 14px;
+        border-radius: 6px;
+        margin-bottom: 16px;
+        font-weight: 500;
+    }
+
+    .flash.notice {
+        background: #ecfdf5;
+        color: #065f46;
+        border: 1px solid #a7f3d0;
+    }
+
+    .flash.alert {
+        background: #fef2f2;
+        color: #991b1b;
+        border: 1px solid #fecaca;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+
+    .inline-form {
+        display: inline;
+    }
+
+    .list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .list-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .list-item:last-child {
+        border-bottom: none;
+    }
+
+    .username {
+        font-weight: 500;
+    }
+
+    .actions {
+        display: flex;
+        gap: 8px;
+    }
+
+    .btn,
+    .btn-danger {
+        min-width: 96px;
+        height: 36px;         =
+        padding: 0 14px;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .btn-success {
+        min-width: 96px;
+        height: 36px;
+        padding: 0 14px;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 0.9rem;
+
+        background: #16a34a;      /* green */
+        color: white;
+        border: none;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .muted {
+        color: #6b7280;
+    }
+
+    .page-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 24px;
+    }
+    .add-friend-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .add-friend-row label {
+        font-weight: 500;
+    }
+
+    .add-friend-row input[type="text"] {
+        height: 36px;
+        padding: 0 10px;
+    }
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .badge {
+        background: #dc2626;
+        color: white;
+        border-radius: 999px;
+        width: 20px;
+        height: 20px;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 0.75rem;
+        font-weight: bold;
+    }
+
+</style>
