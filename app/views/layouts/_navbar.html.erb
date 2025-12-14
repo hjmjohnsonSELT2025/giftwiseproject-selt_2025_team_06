@@ -26,22 +26,11 @@
         <% end %>
       </li>
 
-      <li>
-        <%= button_to "Profile", user_path(current_user.id),
-                      method: :get,
-                      class: "navbar-button" %>
-      </li>
-
-      <li>
-        <%= button_to "Logout", logout_path,
-                      method: :delete,
-                      class: "navbar-button" %>
-      </li>
+      <li><%= link_to "Gifts", gifts_path, class: "navbar-button" %></li>
+      <li> <%= button_to "Profile", user_path(current_user.id), method: :get, class: "navbar-button" %> </li>
+      <li> <%= button_to "Logout", logout_path, method: :delete, class: "navbar-button" %></li>
     <% else %>
-      <li>
-        <%= button_to "Login", login_path,
-                      method: :get,
-                      class: "navbar-button" %>
+      <li><%= button_to "Login", login_path, method: :get, class: "navbar-button" %>
       </li>
   <% end %>
   </ul>
