@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_12_04_033551) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_14_011320) do
   create_table "events", force: :cascade do |t|
     t.string "title"
     t.date "event_date"
@@ -24,14 +24,46 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_04_033551) do
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 
+  create_table "friendships", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "friend_id", null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["friend_id"], name: "index_friendships_on_friend_id"
+    t.index ["user_id", "friend_id"], name: "index_friendships_on_user_id_and_friend_id", unique: true
+    t.index ["user_id"], name: "index_friendships_on_user_id"
+  end
+
   create_table "gift_givers", force: :cascade do |t|
     t.integer "event_id", null: false
     t.integer "user_id", null: false
-    t.text "recipients", default: "[]"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "recipient_id"
+    t.integer "gift_id"
     t.index ["event_id"], name: "index_gift_givers_on_event_id"
     t.index ["user_id"], name: "index_gift_givers_on_user_id"
+  end
+
+  create_table "gift_statuses", force: :cascade do |t|
+    t.string "status_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "gifts", force: :cascade do |t|
+    t.string "name", null: false
+    t.float "price"
+    t.text "purchase_url"
+    t.text "description"
+    t.integer "upvotes", default: 0
+    t.integer "status_id", null: false
+    t.integer "creator_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_gifts_on_creator_id"
+    t.index ["status_id"], name: "index_gifts_on_status_id"
   end
 
   create_table "invites", force: :cascade do |t|
@@ -52,12 +84,36 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_04_033551) do
   end
 
   create_table "recipients", force: :cascade do |t|
-    t.integer "user_id", null: false
     t.integer "event_id", null: false
+    t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["event_id", "user_id"], name: "index_recipients_on_event_id_and_user_id", unique: true
     t.index ["event_id"], name: "index_recipients_on_event_id"
     t.index ["user_id"], name: "index_recipients_on_user_id"
+  end
+
+  create_table "user_gift_statuses", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "gift_id", null: false
+    t.integer "status_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["gift_id"], name: "index_user_gift_statuses_on_gift_id"
+    t.index ["status_id"], name: "index_user_gift_statuses_on_status_id"
+    t.index ["user_id", "gift_id"], name: "index_user_gift_statuses_on_user_id_and_gift_id", unique: true
+    t.index ["user_id"], name: "index_user_gift_statuses_on_user_id"
+  end
+
+  create_table "user_gift_votes", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "gift_id", null: false
+    t.integer "vote"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["gift_id"], name: "index_user_gift_votes_on_gift_id"
+    t.index ["user_id", "gift_id"], name: "index_user_gift_votes_on_user_id_and_gift_id", unique: true
+    t.index ["user_id"], name: "index_user_gift_votes_on_user_id"
   end
 
   create_table "user_preferences", force: :cascade do |t|
@@ -89,12 +145,23 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_04_033551) do
   end
 
   add_foreign_key "events", "users"
+  add_foreign_key "friendships", "users"
+  add_foreign_key "friendships", "users", column: "friend_id"
   add_foreign_key "gift_givers", "events"
+  add_foreign_key "gift_givers", "gifts"
   add_foreign_key "gift_givers", "users"
+  add_foreign_key "gift_givers", "users", column: "recipient_id"
+  add_foreign_key "gifts", "gift_statuses", column: "status_id"
+  add_foreign_key "gifts", "users", column: "creator_id"
   add_foreign_key "invites", "events"
   add_foreign_key "invites", "users"
   add_foreign_key "recipients", "events"
   add_foreign_key "recipients", "users"
+  add_foreign_key "user_gift_statuses", "gift_statuses", column: "status_id"
+  add_foreign_key "user_gift_statuses", "gifts"
+  add_foreign_key "user_gift_statuses", "users"
+  add_foreign_key "user_gift_votes", "gifts"
+  add_foreign_key "user_gift_votes", "users"
   add_foreign_key "user_preferences", "preferences"
   add_foreign_key "user_preferences", "users"
 end

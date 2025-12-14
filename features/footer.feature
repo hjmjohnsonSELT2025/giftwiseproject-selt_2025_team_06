@@ -7,18 +7,13 @@ Feature: Footer support and planning information
   Background: Users have already been added to the database
 
     Given the following users exist:
-      | email           | username   | password  | first_name | last_name |
-      | user65@mojo.com | Username65 | MyPass65  | Paul       | Jones     |
-      | user32@mojo.com | Username32 | MyPass32  | Aaron      | Senior    |
-      | user40@mojo.com | Username40 | MyPass40  | Billy      | Bill      |
+      | email           | username   | password  |
+      | user65@mojo.com | Username65 | MyPass65  |
+      | user32@mojo.com | Username32 | MyPass32  |
+      | user40@mojo.com | Username40 | MyPass40  |
 
     And I am on the login page
     Then 3 seed users should exist
-
-    When I enter Username65 in the username box
-    And I enter MyPass65 in the password box
-    And I press the “Log In” button
-    Then I should be taken to the home page
 
   Scenario: Showing next upcoming event
     When I am logged in as Username65 with password MyPass65

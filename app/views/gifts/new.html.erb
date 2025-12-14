@@ -1,0 +1,34 @@
+<div class="login-container">
+  <h2 class="login-title">Add Gift Idea</h2>
+
+  <%= form_with model: @gift, url: create_gift_path, method: :post do |f| %>
+
+    <%= hidden_field_tag :event_id, params[:event_id] %>
+    <%= hidden_field_tag :recipient_id, params[:recipient_id] %>
+
+    <div>
+      <%= f.label :name, "Name", class: "form-label" %>
+      <%= f.text_field :name, class: "form-input" %>
+    </div>
+
+    <div>
+      <%= f.label :description, "Description", class: "form-label" %>
+      <%= f.text_area :description, rows: 3, class: "form-input" %>
+    </div>
+
+    <div>
+      <%= f.label :price, "Price", class: "form-label" %>
+      <%= f.number_field :price, step: 0.01, class: "form-input" %>
+    </div>
+
+    <div>
+      <%= f.label :purchase_url, "URL", class: "form-label" %>
+      <%= f.text_field :purchase_url, class: "form-input" %>
+    </div>
+
+    <div style="margin-top: 15px;">
+      <%= f.submit "Save Gift Idea", class: "add-btn" %>
+    </div>
+
+  <% end %>
+</div>

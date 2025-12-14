@@ -21,3 +21,5 @@ describe EventsController do
     end
   end
 end
+
+# Here, we will add out search features as well alongsids the events controller

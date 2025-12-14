@@ -4,10 +4,11 @@
       <div class="footer-section">
         <h4>Upcoming Event</h4>
 
-        <% upcoming_event = Event.where("event_date >= ?", Date.today)
-                                 .where(user_id: current_user.id)
-                                 .order(:event_date)
-                                 .first %>
+        <% upcoming_event =
+             Event.where(id: GiftGiver.where(user_id: current_user.id).select(:event_id))
+                  .where("event_date >= ?", Date.today)
+                  .order(:event_date)
+                  .first %>
 
         <% if upcoming_event %>
           <p class="footer-event-title">
