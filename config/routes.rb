@@ -62,7 +62,7 @@ Rails.application.routes.draw do
   get "/preferences", to: "preferences#index", as: :preferences
   post "/preferences/bulk_save", to: "preferences#bulk_save", as: :bulk_save_preferences
 
-  match "*path", to: redirect("/events"), via: :all
   resources :friendships, only: %i[index create update destroy]
+  match "*path", to: redirect("/events"), via: :all
 
 end
