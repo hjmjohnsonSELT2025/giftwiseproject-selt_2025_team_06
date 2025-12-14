@@ -53,7 +53,34 @@
                 </ul>
               <% end %>
             </div>
+
           </div>
+        <div class="invite-container">
+          <h3>Invite a Friend</h3>
+
+          <% if @friends_not_coming.any? %>
+            <%= form_with url: invite_friends_event_path(@event),
+                          method: :post,
+                          local: true,
+                          class: "invite-form" do %>
+
+              <div class="friend-scroll">
+                <% @friends_not_coming.each do |friend| %>
+                  <label class="friend-row">
+                    <%= check_box_tag "friend_ids[]", friend.id %>
+                    <span><%= friend.username %></span>
+                  </label>
+                <% end %>
+              </div>
+
+              <button type="submit" class="invite-button">
+                Invite Selected Friends
+              </button>
+            <% end %>
+          <% else %>
+            <p class="no-attendees">All your friends are already invited or attending.</p>
+          <% end %>
+        </div>
 
 <!--        <div class="invite-container">-->
 <!--          <h3>Add a Recipient</h3>-->
@@ -84,7 +111,6 @@
             <p><strong>Host:</strong> <%= @event.host.username %></p>
           </div>
 
-          <% if current_user.id == @event.user_id %>
           <% if current_user.id == @event.user_id %>
             <h2>Gift Assignments</h2>
 
@@ -169,7 +195,6 @@
 
               </div>
             <% end %>
-      <% end %>
       <% end %>
 
         </div>

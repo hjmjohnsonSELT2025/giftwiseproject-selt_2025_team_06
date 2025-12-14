@@ -69,6 +69,9 @@ class EventsController < ApplicationController
     @recipients_for_current_user = @gift_giver_entries.where(user_id: current_user.id).includes(:recipient, :gift)
     @givers_for_current_user = @gift_giver_entries.where(recipient_id: current_user.id).includes(:user, :gift)
     @gift_assignments = GiftGiver.where(event_id: @event.id).includes(:user, :recipient, :gift).group_by(&:user)
+
+    accepted_ids = @event.invites.where(status: "accepted").pluck(:user_id)
+    @friends_not_coming = current_user.all_friends.reject { |f| accepted_ids.include?(f.id) }
   end
 
   def assign_gift
