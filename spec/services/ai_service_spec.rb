@@ -1,5 +1,5 @@
 require 'rails_helper'
-require_relative '../../app/services/ai_service'
+# require_relative '../../app/services/ai_service'
 
 RSpec.describe AIService do
   let(:recipient) do
