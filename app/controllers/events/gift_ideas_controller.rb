@@ -63,12 +63,47 @@ module Events
       end
     end
 
+    def chat
+      recipient_id = params[:recipient_id]
+      user_message = params[:message]
+      conversation_history = params[:conversation_history] || []
+      
+      recipient = User.find_by(id: recipient_id)
+      
+      if recipient.nil?
+        render json: { error: "Recipient not found" }, status: :not_found
+        return
+      end
+      
+      recipient_record = @event.recipients.find_by(user_id: recipient_id)
+      
+      if recipient_record.nil?
+        render json: { error: "Recipient not associated with this event" }, status: :forbidden
+        return
+      end
+      
+      if user_message.blank?
+        render json: { error: "Message cannot be blank" }, status: :bad_request
+        return
+      end
+      
+      begin
+        ai_service = ::AIService.new
+        response = ai_service.chat(user_message, conversation_history, recipient, @event)
+        
+        render json: { response: response }
+      rescue => e
+        Rails.logger.error "Error in chat: #{e.message}\n#{e.backtrace.join("\n")}"
+        render json: { error: "Failed to get response: #{e.message}" }, status: :internal_server_error
+      end
+    end
+
     private
 
     def set_event
-        @event = Event.find(params[:event_id] || params[:id])
-      rescue ActiveRecord::RecordNotFound
-        render json: { error: "Event not found" }, status: :not_found
-      end
+      @event = Event.find(params[:event_id] || params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: "Event not found" }, status: :not_found
     end
   end
+end
