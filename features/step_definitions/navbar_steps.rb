@@ -1,6 +1,10 @@
-When(/^I click the "(.*)" link in the navbar$/) do |link_text|
-  within('nav.navbar') do
-    click_on link_text
+When(/^I click the "(.*)" link in the navbar$/) do |label|
+  within("nav") do
+    if page.has_link?(label)
+      click_link(label)
+    else
+      click_button(label)
+    end
   end
 end
 
@@ -8,20 +12,9 @@ Then(/^I should be taken to the events page$/) do
   expect(current_path).to eq(events_path)
 end
 
-Then(/^I should be taken to the (.*) page for (.*)$/) do |page_type, username|
+Then(/^I should be taken to the profile page for (.*)$/) do |username|
   user = User.find_by(username: username)
-
-  expected_path =
-    case page_type.downcase
-    when "profile"
-      user_path(user)
-    when "invites"
-      invites_path
-    else
-      raise "Unknown page type: #{page_type}"
-    end
-
-  expect(current_path).to eq(expected_path)
+  expect(current_path).to eq(user_path(user))
 end
 
 Then(/^I should be redirected to the login page$/) do

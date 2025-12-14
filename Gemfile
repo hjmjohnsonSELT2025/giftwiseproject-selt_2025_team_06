@@ -12,6 +12,7 @@ gem "jbuilder"
 gem "redis", ">= 4.0.1"
 gem "kredis"
 gem "bcrypt", "~> 3.1.7"
+gem 'nokogiri'
 gem "bootsnap", require: false
 gem "image_processing", "~> 1.2"
 gem "tzinfo-data", platforms: %i[windows jruby]
@@ -32,6 +33,7 @@ end
 group :test do
   gem "simplecov", require: false
   gem "selenium-webdriver"
+  gem 'rack_session_access'
 end
 
 group :development, :test do

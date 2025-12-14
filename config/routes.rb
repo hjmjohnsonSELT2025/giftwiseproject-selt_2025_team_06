@@ -27,6 +27,20 @@ Rails.application.routes.draw do
   get "/recovery/reset", to: "recovery#edit", as: :'recovery_reset'
   patch "/recovery/reset", to: "recovery#update"
 
+  get "/gifts", to: "gifts#index", as: "gifts"
+  get "/gifts/new", to: "gifts#new",   as: "new_gift"
+  post "/gifts",     to: "gifts#create", as: "create_gift"
+
+  get "/gifts/:id", to: "gifts#show", as: "gift"
+  get "/gifts/:id/edit", to: "gifts#edit",   as: "edit_gift"
+  patch "/gifts/:id",      to: "gifts#update"
+  delete "/gifts/:id",      to: "gifts#destroy"
+
+  post "/gifts/:id/toggle_wishlisted", to: "user_gift_statuses#toggle_wishlisted", as: "toggle_wishlisted_gift"
+  post "/gifts/:id/toggle_ignored", to: "user_gift_statuses#toggle_ignored", as: "toggle_ignored_gift"
+
+  post "/gifts/:id/upvote",   to: "gifts#upvote",   as: "upvote_gift"
+  post "/gifts/:id/downvote", to: "gifts#downvote", as: "downvote_gift"
 
   get 'events/:id', to: 'events#show', as: 'event'
   post 'events/:id/invite', to: 'events#invite', as: 'invite_event'
@@ -35,7 +49,7 @@ Rails.application.routes.draw do
   post 'events/:event_id/gift_ideas/generate', to: 'events/gift_ideas#generate', defaults: { format: :json }
   get "/invites", to: "invites#index", as: 'invites'
   post "invites/:id/accept", to: "invites#accept", as: 'accept_invite'
-
+  post "events/:id/add_recipient", to: "events#add_recipient", as: 'add_recipient_event'
 
   resources :user_preferences, only: [:create, :destroy]
   get "/preferences", to: "preferences#index", as: :preferences

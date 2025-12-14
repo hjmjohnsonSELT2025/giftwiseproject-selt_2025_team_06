@@ -22,61 +22,22 @@ Given(/^I navigate to the event (show )?page for "(.*)"$/) do |page_type, event_
       raise "Event with title '#{event_title}' not found"
     end
     
-    user_id = nil
-    begin
-      if page.driver.respond_to?(:request) && page.driver.request.respond_to?(:session)
-        user_id = page.driver.request.session[:user_id]
-      end
-    rescue
-    end
-    
-    if user_id
-      GiftGiver.find_or_create_by(
-        event: event,
-        user_id: user_id
-      ) do |gg|
-        gg.recipients = "[]" if gg.new_record?
-      end
-    end
-    
     visit event_path(event)
   end
   
 Given(/^the event has exactly (\d+) recipient "(.*)"$/) do |count, recipient_name|
     event_id = current_path.split('/').last
     event = Event.find(event_id)
-  
+
     recipient = User.find_by(username: recipient_name)
     if recipient.nil?
       raise "Recipient with username '#{recipient_name}' not found"
     end
-    user_id = nil
-    begin
-      if page.driver.respond_to?(:request) && page.driver.request.respond_to?(:session)
-        user_id = page.driver.request.session[:user_id]
-      end
-    rescue
-      user_id = event.user_id if event.respond_to?(:user_id)
-    end
-    
-    unless user_id
-      user_id = event.user_id if event.respond_to?(:user_id) && event.user_id
-    end
-    
-    unless user_id
-      raise "User must be logged in to set recipients"
-    end
-    
-    current_user = User.find(user_id)
-    gift_giver = GiftGiver.find_or_create_by(
+
+    Recipient.find_or_create_by(
       event: event,
-      user_id: current_user.id
-    ) do |gg|
-      gg.recipients = "[]" if gg.new_record?
-    end
-  
-    recipient_ids = [recipient.id]
-    gift_giver.update(recipients: recipient_ids.to_json)
+      user: recipient
+    )
   end
   
 
@@ -86,36 +47,10 @@ Given(/^the event "(.*)" has (\d+) or more recipients$/) do |event_title, min_co
       raise "Event with title '#{event_title}' not found"
     end
     
-    user_id = nil
-    begin
-      if page.driver.respond_to?(:request) && page.driver.request.respond_to?(:session)
-        user_id = page.driver.request.session[:user_id]
-      end
-    rescue
-      user_id = event.user_id if event.respond_to?(:user_id)
-    end
+    current_count = event.recipients.count
     
-    unless user_id
-      user_id = event.user_id if event.respond_to?(:user_id) && event.user_id
-    end
-    
-    unless user_id
-      raise "User must be logged in to set recipients"
-    end
-    
-    current_user = User.find(user_id)
-    
-    gift_giver = GiftGiver.find_or_create_by(
-      event: event,
-      user_id: current_user.id
-    ) do |gg|
-      gg.recipients = "[]" if gg.new_record?
-    end
-  
-    recipient_ids = JSON.parse(gift_giver.recipients || '[]')
-    
-    if recipient_ids.length < min_count.to_i
-      needed = min_count.to_i - recipient_ids.length
+    if current_count < min_count.to_i
+      needed = min_count.to_i - current_count
       needed.times do |i|
         recipient = User.create!(
           email: "recipient#{Time.now.to_i}#{i}@test.com",
@@ -125,11 +60,12 @@ Given(/^the event "(.*)" has (\d+) or more recipients$/) do |event_title, min_co
           likes: '["books", "coffee"]',
           dislikes: '["chocolate"]'
         )
-        recipient_ids << recipient.id unless recipient_ids.include?(recipient.id)
+        Recipient.find_or_create_by(
+          event: event,
+          user: recipient
+        )
       end
     end
-    
-    gift_giver.update(recipients: recipient_ids.to_json)
   end
   
 
@@ -163,7 +99,7 @@ Then(/^I should see an "(.*)" button$/) do |button_text|
   end
   
 Then(/^I should see a chatbot popup interface$/) do
-    expect(page).to have_css('#chatbot-popup.show', visible: true)
+    expect(page).to have_css('#chatbot-popup.show', visible: true, wait: 5)
     expect(page).to have_css('.chatbot-container', visible: true)
     expect(page).to have_css('.chatbot-header', visible: true)
   end
@@ -192,5 +128,5 @@ end
   
 Given(/^I have opened the AI chatbot$/) do
     click_button "AI Gift Ideas"
-    expect(page).to have_css('.chatbot-popup.show, #chatbot-popup.show')
+    expect(page).to have_css('.chatbot-popup.show, #chatbot-popup.show', visible: true, wait: 5)
 end

@@ -3,4 +3,5 @@ class Event < ApplicationRecord
   has_many :gift_givers, dependent: :destroy
   has_many :invites, dependent: :destroy
   has_many :invited_users, through: :invites, source: :user
+  has_many :recipients, dependent: :destroy
 end

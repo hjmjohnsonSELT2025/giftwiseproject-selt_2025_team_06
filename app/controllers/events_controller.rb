@@ -1,11 +1,62 @@
 # This controller should be used also for account creation
 class EventsController < ApplicationController
   # before_action :set_user, only: %i[ show edit update destroy ]
-  # before_action :require_login
+  before_action :require_login
 
   # GET /users or /users.json
   def index
-    @events = current_user.gift_giver_events.distinct # .distinct makes sure theres no dupe events
+    # Get
+    created_ids = Event.where(user_id: current_user.id).select(:id)
+    invited_ids = GiftGiver.where(user_id: current_user.id).select(:event_id)
+    recipient_ids = Recipient.where(user_id: current_user.id).select(:event_id)
+
+    if params[:created_by] == "me"
+      # Events created by me
+      @gift_giver_events = Event.where(user_id: current_user.id)
+
+    elsif params[:created_by] == "not_me"
+      # Events not created by me, but I was invited to
+      @gift_giver_events = Event.where(id: invited_ids).where.not(user_id: current_user.id)
+
+    else
+      # created by me OR invited to ( ANYONE)
+      @gift_giver_events = Event.where(id: created_ids).or(Event.where(id: invited_ids))
+    end
+
+    @gift_giver_events = @gift_giver_events.distinct # Else normal
+
+
+    # Title search
+    if params[:title].present?
+      search = "%#{params[:title].strip.downcase}%"
+      @gift_giver_events = @gift_giver_events.where("LOWER(title) LIKE ?", search)
+    end
+
+    # Filter by min/max budget
+    if params[:min_budget].present?
+      @gift_giver_events = @gift_giver_events.where("budget >= ?", params[:min_budget].to_f)
+    end
+
+    if params[:max_budget].present?
+      @gift_giver_events = @gift_giver_events.where("budget <= ?", params[:max_budget].to_f)
+    end
+
+    # Sorting
+    if params[:sort_by] == "name" && params[:direction] == "asc"
+      @gift_giver_events = @gift_giver_events.order(title: :asc)
+
+    elsif params[:sort_by] == "name" && params[:direction] == "desc"
+      @gift_giver_events = @gift_giver_events.order(title: :desc)
+
+    elsif params[:sort_by] == "date" && params[:direction] == "asc"
+      @gift_giver_events = @gift_giver_events.order(event_date: :asc)
+
+    elsif params[:sort_by] == "date" && params[:direction] == "desc"
+      @gift_giver_events = @gift_giver_events.order(event_date: :desc)
+    end
+
+    @recipient_events = Event.where(id: recipient_ids).distinct
+
   end
 
   # GET /users/new
@@ -38,6 +89,25 @@ class EventsController < ApplicationController
     redirect_to event_path(@event)
   end
 
+  def add_recipient
+    @event = Event.find(params[:id])
+    username = params[:username]
+    user = User.find_by(username: username)
+    if user.nil?
+      flash[:alert] = "User not found"
+      redirect_to event_path(@event) and return
+    end
+    recipient = Recipient.find_or_initialize_by(event_id: @event.id, user_id: user.id)
+    if recipient.persisted?
+      flash[:alert] = "That user is already a recipient in this event"
+    else
+      recipient.save!
+      flash[:notice] = "Recipient added successfully"
+    end
+
+    redirect_to event_path(@event)
+  end
+
   def add_event
     title = params["title"]
     event_date = params["event_date"]
@@ -51,7 +121,7 @@ class EventsController < ApplicationController
     end
     @event = Event.new(title: title, event_date: event_date, location: location, budget: budget, theme: theme, user_id: session[:user_id])
     if @event.save
-      GiftGiver.create!(event: @event, user_id: session[:user_id], recipients: "[]")
+      GiftGiver.create!(event: @event, user_id: session[:user_id])
       flash[:notice] = "Event created successfully"
       redirect_to events_path
     else

@@ -35,12 +35,10 @@
               <span><strong><%= attendee.username %></strong> is going</span>
 
               <% if current_user.id == @event.user_id %>
-                <%= button_to "Remove",
-                              remove_attendee_event_path(@event, user_id: attendee.id),
+                <%= button_to remove_attendee_event_path(@event, user_id: attendee.id),
                               method: :delete,
                               local: true do  %>
-                  <%= hidden_field_tag :user_id, attendee.id %>
-                  <%= submit_tag "Remove Attendee" %>
+                  Remove Attendee
                 <% end %>
               <% end %>
             </li>
@@ -61,6 +59,17 @@
                placeholder="Enter username..."
                class="invite-input" />
         <button type="submit" class="invite-button">Invite</button>
+      <% end %>
+    </div>
+
+    <div class="invite-container">
+      <h3>Add a Recipient</h3>
+      <%= form_tag add_recipient_event_path(@event), method: :post, class: "invite-form" do %>
+        <input type="text"
+               name="username"
+               placeholder="Enter recipient username..."
+               class="invite-input" />
+        <button type="submit" class="invite-button">Add Recipient</button>
       <% end %>
     </div>
 
