@@ -23,6 +23,31 @@ users = [
     email: "user40@mojo.com",
     username: "Username40",
     password: "MyPass40"
+  },
+  {
+    email: "user11@mojo.com",
+    username: "Username11",
+    password: "MyPass11"
+  },
+  {
+    email: "user22@mojo.com",
+    username: "Username22",
+    password: "MyPass22"
+  },
+  {
+    email: "user33@mojo.com",
+    username: "Username33",
+    password: "MyPass33"
+  },
+  {
+    email: "user44@mojo.com",
+    username: "Username44",
+    password: "MyPass44"
+  },
+  {
+    email: "user55@mojo.com",
+    username: "Username55",
+    password: "MyPass55"
   }
 ]
 
@@ -319,63 +344,63 @@ events.each do |event_data|
     user_id: event_data[:user_id]
   ).update!(event_data)
 end
-
-recipient_entries = [
-  # Event 1
-  { event_id: 1, user_id: 2 },
-  { event_id: 1, user_id: 3 },
-
-  # Event 2
-  { event_id: 2, user_id: 1 },
-
-  # Event 3
-  { event_id: 3, user_id: 2 },
-  { event_id: 3, user_id: 3 },
-
-  # Event 4
-  { event_id: 4, user_id: 1 },
-  { event_id: 4, user_id: 2 },
-  { event_id: 4, user_id: 3 },
-
-  # Event 5
-  { event_id: 5, user_id: 1 },
-  { event_id: 5, user_id: 3 }
-]
-
-recipient_entries.each do |entry|
-  Recipient.find_or_create_by!(
-    event_id: entry[:event_id],
-    user_id: entry[:user_id]
-  )
-end
-
-gift_giver_entries = [
-  # Event 1 assignments
-  { event_id: 1, user_id: 1, recipient_id: 2 },
-  { event_id: 1, user_id: 2, recipient_id: 3 },
-
-  # Event 2 assignments
-  { event_id: 2, user_id: 2, recipient_id: 1 },
-  { event_id: 2, user_id: 3, recipient_id: 1 },
-
-  # Event 3 assignments
-  { event_id: 3, user_id: 3, recipient_id: 2 },
-  { event_id: 3, user_id: 1, recipient_id: 3 },
-
-  # Event 4 assignments
-  { event_id: 4, user_id: 1, recipient_id: 3 },
-  { event_id: 4, user_id: 3, recipient_id: 2 },
-  { event_id: 4, user_id: 3, recipient_id: 1 },
-
-  # Event 5 assignments
-  { event_id: 5, user_id: 2, recipient_id: 3 },
-  { event_id: 5, user_id: 3, recipient_id: 1 }
-]
-
-gift_giver_entries.each do |entry|
-  GiftGiver.find_or_create_by!(
-    event_id: entry[:event_id],
-    user_id: entry[:user_id],
-    recipient_id: entry[:recipient_id]
-  ).update!(entry)
-end
+#
+# recipient_entries = [
+#   # Event 1
+#   { event_id: 1, user_id: 2 },
+#   { event_id: 1, user_id: 3 },
+#
+#   # Event 2
+#   { event_id: 2, user_id: 1 },
+#
+#   # Event 3
+#   { event_id: 3, user_id: 2 },
+#   { event_id: 3, user_id: 3 },
+#
+#   # Event 4
+#   { event_id: 4, user_id: 1 },
+#   { event_id: 4, user_id: 2 },
+#   { event_id: 4, user_id: 3 },
+#
+#   # Event 5
+#   { event_id: 5, user_id: 1 },
+#   { event_id: 5, user_id: 3 }
+# ]
+#
+# recipient_entries.each do |entry|
+#   Recipient.find_or_create_by!(
+#     event_id: entry[:event_id],
+#     user_id: entry[:user_id]
+#   )
+# end
+#
+# gift_giver_entries = [
+#   # Event 1 assignments
+#   { event_id: 1, user_id: 1, recipient_id: 2 },
+#   { event_id: 1, user_id: 2, recipient_id: 3 },
+#
+#   # Event 2 assignments
+#   { event_id: 2, user_id: 2, recipient_id: 1 },
+#   { event_id: 2, user_id: 3, recipient_id: 1 },
+#
+#   # Event 3 assignments
+#   { event_id: 3, user_id: 3, recipient_id: 2 },
+#   { event_id: 3, user_id: 1, recipient_id: 3 },
+#
+#   # Event 4 assignments
+#   { event_id: 4, user_id: 1, recipient_id: 3 },
+#   { event_id: 4, user_id: 3, recipient_id: 2 },
+#   { event_id: 4, user_id: 3, recipient_id: 1 },
+#
+#   # Event 5 assignments
+#   { event_id: 5, user_id: 2, recipient_id: 3 },
+#   { event_id: 5, user_id: 3, recipient_id: 1 }
+# ]
+#
+# gift_giver_entries.each do |entry|
+#   GiftGiver.find_or_create_by!(
+#     event_id: entry[:event_id],
+#     user_id: entry[:user_id],
+#     recipient_id: entry[:recipient_id]
+#   ).update!(entry)
+# end

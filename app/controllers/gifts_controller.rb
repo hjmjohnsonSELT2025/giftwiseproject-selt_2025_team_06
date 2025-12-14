@@ -1,6 +1,7 @@
 class GiftsController < ApplicationController
   def index
     @gifts = Gift.all
+    direction = params[:direction] == "asc" ? :asc : :desc
 
     # VIEW FILTERS (reduce the dataset first)
     if params[:view].present?
@@ -35,10 +36,10 @@ class GiftsController < ApplicationController
 
     # SORTING (apply LAST so it sorts the filtered dataset)
     case params[:sort]
-    when "name"  then @gifts = @gifts.order(:name)
-    when "price" then @gifts = @gifts.order(:price)
-    when "date"  then @gifts = @gifts.order(created_at: :desc)
-    when "upvotes" then @gifts = @gifts.order(upvotes: :desc)
+    when "name" then @gifts = @gifts.order(name: direction)
+    when "price" then @gifts = @gifts.order(price: direction)
+    when "date" then @gifts = @gifts.order(created_at: direction)
+    when "upvotes" then @gifts = @gifts.order(upvotes: direction)
     end
 
     # Limit the # of gifts to view per page

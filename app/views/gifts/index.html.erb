@@ -5,54 +5,173 @@
   <%= stylesheet_link_tag "default", "data-turbo-track": "reload" %>
 </head>
 
+<style>
+    .events-grid{
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 16px;
+        margin-top: 20px;
+    }
+
+    .event-card {
+        background: #ffffff;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        border: 1px solid #eee;
+    }
+
+    .event-card h3 {
+        margin-top: 0;
+        margin-bottom: 8px;
+        font-size: 1.2rem;
+        color: #333;
+    }
+
+    .event-detail{
+        font-size: 0.9rem;
+        color: #555;
+        margin-bottom: 6px;
+    }
+
+    .filters-wrapper {
+        display: flex;
+        align-items: flex-end;
+        gap: 20px;
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    .filters-bar {
+        display: flex;
+        flex-wrap: wrap;
+        flex: 1;
+        gap: 16px;
+        align-items: flex-end;
+
+        background: #f8f9fc;
+        padding: 16px 20px;
+        border-radius: 12px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        min-width: 160px;
+    }
+
+    .filter-group label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 4px;
+        color: #444;
+    }
+
+    .filter-group input,
+    .filter-group select {
+        height: 44px;
+        padding: 0 14px;
+        border-radius: 12px;
+        border: 1px solid #d0d4ff;
+        background-color: white;
+        font-size: 0.95rem;
+        color: #333;
+
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .filter-actions {
+        display: flex;
+        gap: 12px;
+    }
+
+    .create-event-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        height: 44px;
+        padding: 0 18px;
+
+        background: linear-gradient(135deg, #6d73ff, #7b5cff);
+        color: white;
+
+        border-radius: 12px;
+        border: none;
+        outline: none;
+
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-decoration: none;
+
+        box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+        cursor: pointer;
+
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .create-event-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+    }
+
+    .create-event-left {
+        white-space: nowrap;
+    }
+</style>
+
 <body>
 <div class="login-container">
   <h1>All Gifts</h1>
 
-  <div class="gift-top-buttons">
-    <!-- SORT DROPDOWN -->
-    <div class="gift-dropdown">
-      <details class="dropdown">
-        <summary class="add-gift-btn gift-search-button">Sort ▼</summary>
+  <%= form_with url: gifts_path, method: :get, local: true do %>
+    <div class="filters-wrapper">
 
-        <div class="dropdown-menu">
-          <%= link_to "Name (A–Z)", gifts_path(request.query_parameters.merge(sort: "name")), class: "dropdown-item" %>
-          <%= link_to "Price (Low → High)", gifts_path(request.query_parameters.merge(sort: "price")), class: "dropdown-item" %>
-          <%= link_to "Date Added (Newest)", gifts_path(request.query_parameters.merge(sort: "date")), class: "dropdown-item" %>
-          <%= link_to "Upvotes (High → Low)", gifts_path(request.query_parameters.merge(sort: "upvotes")), class: "dropdown-item" %>
+      <div class="filters-bar">
+        <div class="filter-group">
+          <label>Search Gifts</label>
+          <%= text_field_tag :search,
+                             params[:search],
+                             placeholder: "Search gifts..." %>
         </div>
-      </details>
-    </div>
-
-    <!-- VIEW DROPDOWN -->
-    <div class="gift-dropdown">
-      <details class="dropdown">
-        <summary class="add-gift-btn gift-search-button">View ▼</summary>
-
-        <div class="dropdown-menu">
-          <%= link_to "Wishlisted", gifts_path(request.query_parameters.merge(view: "wishlisted")), class: "dropdown-item" %>
-          <%= link_to "Ignore",     gifts_path(request.query_parameters.merge(view: "ignore")),     class: "dropdown-item" %>
-          <%= link_to "My Gifts",   gifts_path(request.query_parameters.merge(view: "created")),    class: "dropdown-item" %>
+        <div class="filter-group">
+          <label>View</label>
+          <%= select_tag :view,
+                         options_for_select([
+                                              ["All", ""],
+                                              ["Wishlisted", "wishlisted"],
+                                              ["Ignored", "ignore"],
+                                              ["My Gifts", "created"]
+                                            ], params[:view]) %>
         </div>
-      </details>
+        <div class="filter-group">
+          <label>Sort By</label>
+          <%= select_tag :sort,
+                         options_for_select([
+                                              ["Name", "name"],
+                                              ["Price", "price"],
+                                              ["Date Added", "date"],
+                                              ["Upvotes", "upvotes"]
+                                            ], params[:sort]) %>
+        </div>
+        <div class="filter-group">
+          <label>Order</label>
+          <%= select_tag :direction,
+                         options_for_select([
+                                              ["Ascending", "asc"],
+                                              ["Descending", "desc"]
+                                            ], params[:direction]),
+                         include_blank: true %>
+        </div>
+        <div class="filter-actions">
+          <%= submit_tag "Apply Filters", class: "create-event-btn" %>
+          <%= link_to "Reset Filters", gifts_path, class: "create-event-btn" %>
+        </div>
+      </div>
     </div>
-
-    <!-- SEARCH BOX -->
-    <%= form_with url: gifts_path, method: :get, local: true, class: "gift-search-form" do |f| %>
-      <!-- preserve existing filters -->
-      <% request.query_parameters.each do |key, val| %>
-        <%= hidden_field_tag key, val unless key == "search" %>
-      <% end %>
-
-      <%= f.text_field :search,
-                       value: params[:search],
-                       placeholder: "Search gifts...",
-                       class: "gift-search-input" %>
-
-      <%= f.submit "Search", class: "add-gift-btn gift-search-button" %>
-    <% end %>
-    <%= link_to "Reset Filters", gifts_path, class: "add-gift-btn gift-search-button" %>
-  </div>
+  <% end %>
 
   <br />
 
@@ -63,7 +182,6 @@
     <div class="gift-grid">
       <% @gifts.each do |gift| %>
         <div class="gift-card">
-
           <div class="gift-header">
             <h2 class="gift-title"><%= gift.name %></h2>
 
@@ -94,26 +212,18 @@
             </div>
           </div>
 
-          <!-- PRICE + DESCRIPTION -->
           <p class="gift-price"><%= number_to_currency(gift.price) %></p>
           <p class="gift-description-preview"><%= gift.description %></p>
 
-          <!-- VIEW + UPVOTE ROW -->
           <div class="gift-bottom-row"
                style="margin-top: 10px; display: flex; align-items: center; justify-content: space-between;">
-
-            <!-- View Item -->
             <div class="gift-link">
               <%= link_to "View Item",
                           gift_path(gift, request.query_parameters),
                           class: "add-gift-btn" %>
             </div>
-
-            <!-- Voting -->
             <div class="upvote-section" style="display: flex; align-items: center; gap: 10px;">
               <% user_vote = UserGiftVote.find_by(user: current_user, gift: gift)&.vote %>
-
-              <!-- Downvote -->
               <%= button_to downvote_gift_path(gift.id),
                             method: :post,
                             class: "vote-btn" do %>
@@ -123,13 +233,9 @@
                   <span style="font-size: 22px; opacity: 0.4;">🔽</span>
                 <% end %>
               <% end %>
-
-              <!-- Vote Count -->
               <span style="font-size: 18px; font-weight: bold;">
                 <%= gift.upvotes %> votes
               </span>
-
-              <!-- Upvote -->
               <%= button_to upvote_gift_path(gift.id),
                             method: :post,
                             class: "vote-btn" do %>
@@ -141,8 +247,6 @@
               <% end %>
             </div>
           </div>
-
-          <!-- Creator -->
           <p class="gift-date">
             Added on <%= gift.created_at.strftime("%Y-%m-%d") %> by <%= gift.creator.username %>
           </p>

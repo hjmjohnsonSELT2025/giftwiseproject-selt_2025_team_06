@@ -31,6 +31,38 @@ body.login-page {
     text-align: center;
 }
 
+.event-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+}
+
+/* Make the right column visually stronger */
+.gift-assignments {
+    grid-column: 3 / 4;
+}
+
+/* Optional: better card alignment */
+.invite-container {
+    background: #f8f9fc;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+.event-card2 {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin: 40px auto;
+    max-width: 1200px;
+    width: 100%;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border: 1px solid #ececec;
+    box-sizing: border-box;
+}
+
 .login-title {
     font-size: 32px;
     font-weight: 700;

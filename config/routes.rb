@@ -23,10 +23,6 @@ Rails.application.routes.draw do
   get  "/recovery", to: "recovery#new",    as: :'recovery'
   post "/recovery", to: "recovery#create"     # Handles Form Submission
 
-  # Will be changed potentially -- CJ
-  post   "/recipients",     to: "recipients#create",  as: "create_recipient"
-  delete "/recipients/:id", to: "recipients#destroy", as: "delete_recipient"
-
   # Account Recovery Pass reset page
   get "/recovery/reset", to: "recovery#edit", as: :'recovery_reset'
   patch "/recovery/reset", to: "recovery#update"
@@ -50,12 +46,15 @@ Rails.application.routes.draw do
   get "events/:id/select_gift/:recipient_id", to: "events#show", as: "select_gift_event"
   post "events/:id/assign_gift/:recipient_id/:gift_id", to: "events#assign_gift", as: "assign_gift_event"
   post "events/:id/remove_gift/:recipient_id", to: "events#remove_gift", as: "remove_gift_event"
+  post "events/:id/assign_roles", to: "events#assign_roles", as: :assign_roles_event
+  post "/events/:id/remove_assignment", to: "events#remove_assignment", as: :remove_assignment_event
 
   get 'events/:id', to: 'events#show', as: 'event'
   post 'events/:id/invite', to: 'events#invite', as: 'invite_event'
   delete "events/:id/remove_attendee", to: "events#remove_attendee", as: "remove_attendee_event"
   get "/invites", to: "invites#index", as: 'invites'
   post "invites/:id/accept", to: "invites#accept", as: 'accept_invite'
+  post "events/:id/add_recipient", to: "events#add_recipient", as: 'add_recipient_event'
 
   resources :user_preferences, only: [:create, :destroy]
   get "/preferences", to: "preferences#index", as: :preferences
