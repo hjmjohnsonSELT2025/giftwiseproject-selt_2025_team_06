@@ -33,18 +33,34 @@ module Events
         return
       end
 
-      ai_service = ::AIService.new
-      gift_ideas = ai_service.generate_gift_ideas(recipient, @event)
+      likes = recipient.user_preferences.where(category: "like").includes(:preference).map { |up| up.preference.name }
+      dislikes = recipient.user_preferences.where(category: "dislike").includes(:preference).map { |up| up.preference.name }
 
-      render json: {
-        recipient: {
-          id: recipient.id,
-          username: recipient.username,
-          likes: JSON.parse(recipient.likes || '[]'),
-          dislikes: JSON.parse(recipient.dislikes || '[]')
-        },
-        gift_ideas: gift_ideas
-      }
+      begin
+        ai_service = ::AIService.new
+        gift_ideas = ai_service.generate_gift_ideas(recipient, @event, likes: likes, dislikes: dislikes)
+
+        render json: {
+          recipient: {
+            id: recipient.id,
+            username: recipient.username,
+            likes: likes,
+            dislikes: dislikes
+          },
+          gift_ideas: gift_ideas
+        }
+      rescue => e
+        Rails.logger.error "Error generating gift ideas: #{e.message}\n#{e.backtrace.join("\n")}"
+        render json: { 
+          error: "Failed to generate gift ideas: #{e.message}",
+          recipient: {
+            id: recipient.id,
+            username: recipient.username,
+            likes: likes,
+            dislikes: dislikes
+          }
+        }, status: :internal_server_error
+      end
     end
 
     private
