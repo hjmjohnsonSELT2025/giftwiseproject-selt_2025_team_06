@@ -48,7 +48,7 @@ Rails.application.routes.draw do
   post "events/:id/remove_gift/:recipient_id", to: "events#remove_gift", as: "remove_gift_event"
   post "events/:id/assign_roles", to: "events#assign_roles", as: :assign_roles_event
   post "/events/:id/remove_assignment", to: "events#remove_assignment", as: :remove_assignment_event
-
+  get "events/:id/attendees", to: "events#attendees", as: "attendees"
   get 'events/:id', to: 'events#show', as: 'event'
   post 'events/:id/invite', to: 'events#invite', as: 'invite_event'
   post 'events/:id/invite_friends', to: 'events#invite_friends', as: 'invite_friends_event' # Multiple Friends Invite
