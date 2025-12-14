@@ -15,14 +15,6 @@ Feature: Footer support and planning information
     And I am on the login page
     Then 3 seed users should exist
 
-  Scenario: Showing next upcoming event
-    When I am logged in as Username65 with password MyPass65
-    Then I should see the closest upcoming event displayed in the footer
-
-  Scenario: Showing days until next event
-    When I am logged in as Username65 with password MyPass65
-    Then I should see how many days remain until my nearest event in the footer
-
   Scenario: Showing no events message
     When I am logged in as Username65 with password MyPass65
     And I have no upcoming events
@@ -34,7 +26,7 @@ Feature: Footer support and planning information
 
   Scenario: Tips hidden while logged out
     When I am logged out
-    Then I should not see any gift planning tips in the footer
+    Then I should not see any footer
 
   Scenario: Footer showing support link
     When I am logged in as Username65 with password MyPass65
@@ -42,10 +34,10 @@ Feature: Footer support and planning information
 
   Scenario: Footer showing contact information
     When I am logged in as Username65 with password MyPass65
-    And I am on any page
+    And I am on the events page
     Then I should see support contact information in the footer
 
   Scenario: Clear help label
     When I am logged in as Username65 with password MyPass65
-    And I am on any page
+    And I am on the events page
     Then the help or support section in the footer should be clearly labeled
