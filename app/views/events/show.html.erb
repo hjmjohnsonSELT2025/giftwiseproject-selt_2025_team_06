@@ -236,6 +236,10 @@
           <% end %>
         </div>
 
+        <div class="ai-gift-ideas-container" style="margin-top: 20px;">
+          <%= button_tag "AI Gift Ideas", id: "ai-gift-ideas-btn", class: "btn btn-primary", type: "button" %>
+        </div>
+
         <% if current_user.id == @event.user_id %>
           <div class="invite-container">
             <h3>Invite a User</h3>
@@ -255,8 +259,32 @@
       </div>
     </div>
 
+  </div>
+</div>
 
-
+<div id="chatbot-popup" class="chatbot-popup">
+  <div class="chatbot-container">
+    <div class="chatbot-header">
+      <h3>AI Gift Ideas Assistant</h3>
+      <button class="chatbot-close" id="chatbot-close-btn" type="button">&times;</button>
+    </div>
+    <div class="chatbot-body">
+      <div id="recipient-select-container" style="display: none;">
+        <label for="recipient_select">Select Recipient:</label>
+        <select id="recipient_select" name="recipient_id">
+          <option value="">-- Select a recipient --</option>
+        </select>
+      </div>
+      <div id="chatbot-messages" class="chatbot-messages"></div>
+      <div id="chatbot-loading" class="chatbot-loading" style="display: none;">
+        <p>Generating gift ideas...</p>
+      </div>
+        <div id="chatbot-input-container" class="chatbot-input-container" style="display: none;">
+          <input type="text" id="chatbot-input" placeholder="Type your message..." />
+          <button id="chatbot-send-btn" type="button">Send</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <style>
