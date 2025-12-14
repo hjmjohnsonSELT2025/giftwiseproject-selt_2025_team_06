@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Your Gifts | GiftWise</title>
+  <%= stylesheet_link_tag "default", "data-turbo-track": "reload" %>
+</head>
+
+<style>
+    .events-grid{
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 16px;
+        margin-top: 20px;
+    }
+
+    .event-card {
+        background: #ffffff;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        border: 1px solid #eee;
+    }
+
+    .event-card h3 {
+        margin-top: 0;
+        margin-bottom: 8px;
+        font-size: 1.2rem;
+        color: #333;
+    }
+
+    .event-detail{
+        font-size: 0.9rem;
+        color: #555;
+        margin-bottom: 6px;
+    }
+
+    .filters-wrapper {
+        display: flex;
+        align-items: flex-end;
+        gap: 20px;
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    .filters-bar {
+        display: flex;
+        flex-wrap: wrap;
+        flex: 1;
+        gap: 16px;
+        align-items: flex-end;
+
+        background: #f8f9fc;
+        padding: 16px 20px;
+        border-radius: 12px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        min-width: 160px;
+    }
+
+    .filter-group label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 4px;
+        color: #444;
+    }
+
+    .filter-group input,
+    .filter-group select {
+        height: 44px;
+        padding: 0 14px;
+        border-radius: 12px;
+        border: 1px solid #d0d4ff;
+        background-color: white;
+        font-size: 0.95rem;
+        color: #333;
+
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .filter-actions {
+        display: flex;
+        gap: 12px;
+    }
+
+    .create-event-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        height: 44px;
+        padding: 0 18px;
+
+        background: linear-gradient(135deg, #6d73ff, #7b5cff);
+        color: white;
+
+        border-radius: 12px;
+        border: none;
+        outline: none;
+
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-decoration: none;
+
+        box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+        cursor: pointer;
+
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .create-event-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+    }
+
+    .create-event-left {
+        white-space: nowrap;
+    }
+</style>
+
+<body>
+<div class="login-container">
+  <h1>All Gifts</h1>
+
+  <%= form_with url: gifts_path, method: :get, local: true do %>
+    <div class="filters-wrapper">
+
+      <div class="filters-bar">
+        <div class="filter-group">
+          <label>Search Gifts</label>
+          <%= text_field_tag :search,
+                             params[:search],
+                             placeholder: "Search gifts..." %>
+        </div>
+        <div class="filter-group">
+          <label>View</label>
+          <%= select_tag :view,
+                         options_for_select([
+                                              ["All", ""],
+                                              ["Wishlisted", "wishlisted"],
+                                              ["Ignored", "ignore"],
+                                              ["My Gifts", "created"]
+                                            ], params[:view]) %>
+        </div>
+        <div class="filter-group">
+          <label>Sort By</label>
+          <%= select_tag :sort,
+                         options_for_select([
+                                              ["Name", "name"],
+                                              ["Price", "price"],
+                                              ["Date Added", "date"],
+                                              ["Upvotes", "upvotes"]
+                                            ], params[:sort]) %>
+        </div>
+        <div class="filter-group">
+          <label>Order</label>
+          <%= select_tag :direction,
+                         options_for_select([
+                                              ["Ascending", "asc"],
+                                              ["Descending", "desc"]
+                                            ], params[:direction]),
+                         include_blank: true %>
+        </div>
+        <div class="filter-actions">
+          <%= submit_tag "Apply Filters", class: "create-event-btn" %>
+          <%= link_to "Reset Filters", gifts_path, class: "create-event-btn" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <br />
+
+  <% if @gifts.empty? %>
+    <p>No gifts have been added yet.</p>
+  <% else %>
+
+    <div class="gift-grid">
+      <% @gifts.each do |gift| %>
+        <div class="gift-card">
+          <div class="gift-header">
+            <h2 class="gift-title"><%= gift.name %></h2>
+
+            <div class="gift-actions">
+              <% is_wishlisted = @user_statuses[gift.id] == @wishlisted_status&.id %>
+
+              <%= button_to toggle_wishlisted_gift_path(gift.id, page: @page),
+                            method: :post,
+                            class: "star-button action-btn" do %>
+                <% if is_wishlisted %>
+                  <span class="gift-star filled">★</span>
+                <% else %>
+                  <span class="gift-star">☆</span>
+                <% end %>
+              <% end %>
+
+              <% is_ignored = @user_statuses[gift.id] == @ignored_status&.id %>
+
+              <%= button_to toggle_ignored_gift_path(gift.id, page: @page),
+                            method: :post,
+                            class: "x-button action-btn" do %>
+                <% if is_ignored %>
+                  <span class="gift-x filled">✘</span>
+                <% else %>
+                  <span class="gift-x">✘</span>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+
+          <p class="gift-price"><%= number_to_currency(gift.price) %></p>
+          <p class="gift-description-preview"><%= gift.description %></p>
+
+          <div class="gift-bottom-row"
+               style="margin-top: 10px; display: flex; align-items: center; justify-content: space-between;">
+            <div class="gift-link">
+              <%= link_to "View Item",
+                          gift_path(gift, request.query_parameters),
+                          class: "add-gift-btn" %>
+            </div>
+            <div class="upvote-section" style="display: flex; align-items: center; gap: 10px;">
+              <% user_vote = UserGiftVote.find_by(user: current_user, gift: gift)&.vote %>
+              <%= button_to downvote_gift_path(gift.id),
+                            method: :post,
+                            class: "vote-btn" do %>
+                <% if user_vote == -1 %>
+                  <span style="font-size: 22px;">🔽</span>
+                <% else %>
+                  <span style="font-size: 22px; opacity: 0.4;">🔽</span>
+                <% end %>
+              <% end %>
+              <span style="font-size: 18px; font-weight: bold;">
+                <%= gift.upvotes %> votes
+              </span>
+              <%= button_to upvote_gift_path(gift.id),
+                            method: :post,
+                            class: "vote-btn" do %>
+                <% if user_vote == 1 %>
+                  <span style="font-size: 22px;">🔼</span>
+                <% else %>
+                  <span style="font-size: 22px; opacity: 0.4;">🔼</span>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+          <p class="gift-date">
+            Added on <%= gift.created_at.strftime("%Y-%m-%d") %> by <%= gift.creator.username %>
+          </p>
+        </div>
+      <% end %>
+    </div>
+
+  <% end %>
+
+  <% if @total_pages > 1 %>
+    <div class="pagination-controls" style="text-align: center; margin-top: 2rem;">
+
+      <% if @page > 1 %>
+        <%= link_to "← Previous",
+                    gifts_path(request.query_parameters.merge(page: @page - 1)),
+                    class: "add-gift-btn",
+                    style: "margin-right: 10px;" %>
+      <% end %>
+
+      <span style="font-size: 1.2rem; font-weight: 600;">
+        Page <%= @page %> of <%= @total_pages %>
+      </span>
+
+      <% if @page < @total_pages %>
+        <%= link_to "Next →",
+                    gifts_path(request.query_parameters.merge(page: @page + 1)),
+                    class: "add-gift-btn",
+                    style: "margin-left: 10px;" %>
+      <% end %>
+
+    </div>
+  <% end %>
+
+  <br />
+  <div class="add-gift-btn-container">
+    <a href="<%= new_gift_path %>" class="add-gift-btn">+ Add New Gift</a>
+  </div>
+
+</div>
+</body>
+</html>

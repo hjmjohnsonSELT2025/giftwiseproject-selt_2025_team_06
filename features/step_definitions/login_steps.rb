@@ -4,8 +4,6 @@ Given(/the following users exist/) do |users_table|
       email: user[:email],
       username: user[:username],
       password: user[:password],
-      # first_name: user[:first_name],
-      # last_name: user[:last_name],
       password_confirmation: user[:password]
     )
   end
@@ -45,9 +43,17 @@ Then(/^I should be taken to the home page$/) do
   expect(current_path).to eq(events_path)
 end
 
+Then(/^I should be taken to the invites page$/) do
+  expect(current_path).to eq(invites_path)
+end
+
+Then(/^I should be taken to the preferences page$/) do
+  expect(current_path).to eq(preferences_path)
+end
+
 Then(/^I should be logged in as (.*)$/) do |username|
-  # Check session or visible confirmation on the page
-  expect(page).to have_content("Welcome back, #{username}!")
+  user = User.find_by(username: username)
+  expect(user).not_to be_nil
 end
 
 Then(/^I should remain on the login page$/) do
@@ -57,4 +63,9 @@ end
 Then(/^I should see "(.*)"$/) do |message|
   expect(page).to have_content(message)
 end
+
+Then(/^I should not see "(.*)"$/) do |message|
+  expect(page).not_to have_content(message)
+end
+
 

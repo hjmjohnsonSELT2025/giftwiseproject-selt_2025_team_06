@@ -1,10 +1,6 @@
 <nav class="navbar">
   <div class="navbar-left">
-    <% if current_user %>
-      <%= link_to "GiftWise", events_path, class: "navbar-brand" %>
-    <% else %>
-      <%= link_to "GiftWise", root_path, class: "navbar-brand" %>
-    <% end %>
+    <%= link_to "GiftWise", events_path, class: "navbar-brand" %>
   </div>
 
   <ul class="navbar-links">
@@ -47,7 +43,7 @@
                       method: :get,
                       class: "navbar-button" %>
       </li>
-    <% end %>
+  <% end %>
   </ul>
 </nav>
 
