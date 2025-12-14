@@ -21,6 +21,32 @@ class AIService
     response = call_openai_api(prompt, likes: likes, dislikes: dislikes)
     parse_gift_ideas(response, likes: likes, dislikes: dislikes)
   end
+
+  def chat(user_message, conversation_history, recipient, event = nil)
+    likes = recipient.user_preferences.where(category: "like").includes(:preference).map { |up| up.preference.name }
+    dislikes = recipient.user_preferences.where(category: "dislike").includes(:preference).map { |up| up.preference.name }
+    
+    if conversation_history.empty? || conversation_history.first['role'] != 'system'
+      system_message = "You are a helpful gift recommendation assistant helping to find gifts for #{recipient.username}. "
+      system_message += "Their likes: #{likes.join(', ') || 'None specified'}. "
+      system_message += "Their dislikes: #{dislikes.join(', ') || 'None specified'}. "
+      if event
+        system_message += "Event: #{event.theme} on #{event.event_date}. Budget: $#{event.budget}. "
+      end
+      system_message += "Be conversational, helpful, and provide thoughtful gift suggestions."
+      
+      conversation_history = [{ role: 'system', content: system_message }] + conversation_history
+    end
+    
+    messages = conversation_history.map do |msg|
+      { role: msg['role'] || msg[:role], content: msg['content'] || msg[:content] }
+    end
+
+    messages << { role: 'user', content: user_message }
+    
+    response = call_openai_api_chat(messages)
+    parse_chat_response(response)
+  end
   
   private
   
@@ -78,10 +104,34 @@ class AIService
     raise
   end
 
+  def call_openai_api_chat(messages)
+    if @api_key.blank?
+      raise "AIService: No API key found. Check that OPENAI_API_KEY is set in .env file and server has been restarted."
+    end
+
+    require 'openai'
+
+    client = OpenAI::Client.new(access_token: @api_key)
+    
+    response = client.chat(
+      parameters: {
+        model: @model,
+        messages: messages,
+        temperature: 0.7,
+        max_tokens: 500
+      }
+    )
+
+    Rails.logger.info "OpenAI Chat Response: #{response.inspect}"
+    response
+  rescue => e
+    Rails.logger.error "OpenAI API Error: #{e.message}\n#{e.backtrace.join("\n")}"
+    raise
+  end
+
   def parse_gift_ideas(api_response, likes: [], dislikes: [])
     Rails.logger.info "Parsing API response: #{api_response.class} - #{api_response.keys.inspect}" if api_response.respond_to?(:keys)
     
-    # Handle both string and symbol keys
     choices = api_response['choices'] || api_response[:choices]
     
     if choices && choices[0]
@@ -96,6 +146,18 @@ class AIService
              .map { |line| line.gsub(/^[•\-\*]\s*/, '') }
              .reject(&:empty?)
       parsed
+    else
+      raise "Invalid API response format: #{api_response.inspect}"
+    end
+  end
+
+  def parse_chat_response(api_response)
+    choices = api_response['choices'] || api_response[:choices]
+    
+    if choices && choices[0]
+      message = choices[0]['message'] || choices[0][:message]
+      content = message['content'] || message[:content]
+      content
     else
       raise "Invalid API response format: #{api_response.inspect}"
     end
