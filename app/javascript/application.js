@@ -15,3 +15,18 @@ document.addEventListener("turbo:load", function () {
         });
     }
 });
+function sortChoice(listId, choice) {
+    const list = document.getElementById(listId);
+    const items = Array.from(list.querySelectorAll("li"));
+
+    if (choice === "alpha") {
+        items.sort((a, b) => a.textContent.localeCompare(b.textContent));
+    } else if (choice === "added") {
+        items.sort((a, b) => {
+            return parseInt(a.getAttribute("data-added")) - parseInt(b.getAttribute("data-added"));
+        });
+    }
+
+    list.innerHTML = "";
+    items.forEach(item => list.appendChild(item));
+}

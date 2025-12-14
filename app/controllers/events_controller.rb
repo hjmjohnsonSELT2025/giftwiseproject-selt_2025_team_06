@@ -320,5 +320,11 @@ class EventsController < ApplicationController
     redirect_to event_path(@event), notice: "Invites sent!"
   end
 
+  def attendees
+    @event = Event.find(params[:id])
+    @gift_givers = @event.gift_givers.includes(:user)
+    @recipients  = @event.recipients.includes(:user)
+  end
+
 
 end

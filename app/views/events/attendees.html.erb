@@ -1,0 +1,64 @@
+<h2 class="page-header">Attendees for <%= @event.title %></h2>
+
+<div class="attendees-grid">
+  <!-- Gift Givers Column -->
+  <div class="attendees-column">
+    <h3>Gift Givers</h3>
+    <label for="gift-givers-sort">Sort:</label>
+    <select id="gift-givers-sort"
+            onchange="sortChoice('gift-givers-list', this.value)"
+            class="form-select">
+      <option value="added">By Added</option>
+      <option value="alpha">Alphabetical</option>
+    </select>
+
+    <ul id="gift-givers-list">
+      <% @gift_givers.each_with_index do |giver, index| %>
+        <% user = giver.user %>
+        <% next if user.nil? %>
+        <li data-added="<%= index %>"><%= user.username %></li>
+      <% end %>
+    </ul>
+  </div>
+
+  <!-- Recipients Column -->
+  <div class="attendees-column">
+    <h3>Recipients</h3>
+    <label for="recipients-sort">Sort:</label>
+    <select id="recipients-sort"
+            onchange="sortChoice('recipients-list', this.value)"
+            class="form-select">
+      <option value="added">By Added</option>
+      <option value="alpha">Alphabetical</option>
+    </select>
+
+    <ul id="recipients-list">
+      <% @recipients.each_with_index do |recipient, index| %>
+        <% user = recipient.user %>
+        <% next if user.nil? %>
+        <li data-added="<%= index %>"><%= user.username %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<style> .attendees-grid {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 2rem;
+}
+
+.attendees-column {
+    flex: 1;
+    text-align: center;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;   /* ensure visible */
+    display: block;
+
+}
+</style>
