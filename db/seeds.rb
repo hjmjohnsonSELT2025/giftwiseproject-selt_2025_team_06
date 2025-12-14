@@ -23,6 +23,31 @@ users = [
     email: "user40@mojo.com",
     username: "Username40",
     password: "MyPass40"
+  },
+  {
+    email: "user11@mojo.com",
+    username: "Username11",
+    password: "MyPass11"
+  },
+  {
+    email: "user22@mojo.com",
+    username: "Username22",
+    password: "MyPass22"
+  },
+  {
+    email: "user33@mojo.com",
+    username: "Username33",
+    password: "MyPass33"
+  },
+  {
+    email: "user44@mojo.com",
+    username: "Username44",
+    password: "MyPass44"
+  },
+  {
+    email: "user55@mojo.com",
+    username: "Username55",
+    password: "MyPass55"
   }
 ]
 
@@ -264,3 +289,118 @@ Gift.find_or_create_by!(
   upvotes: 492,
   creator_id: 3
 )
+
+events = [
+  {
+    title: "Holiday Gift Exchange",
+    event_date: Date.new(2025, 12, 20),
+    location: "Cedar Rapids Community Center",
+    budget: 200.00,
+    theme: "Festive",
+    user_id: 1,
+    host_id: 1
+  },
+  {
+    title: "Birthday Celebration",
+    event_date: Date.new(2025, 7, 10),
+    location: "Iowa City Park Pavilion",
+    budget: 150.00,
+    theme: "Outdoor Picnic",
+    user_id: 2,
+    host_id: 2
+  },
+  {
+    title: "Friendsgiving Dinner",
+    event_date: Date.new(2025, 11, 23),
+    location: "Downtown Loft",
+    budget: 300.00,
+    theme: "Cozy Autumn",
+    user_id: 3,
+    host_id: 3
+  },
+  {
+    title: "Game Night Gathering",
+    event_date: Date.new(2025, 8, 14),
+    location: "Username65's Apartment",
+    budget: 75.00,
+    theme: "Board Games",
+    user_id: 1,
+    host_id: 3
+  },
+  {
+    title: "New Year's Bash",
+    event_date: Date.new(2025, 12, 31),
+    location: "Skyline Venue Hall",
+    budget: 500.00,
+    theme: "Black & Gold",
+    user_id: 2,
+    host_id: 1
+  }
+]
+
+events.each do |event_data|
+  Event.find_or_create_by!(
+    title: event_data[:title],
+    user_id: event_data[:user_id]
+  ).update!(event_data)
+end
+#
+# recipient_entries = [
+#   # Event 1
+#   { event_id: 1, user_id: 2 },
+#   { event_id: 1, user_id: 3 },
+#
+#   # Event 2
+#   { event_id: 2, user_id: 1 },
+#
+#   # Event 3
+#   { event_id: 3, user_id: 2 },
+#   { event_id: 3, user_id: 3 },
+#
+#   # Event 4
+#   { event_id: 4, user_id: 1 },
+#   { event_id: 4, user_id: 2 },
+#   { event_id: 4, user_id: 3 },
+#
+#   # Event 5
+#   { event_id: 5, user_id: 1 },
+#   { event_id: 5, user_id: 3 }
+# ]
+#
+# recipient_entries.each do |entry|
+#   Recipient.find_or_create_by!(
+#     event_id: entry[:event_id],
+#     user_id: entry[:user_id]
+#   )
+# end
+#
+# gift_giver_entries = [
+#   # Event 1 assignments
+#   { event_id: 1, user_id: 1, recipient_id: 2 },
+#   { event_id: 1, user_id: 2, recipient_id: 3 },
+#
+#   # Event 2 assignments
+#   { event_id: 2, user_id: 2, recipient_id: 1 },
+#   { event_id: 2, user_id: 3, recipient_id: 1 },
+#
+#   # Event 3 assignments
+#   { event_id: 3, user_id: 3, recipient_id: 2 },
+#   { event_id: 3, user_id: 1, recipient_id: 3 },
+#
+#   # Event 4 assignments
+#   { event_id: 4, user_id: 1, recipient_id: 3 },
+#   { event_id: 4, user_id: 3, recipient_id: 2 },
+#   { event_id: 4, user_id: 3, recipient_id: 1 },
+#
+#   # Event 5 assignments
+#   { event_id: 5, user_id: 2, recipient_id: 3 },
+#   { event_id: 5, user_id: 3, recipient_id: 1 }
+# ]
+#
+# gift_giver_entries.each do |entry|
+#   GiftGiver.find_or_create_by!(
+#     event_id: entry[:event_id],
+#     user_id: entry[:user_id],
+#     recipient_id: entry[:recipient_id]
+#   ).update!(entry)
+# end

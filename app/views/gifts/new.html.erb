@@ -3,6 +3,9 @@
 
   <%= form_with model: @gift, url: create_gift_path, method: :post do |f| %>
 
+    <%= hidden_field_tag :event_id, params[:event_id] %>
+    <%= hidden_field_tag :recipient_id, params[:recipient_id] %>
+
     <div>
       <%= f.label :name, "Name", class: "form-label" %>
       <%= f.text_field :name, class: "form-input" %>
