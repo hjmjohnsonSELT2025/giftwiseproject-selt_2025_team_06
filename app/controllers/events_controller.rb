@@ -225,7 +225,6 @@ class EventsController < ApplicationController
       return
     end
 
-    # Prevent duplicate assignment (same giver → same recipient)
     if GiftGiver.exists?(
       event_id: @event.id,
       user_id: giver_id,
@@ -235,6 +234,11 @@ class EventsController < ApplicationController
       return
     end
 
+    Recipient.find_or_create_by!(
+      event_id: @event.id,
+      user_id: recipient_id
+    )
+
     GiftGiver.create!(
       event_id: @event.id,
       user_id: giver_id,
@@ -243,6 +247,7 @@ class EventsController < ApplicationController
 
     redirect_to event_path(@event), notice: "Recipient assigned"
   end
+
 
   def remove_assignment
     @event = Event.find(params[:id])
