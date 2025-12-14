@@ -1,5 +1,9 @@
 let chatbotInitialized = false;
 
+document.addEventListener('turbo:before-cache', function() {
+  chatbotInitialized = false;
+});
+
 document.addEventListener('turbo:load', function() {
   if (!chatbotInitialized) {
     initializeChatbot();
