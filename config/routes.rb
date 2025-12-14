@@ -51,6 +51,8 @@ Rails.application.routes.draw do
 
   get 'events/:id', to: 'events#show', as: 'event'
   post 'events/:id/invite', to: 'events#invite', as: 'invite_event'
+  post 'events/:id/invite_friends', to: 'events#invite_friends', as: 'invite_friends_event' # Multiple Friends Invite
+
   delete "events/:id/remove_attendee", to: "events#remove_attendee", as: "remove_attendee_event"
   get "/invites", to: "invites#index", as: 'invites'
   post "invites/:id/accept", to: "invites#accept", as: 'accept_invite'
@@ -61,4 +63,6 @@ Rails.application.routes.draw do
   post "/preferences/bulk_save", to: "preferences#bulk_save", as: :bulk_save_preferences
 
   match "*path", to: redirect("/events"), via: :all
+  resources :friendships, only: %i[index create update destroy]
+
 end

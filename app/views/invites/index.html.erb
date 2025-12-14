@@ -1,33 +1,134 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Your Invites | GiftWise</title>
-  <%= stylesheet_link_tag "default", "data-turbo-track": "reload" %>
-</head>
-
-<div class="login-container">
-  <h1>All Invites</h1>
+<div class="page-container">
   <h1>Your Invitations</h1>
 
-  <% if flash[:alert] %>
-    <p class="alert"><%= flash[:alert] %></p>
-  <% elsif flash[:notice] %>
-    <p class="notice"><%= flash[:notice] %></p>
+  <% flash.each do |type, message| %>
+    <div class="flash <%= type %>"><%= message %></div>
   <% end %>
 
   <% if @invites.any? %>
-   <ul>
-     <% @invites.each do |invite| %>
-     <li>
-       <strong> <%= invite.event.title %></strong>
-       <%= button_to "Accept", accept_invite_path(invite), method: :post, class: "btn btn-default" %>
-     </li>
-     <% end %>
-   </ul>
+    <div class="invite-list">
+      <% @invites.each do |invite| %>
+        <% event = invite.event %>
+
+        <div class="invite-card">
+          <div class="invite-info">
+
+            <h2 class="event-title badge-wrapper">
+              <%= event.title %>
+
+              <% if invite.status == "pending" %>
+                <span class="invite-badge">NEW</span>
+              <% end %>
+            </h2>
+            <p class="meta">
+              <strong>Host:</strong>
+              <%= event.host&.username || event.user.username %>
+            </p>
+
+            <p class="meta">
+              <strong>Date:</strong>
+              <%= event.event_date.strftime("%B %d, %Y") %>
+            </p>
+
+            <% if event.location.present? %>
+              <p class="meta">
+                <strong>Location:</strong> <%= event.location %>
+              </p>
+            <% end %>
+
+            <% if event.budget.present? %>
+              <p class="meta">
+                <strong>Budget:</strong>
+                $<%= number_with_precision(event.budget, precision: 2) %>
+              </p>
+            <% end %>
+
+            <% if event.theme.present? %>
+              <p class="meta">
+                <strong>Theme:</strong> <%= event.theme %>
+              </p>
+            <% end %>
+          </div>
+
+          <div class="invite-actions">
+            <%= button_to "Accept",
+                          accept_invite_path(invite),
+                          method: :post,
+                          class: "btn-success" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
   <% else %>
-  <p> You don't have any pending invites.</p>
+    <p class="muted">You don’t have any pending invitations.</p>
   <% end %>
-
-
-
 </div>
+<style>
+
+  .invite-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  }
+
+  .invite-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 16px 20px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  }
+
+  .invite-info {
+  max-width: 70%;
+  }
+
+  .event-title {
+  margin: 0 0 8px 0;
+  font-size: 1.25rem;
+  }
+
+  .meta {
+  margin: 4px 0;
+  color: #4b5563;
+  }
+
+  .invite-actions {
+  display: flex;
+  align-items: center;
+  }
+
+  .btn-success {
+  min-width: 100px;
+  height: 36px;
+  border-radius: 6px;
+
+  background: #16a34a;
+  color: white;
+  border: none;
+
+  font-weight: 500;
+  cursor: pointer;
+  }
+
+  .badge-wrapper {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+  }
+
+  .invite-badge {
+      background: #dc2626;
+      color: white;
+      font-size: 0.65rem;
+      padding: 3px 6px;
+      border-radius: 999px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+  }
+
+</style>

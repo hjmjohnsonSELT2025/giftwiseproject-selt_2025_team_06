@@ -15,4 +15,15 @@ class ApplicationController < ActionController::Base
       redirect_to login_path
     end
   end
+  # Use to track num of current friend requests used for ! icon
+  before_action :set_friend_request_count, if: :current_user
+  before_action :set_event_invite_count, if: :current_user
+
+  def set_friend_request_count
+    @pending_friend_requests_count = Friendship.where(friend_id: current_user.id, status: "pending").count
+  end
+  def set_event_invite_count
+    @pending_event_invites_count =
+      Invite.where(user_id: current_user.id, status: "pending").count
+  end
 end
