@@ -37,7 +37,7 @@ Given(/^that I can see an invite listed for "(.*)"$/) do |event_title|
 end
 
 When(/^I press the "([^"]*)" button$/) do |button_name|
-  click_button(button_name)
+  click_on(button_name)
 end
 
 Then(/^I should see an invite listed for "(.*)"$/) do |event_title|
