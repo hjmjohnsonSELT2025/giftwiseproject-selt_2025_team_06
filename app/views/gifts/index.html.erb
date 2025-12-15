@@ -224,10 +224,10 @@
             </div>
             <div class="upvote-section" style="display: flex; align-items: center; gap: 10px;">
               <% user_vote = UserGiftVote.find_by(user: current_user, gift: gift)&.vote %>
-              <%= button_to downvote_gift_path(gift.id),
+              <%= button_to downvote_gift_path(gift.id, request.query_parameters),
                             method: :post,
                             class: "vote-btn" do %>
-                <% if user_vote == -1 %>
+            <% if user_vote == -1 %>
                   <span style="font-size: 22px;">🔽</span>
                 <% else %>
                   <span style="font-size: 22px; opacity: 0.4;">🔽</span>
@@ -236,7 +236,7 @@
               <span style="font-size: 18px; font-weight: bold;">
                 <%= gift.upvotes %> votes
               </span>
-              <%= button_to upvote_gift_path(gift.id),
+              <%= button_to upvote_gift_path(gift.id, request.query_parameters),
                             method: :post,
                             class: "vote-btn" do %>
                 <% if user_vote == 1 %>

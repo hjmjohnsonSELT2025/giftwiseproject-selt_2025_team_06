@@ -79,7 +79,7 @@ class GiftsController < ApplicationController
     delta = new_vote - old_vote
     gift.update!(upvotes: gift.upvotes + delta)
 
-    redirect_to gifts_path(page: params[:page])
+    redirect_to gifts_path(request.query_parameters)
   end
 
   def downvote
@@ -103,7 +103,7 @@ class GiftsController < ApplicationController
     delta = new_vote - old_vote
     gift.update!(upvotes: gift.upvotes + delta)
 
-    redirect_to gifts_path(page: params[:page])
+    redirect_to gifts_path(request.query_parameters)
   end
 
   def new
