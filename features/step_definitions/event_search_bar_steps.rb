@@ -70,14 +70,18 @@ When("I apply the filters") do
 end
 
 Then("I should see the following events:") do |table|
-  table.raw.flatten.each do |event_title|
-    expect(page).to have_content(event_title)
+  within("#event-results") do
+    table.raw.flatten.each do |event_title|
+      expect(page).to have_content(event_title)
+    end
   end
 end
 
 Then("I should not see the following events:") do |table|
-  table.raw.flatten.each do |event_title|
-    expect(page).not_to have_content(event_title)
+  within("#event-results") do
+    table.raw.flatten.each do |event_title|
+      expect(page).not_to have_content(event_title)
+    end
   end
 end
 
