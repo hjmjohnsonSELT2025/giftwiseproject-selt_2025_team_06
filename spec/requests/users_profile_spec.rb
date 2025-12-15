@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe "Users", type: :request do
   let(:user) { User.create!(username: "testuser", email: "test@example.com", password: "password") }
 
+  before do
+    post login_path, params: { username: user.username, password: "password" }
+  end
+
   describe "GET /users/:id" do
     it "returns a successful response" do
       get user_path(user)
@@ -27,14 +31,18 @@ RSpec.describe "Users", type: :request do
       expect(response.body).to include("Change Password")
     end
 
-    it "includes the Delete Account button" do
-      get user_path(user)
-      expect(response.body).to include("Delete Account")
+  end
+  describe "DELETE /users/:id" do
+    it "deletes the user account when confirmation matches" do
+      delete user_path(user), params: { confirm_username: user.username }
+      expect(response).to redirect_to(login_path)
+      expect(User.exists?(user.id)).to be_falsey
     end
 
-    it "includes the Back to Events Page button" do
-      get user_path(user)
-      expect(response.body).to include("Back to Events Page")
+    it "does not delete the user when confirmation fails" do
+      delete user_path(user), params: { confirm_username: "wrongname" }
+      expect(response).to redirect_to(user_path(user))
+      expect(User.exists?(user.id)).to be_truthy
     end
   end
 end

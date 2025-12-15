@@ -18,6 +18,7 @@ gem "image_processing", "~> 1.2"
 gem "tzinfo-data", platforms: %i[windows jruby]
 gem 'mailtrap' # Used for Sending Emails
 gem 'ruby-openai'
+gem 'devise'
 
 
 group :development, :test do
