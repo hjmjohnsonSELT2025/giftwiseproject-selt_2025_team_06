@@ -34,12 +34,17 @@ class GiftsController < ApplicationController
       @gifts = @gifts.where("LOWER(name) LIKE ?", term)
     end
 
-    # SORTING (apply LAST so it sorts the filtered dataset)
     case params[:sort]
-    when "name" then @gifts = @gifts.order(name: direction)
-    when "price" then @gifts = @gifts.order(price: direction)
-    when "date" then @gifts = @gifts.order(created_at: direction)
-    when "upvotes" then @gifts = @gifts.order(upvotes: direction)
+    when "name"
+      @gifts = @gifts.order(name: direction, id: :asc)
+    when "price"
+      @gifts = @gifts.order(price: direction, id: :asc)
+    when "date"
+      @gifts = @gifts.order(created_at: direction, id: :asc)
+    when "upvotes"
+      @gifts = @gifts.order(upvotes: direction, id: :asc)
+    else
+      @gifts = @gifts.order(created_at: :desc, id: :asc)
     end
 
     # Limit the # of gifts to view per page
