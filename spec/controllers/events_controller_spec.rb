@@ -2,6 +2,14 @@ require 'spec_helper'
 require 'rails_helper'
 
 describe EventsController do
+  render_views
+  let(:user) { User.create!(username: "tester", email: "tester@example.com", password: "oldpassword") }
+
+  before do
+    # Simulate login by setting session
+    session[:user_id] = user.id
+  end
+
   describe 'creating event' do
     it 'should render the new event page when new is called' do
       get :new
@@ -23,13 +31,13 @@ describe EventsController do
 
   describe 'attendees page' do
     let(:host) { User.create!(username: "host", email: "host@example.com", password: "password") }
-    let(:event) { Event.create!(title: "Holiday Party", event_date: Date.today, location: "Clubhouse", budget: 100, theme: "Festive", user: host) }
+    let(:event) { Event.create!(title: "Holiday Party", event_date: Date.today, location: "Clubhouse", budget: 100, theme: "Festive", host: host) }
     let(:giver) { User.create!(username: "giver", email: "giver@example.com", password: "password") }
     let(:recipient) { User.create!(username: "recipient", email: "recipient@example.com", password: "password") }
 
     before do
-      GiftGiver.create!(event: event, user: giver, recipients: "[]")
-      Invite.create!(event: event, user: recipient, status: "accepted")
+      GiftGiver.create!(event: event, user: giver)
+      Recipient.create!(event: event, user: recipient)
     end
 
     it 'renders the attendees template' do
