@@ -1,15 +1,5 @@
 Given(/^I am logged in as user "(.*)"$/) do |username|
   visit login_path
-
-  if current_path != login_path
-    begin
-      click_button "Logout" if page.has_button?("Logout", wait: 2)
-      expect(page).to have_current_path(login_path, wait: 5)
-    rescue
-      visit login_path
-    end
-  end
-  
   fill_in 'username', with: username
   fill_in 'password', with: '12345678'
   click_button 'Log In'
