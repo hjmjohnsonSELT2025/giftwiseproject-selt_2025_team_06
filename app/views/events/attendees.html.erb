@@ -13,10 +13,14 @@
     </select>
 
     <ul id="gift-givers-list">
-      <% @gift_givers.each_with_index do |giver, index| %>
-        <% user = giver.user %>
-        <% next if user.nil? %>
+      <% @gift_givers
+           .map(&:user)
+           .compact
+           .uniq { |u| u.id }
+           .each_with_index do |user, index| %>
+
         <li data-added="<%= index %>"><%= user.username %></li>
+
       <% end %>
     </ul>
   </div>
@@ -33,10 +37,14 @@
     </select>
 
     <ul id="recipients-list">
-      <% @recipients.each_with_index do |recipient, index| %>
-        <% user = recipient.user %>
-        <% next if user.nil? %>
+      <% @recipients
+           .map(&:user)
+           .compact
+           .uniq { |u| u.id }
+           .each_with_index do |user, index| %>
+
         <li data-added="<%= index %>"><%= user.username %></li>
+
       <% end %>
     </ul>
   </div>
