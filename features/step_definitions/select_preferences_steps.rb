@@ -10,12 +10,18 @@ Given(/^a user exists with username "(.*)" email "(.*)" and password "(.*)"$/) d
 
   Given(/^I am logged in as "testuser"$/) do
     user = User.find_by!(username: "testuser")
+    
     visit login_path
-    fill_in "Username / Email", with: user.username
-    password_to_use = defined?(@user_password) && @user_password ? @user_password : "password"
-    fill_in "Password", with: password_to_use
-    click_button "Log In"
-    expect(page).not_to have_current_path(login_path, wait: 5)
+    
+    if page.current_path == login_path || page.current_path == "/login"
+      fill_in "Username / Email", with: user.username
+      password_to_use = defined?(@user_password) && @user_password ? @user_password : "password"
+      fill_in "Password", with: password_to_use
+      click_button "Log In"
+      expect(page).not_to have_current_path(login_path, wait: 5)
+    else
+      expect(page).not_to have_current_path(login_path)
+    end
   end
   
   Given(/^the following preferences exist:$/) do |table|
@@ -26,30 +32,19 @@ Given(/^a user exists with username "(.*)" email "(.*)" and password "(.*)"$/) d
   
   When(/^I visit the preferences page$/) do
     visit preferences_path
+    expect(page).to have_current_path(preferences_path, wait: 5)
   end
   
   When(/^I check "(.*)" under likes$/) do |name|
-    expect(page).to have_content(name, wait: 5)
-    
     pref = Preference.find_by(name: name)
     if pref
-      begin
-        checkbox_id = "likes_#{pref.id}"
-        expect(page).to have_field(checkbox_id, wait: 2)
-        check(checkbox_id)
-      rescue Capybara::ElementNotFound
-        within("#likes-list") do
-          find("label", text: /#{Regexp.escape(name)}/i).find("input[type='checkbox']").check
-        end
-      end
+      checkbox_id = "likes_#{pref.id}"
+      expect(page).to have_field(checkbox_id, wait: 5)
+      check(checkbox_id)
     else
       checkbox_id = "new_like_" + name.downcase.gsub(/\s+/, "_")
-      begin
-        expect(page).to have_field(checkbox_id, wait: 5)
-        check(checkbox_id)
-      rescue Capybara::ElementNotFound
-        find("#new_like_field", visible: false).set(name)
-      end
+      expect(page).to have_field(checkbox_id, wait: 10)
+      check(checkbox_id)
     end
   end
   
@@ -71,7 +66,7 @@ Given(/^a user exists with username "(.*)" email "(.*)" and password "(.*)"$/) d
   end
   
   When(/^I fill in "add-pref-name" with "(.*)"$/) do |value|
-    expect(page).to have_field("add-like-input", wait: 5)
+    expect(page).to have_field("add-like-input", visible: true, wait: 10)
     fill_in "add-like-input", with: value
   end
   
