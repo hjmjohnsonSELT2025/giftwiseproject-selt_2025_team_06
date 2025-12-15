@@ -22,10 +22,6 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
-  # GET /users/1/edit
-  def edit
-
-  end
 
   # POST /users or /users.json
   def create
@@ -82,6 +78,33 @@ class UsersController < ApplicationController
     redirect_to preferences_path
   end
 
+  # GET /users/1 or /users/1.json
+  def change_password
+    @user = current_user
+  end
+
+  # PATCH/PUT /users/1 or /users/1.json
+  def update_password
+    @user = current_user
+    if @user.authenticate(params[:current_password])
+      if params[:new_password] == params[:confirm_password]
+        if @user.update(password: params[:new_password])
+          flash[:success] = "Password updated successfully. An email confirmation was sent to your email!"
+          UserMailer.password_changed(@user).deliver_later
+          redirect_to @user
+        else
+          flash[:danger] = "Unable to update password. Please try again!"
+          redirect_to change_password_path
+        end
+      else
+        flash[:danger] = "New passwords don't match."
+        redirect_to change_password_path
+      end
+    else
+      flash[:danger] = "Current password is incorrect."
+      redirect_to change_password_path
+    end
+  end
   # PATCH/PUT /users/1 or /users/1.json
   def update
     if @user.update(user_params)
@@ -90,6 +113,10 @@ class UsersController < ApplicationController
       flash[:alert] = "Account not updated!"
       redirect_to user_path(@user)
     end
+  end
+
+  def edit
+    @user = User.find(params[:id])
   end
 
   # DELETE /users/1 or /users/1.json
@@ -123,5 +150,9 @@ class UsersController < ApplicationController
         :occupation,
         :hobbies
       )
-  end
+    end
+
+    def password_params
+      params.require(:user).permit(:password, :password_confirmation)
+    end
 end

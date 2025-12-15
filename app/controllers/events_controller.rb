@@ -8,49 +8,41 @@ class EventsController < ApplicationController
 
   # GET /users or /users.json
   def index
-    # Get
-    created_ids = Event.where(user_id: current_user.id).select(:id)
-    invited_ids = GiftGiver.where(user_id: current_user.id).select(:event_id)
-    recipient_event_ids = GiftGiver.where(recipient_id: current_user.id).select(:event_id)
-
-    if params[:created_by] == "me"
-      @gift_giver_events = Event.where(user_id: current_user.id)
-    elsif params[:created_by] == "not_me"
-      @gift_giver_events = Event.where(id: invited_ids).where.not(user_id: current_user.id)
-    else
-      @gift_giver_events = Event.where(id: created_ids).or(Event.where(id: invited_ids))
-    end
-    @gift_giver_events = @gift_giver_events.distinct # Else normal
+    created_ids   = Event.where(user_id: current_user.id).select(:id)
+    invited_ids   = GiftGiver.where(user_id: current_user.id).select(:event_id)
+    recipient_ids = GiftGiver.where(recipient_id: current_user.id).select(:event_id)
+    base_scope = Event.all
 
     if params[:title].present?
       search = "%#{params[:title].strip.downcase}%"
-      @gift_giver_events = @gift_giver_events.where("LOWER(title) LIKE ?", search)
+      base_scope = base_scope.where("LOWER(title) LIKE ?", search)
     end
 
     if params[:min_budget].present?
-      @gift_giver_events = @gift_giver_events.where("budget >= ?", params[:min_budget].to_f)
+      base_scope = base_scope.where("budget >= ?", params[:min_budget].to_f)
     end
 
     if params[:max_budget].present?
-      @gift_giver_events = @gift_giver_events.where("budget <= ?", params[:max_budget].to_f)
+      base_scope = base_scope.where("budget <= ?", params[:max_budget].to_f)
     end
 
-    # Sorting
-    if params[:sort_by] == "name" && params[:direction] == "asc"
-      @gift_giver_events = @gift_giver_events.order(title: :asc)
-
-    elsif params[:sort_by] == "name" && params[:direction] == "desc"
-      @gift_giver_events = @gift_giver_events.order(title: :desc)
-
-    elsif params[:sort_by] == "date" && params[:direction] == "asc"
-      @gift_giver_events = @gift_giver_events.order(event_date: :asc)
-
-    elsif params[:sort_by] == "date" && params[:direction] == "desc"
-      @gift_giver_events = @gift_giver_events.order(event_date: :desc)
+    if params[:sort_by] == "name"
+      base_scope = base_scope.order(title: params[:direction] == "desc" ? :desc : :asc)
+    elsif params[:sort_by] == "date"
+      base_scope = base_scope.order(event_date: params[:direction] == "desc" ? :desc : :asc)
     end
 
-    @recipient_events = Event.where(id: recipient_event_ids).distinct
+    @gift_giver_events =
+      if params[:created_by] == "me"
+        base_scope.where(user_id: current_user.id)
+      elsif params[:created_by] == "not_me"
+        base_scope.where(id: invited_ids).where.not(user_id: current_user.id)
+      else
+        base_scope.where(id: created_ids).or(base_scope.where(id: invited_ids))
+      end.distinct
 
+    @recipient_events =
+      base_scope.where(id: recipient_ids).distinct
   end
 
   # GET /users/new
@@ -98,23 +90,21 @@ class EventsController < ApplicationController
     event = Event.find(params[:id])
     recipient_id = params[:recipient_id]
 
-    entry = GiftGiver.find_by(event_id: event.id,
-                              user_id: current_user.id,
-                              recipient_id: recipient_id)
+    entry = GiftGiver.find_by(
+      event_id: event.id,
+      user_id: current_user.id,
+      recipient_id: recipient_id
+    )
 
     if entry.nil?
       flash[:alert] = "Gift assignment not found."
     else
-      entry.update(gift_id: nil)
+      entry.update!(gift_id: nil)
       flash[:notice] = "Gift removed successfully."
     end
 
     redirect_to event_path(event)
-    accepted_ids = @event.invites.where(status: "accepted").pluck(:user_id)
-
-    @friends_not_coming = current_user.all_friends.reject { |f| accepted_ids.include?(f.id) }
   end
-
 
   def invite
     @event = Event.find(params[:id])
@@ -225,7 +215,6 @@ class EventsController < ApplicationController
       return
     end
 
-    # Prevent duplicate assignment (same giver → same recipient)
     if GiftGiver.exists?(
       event_id: @event.id,
       user_id: giver_id,
@@ -235,6 +224,11 @@ class EventsController < ApplicationController
       return
     end
 
+    Recipient.find_or_create_by!(
+      event_id: @event.id,
+      user_id: recipient_id
+    )
+
     GiftGiver.create!(
       event_id: @event.id,
       user_id: giver_id,
@@ -243,6 +237,7 @@ class EventsController < ApplicationController
 
     redirect_to event_path(@event), notice: "Recipient assigned"
   end
+
 
   def remove_assignment
     @event = Event.find(params[:id])
@@ -313,6 +308,12 @@ class EventsController < ApplicationController
     end
 
     redirect_to event_path(@event), notice: "Invites sent!"
+  end
+
+  def attendees
+    @event = Event.find(params[:id])
+    @gift_givers = @event.gift_givers.includes(:user)
+    @recipients  = @event.recipients.includes(:user)
   end
 
 

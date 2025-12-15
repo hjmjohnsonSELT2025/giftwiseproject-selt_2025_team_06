@@ -53,34 +53,13 @@
                 </ul>
               <% end %>
             </div>
+            <div style="text-align: center;
+              margin-top: 2rem;">
+              <%= link_to "View Attendees", attendees_path(@event), class: "btn btn-primary" %>
+            </div>
+
 
           </div>
-        <div class="invite-container">
-          <h3>Invite a Friend</h3>
-
-          <% if @friends_not_coming.any? %>
-            <%= form_with url: invite_friends_event_path(@event),
-                          method: :post,
-                          local: true,
-                          class: "invite-form" do %>
-
-              <div class="friend-scroll">
-                <% @friends_not_coming.each do |friend| %>
-                  <label class="friend-row">
-                    <%= check_box_tag "friend_ids[]", friend.id %>
-                    <span><%= friend.username %></span>
-                  </label>
-                <% end %>
-              </div>
-
-              <button type="submit" class="invite-button">
-                Invite Selected Friends
-              </button>
-            <% end %>
-          <% else %>
-            <p class="no-attendees">All your friends are already invited or attending.</p>
-          <% end %>
-        </div>
 
 <!--        <div class="invite-container">-->
 <!--          <h3>Add a Recipient</h3>-->
@@ -252,13 +231,38 @@
             <% end %>
           </div>
         <% end %>
-
-        <div style="margin-top: 20px;">
-          <%= link_to "Back to All Events", events_path, class: "btn btn-default" %>
-        </div>
       </div>
     </div>
+    <div class="invite-container">
+      <h3>Invite a Friend</h3>
 
+      <% if @friends_not_coming.any? %>
+        <%= form_with url: invite_friends_event_path(@event),
+                      method: :post,
+                      local: true,
+                      class: "invite-form" do %>
+
+          <div class="friend-scroll">
+            <% @friends_not_coming.each do |friend| %>
+              <label class="friend-row">
+                <%= check_box_tag "friend_ids[]", friend.id %>
+                <span><%= friend.username %></span>
+              </label>
+            <% end %>
+          </div>
+
+          <button type="submit" class="invite-button">
+            Invite Selected Friends
+          </button>
+        <% end %>
+      <% else %>
+        <p class="no-attendees">All your friends are already invited or attending.</p>
+      <% end %>
+    </div>
+
+    <div style="margin-top: 20px;">
+      <%= link_to "Back to All Events", events_path, class: "btn btn-default" %>
+    </div>
   </div>
 </div>
 
