@@ -1,144 +1,5 @@
 <!-- app/views/events/index.html.erb -->
 <!-- This is the events index page with filters, sorting, and event cards -->
-
-<style>
-  .events-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 24px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    padding: 0 20px;
-  }
-
-  .events-grid .event-card {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    border: 1px solid #e0e0e0;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-  }
-
-  .events-grid .event-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-  }
-
-  .events-grid .event-card h3 {
-    margin-top: 0;
-    margin-bottom: 12px;
-    font-size: 1.3rem;
-    color: #333;
-    font-weight: 600;
-  }
-
-  .events-grid .event-detail {
-    font-size: 0.95rem;
-    color: #555;
-    margin-bottom: 8px;
-    line-height: 1.5;
-  }
-
-  .events-grid .event-detail strong {
-    color: #333;
-    font-weight: 600;
-  }
-
-  .events-page-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    text-align: center;
-  }
-
-  .events-page-container h1 {
-    margin-bottom: 10px;
-  }
-
-  .filters-wrapper {
-    display: flex;
-    align-items: flex-end;
-    gap: 20px;
-    width: 100%;
-    margin: 20px 0;
-  }
-
-  .filters-bar {
-    display: flex;
-    flex-wrap: wrap;
-    flex: 1;
-    gap: 16px;
-    align-items: flex-end;
-    background: #f8f9fc;
-    padding: 16px 20px;
-    border-radius: 12px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-  }
-
-  .filter-group {
-    display: flex;
-    flex-direction: column;
-    min-width: 160px;
-  }
-
-  .filter-group label {
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin-bottom: 4px;
-    color: #444;
-  }
-
-  .filter-group input,
-  .filter-group select {
-    height: 44px;
-    padding: 0 14px;
-    border-radius: 12px;
-    border: 1px solid #d0d4ff;
-    background-color: white;
-    font-size: 0.95rem;
-    color: #333;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
-  }
-
-  .filter-actions {
-    display: flex;
-    gap: 12px;
-  }
-
-  .create-event-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    height: 44px;
-    padding: 0 18px;
-    background: linear-gradient(135deg, #6d73ff, #7b5cff);
-    color: white;
-    border-radius: 12px;
-    border: none;
-    outline: none;
-    font-size: 0.95rem;
-    font-weight: 600;
-    text-decoration: none;
-    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .create-event-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 18px rgba(0,0,0,0.2);
-  }
-
-  .create-event-left {
-    white-space: nowrap;
-  }
-</style>
-
 <!-- Search Bar / Sort -->
 
 <%= form_with url: events_path, method: :get, local: true do %>
@@ -168,7 +29,9 @@
 
       <div class="filter-group">
         <label>Sort By</label>
-        <%= select_tag :sort_by, options_for_select([["Alphabetical", "name"], ["Date", "date"]], params[:sort_by]), include_blank: true %>
+        <%= select_tag :sort_by,
+                       options_for_select([["Alphabetical", "name"], ["Date", "date"]], params[:sort_by]),
+                       include_blank: true %>
       </div>
 
       <div class="filter-group">
@@ -197,117 +60,227 @@
     <p class="notice"><%= flash[:notice] %></p>
   <% end %>
 
-  <h2>Events where you are Hosting</h2>
+  <!-- 🔽 SINGLE WRAPPER FOR ALL SEARCH RESULTS (Capybara scopes here) -->
+  <div id="event-results">
 
-  <% hosted_events = @gift_giver_events.select { |event| event.user_id == current_user.id } %>
+    <!-- Hosting Events -->
+    <h2>Events where you are Hosting</h2>
 
-  <% if hosted_events.any? %>
-    <div class="events-grid">
-      <% hosted_events.each do |event| %>
-        <div class="event-card">
-          <h3><%= event.title %></h3>
+    <div id="hosting-events">
+      <% hosted_events = @gift_giver_events.select { |event| event.user_id == current_user.id } %>
 
-          <div class="event-detail">
-            <strong>Date:</strong> <%= event.event_date %>
-          </div>
+      <% if hosted_events.any? %>
+        <div class="events-grid">
+          <% hosted_events.each do |event| %>
+            <div class="event-card">
+              <h3><%= event.title %></h3>
 
-          <div class="event-detail">
-            <strong>Location:</strong> <%= event.location %>
-          </div>
+              <div class="event-detail"><strong>Date:</strong> <%= event.event_date %></div>
+              <div class="event-detail"><strong>Location:</strong> <%= event.location %></div>
+              <div class="event-detail"><strong>Budget:</strong> $<%= event.budget %></div>
+              <div class="event-detail"><strong>Theme:</strong> <%= event.theme %></div>
+              <div class="event-detail"><strong>Host:</strong> You</div>
 
-          <div class="event-detail">
-            <strong>Budget:</strong> $<%= event.budget %>
-          </div>
-
-          <div class="event-detail">
-            <strong>Theme:</strong> <%= event.theme %>
-          </div>
-
-          <div class="event-detail">
-            <strong>Host:</strong> You
-          </div>
-
-          <%= link_to "View Event", event_path(event), class: "create-event-btn" %>
+              <%= link_to "View Event", event_path(event), class: "create-event-btn" %>
+            </div>
+          <% end %>
         </div>
+      <% else %>
+        <p>You are not hosting any events.</p>
       <% end %>
     </div>
-  <% else %>
-    <p>You are not hosting any events.</p>
-  <% end %>
 
-  <h2>Events where you are a Gift-Giver</h2>
+    <!-- Gift-Giver Events -->
+    <h2>Events where you are a Gift-Giver</h2>
 
-  <% gift_giver_events = @gift_giver_events.select { |event| event.user_id != current_user.id } %>
+    <div id="gift-giver-events">
+      <% gift_giver_events = @gift_giver_events.select { |event| event.user_id != current_user.id } %>
 
-  <% if gift_giver_events.present? %>
-    <div class="events-grid">
-      <% gift_giver_events.each do |event| %>
-        <div class="event-card">
-          <h3><%= event.title %></h3>
+      <% if gift_giver_events.present? %>
+        <div class="events-grid">
+          <% gift_giver_events.each do |event| %>
+            <div class="event-card">
+              <h3><%= event.title %></h3>
 
-          <div class="event-detail">
-            <strong>Date:</strong> <%= event.event_date %>
-          </div>
+              <div class="event-detail"><strong>Date:</strong> <%= event.event_date %></div>
+              <div class="event-detail"><strong>Location:</strong> <%= event.location %></div>
+              <div class="event-detail"><strong>Budget:</strong> $<%= event.budget %></div>
+              <div class="event-detail"><strong>Theme:</strong> <%= event.theme %></div>
+              <div class="event-detail"><strong>Host:</strong> <%= event.host.username %></div>
 
-          <div class="event-detail">
-            <strong>Location:</strong> <%= event.location %>
-          </div>
-
-          <div class="event-detail">
-            <strong>Budget:</strong> $<%= event.budget %>
-          </div>
-
-          <div class="event-detail">
-            <strong>Theme:</strong> <%= event.theme %>
-          </div>
-
-          <div class="event-detail">
-            <strong>Host:</strong> <%= event.host.username %>
-          </div>
-
-          <%= link_to "View Event", event_path(event), class: "create-event-btn" %>
+              <%= link_to "View Event", event_path(event), class: "create-event-btn" %>
+            </div>
+          <% end %>
         </div>
+      <% else %>
+        <p>You Currently Have No Events</p>
       <% end %>
     </div>
-  <% else %>
-    <p>You Currently Have No Events</p>
-  <% end %>
 
-  <h2 style="margin-top: 30px;">Events where you are a Recipient</h2>
+    <!-- Recipient Events -->
+    <h2 style="margin-top: 30px;">Events where you are a Recipient</h2>
 
-  <% recipient_events = @recipient_events.select { |event| event.user_id != current_user.id } %>
+    <div id="recipient-events">
+      <% recipient_events = @recipient_events.select { |event| event.user_id != current_user.id } %>
 
-  <% if recipient_events.present? %>
-    <div class="events-grid">
-      <% recipient_events.each do |event| %>
-        <div class="event-card">
-          <h3><%= event.title %></h3>
+      <% if recipient_events.present? %>
+        <div class="events-grid">
+          <% recipient_events.each do |event| %>
+            <div class="event-card">
+              <h3><%= event.title %></h3>
 
-          <div class="event-detail">
-            <strong>Date:</strong> <%= event.event_date %>
-          </div>
+              <div class="event-detail"><strong>Date:</strong> <%= event.event_date %></div>
+              <div class="event-detail"><strong>Location:</strong> <%= event.location %></div>
+              <div class="event-detail"><strong>Budget:</strong> $<%= event.budget %></div>
+              <div class="event-detail"><strong>Theme:</strong> <%= event.theme %></div>
+              <div class="event-detail"><strong>Host:</strong> <%= event.host.username %></div>
 
-          <div class="event-detail">
-            <strong>Location:</strong> <%= event.location %>
-          </div>
-
-          <div class="event-detail">
-            <strong>Budget:</strong> $<%= event.budget %>
-          </div>
-
-          <div class="event-detail">
-            <strong>Theme:</strong> <%= event.theme %>
-          </div>
-
-          <div class="event-detail">
-            <strong>Host:</strong> <%= event.host.username %>
-          </div>
-
-          <%= link_to "View Event", event_path(event), class: "create-event-btn" %>
+              <%= link_to "View Event", event_path(event), class: "create-event-btn" %>
+            </div>
+          <% end %>
         </div>
+      <% else %>
+        <p>You Currently are not a recipient in any events.</p>
       <% end %>
     </div>
-  <% else %>
-    <p>You Currently are not a recipient in any events.</p>
-  <% end %>
+
+  </div>
 </div>
+
+<style>
+    .events-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 24px;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        padding: 0 20px;
+    }
+
+    .events-grid .event-card {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border: 1px solid #e0e0e0;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .events-grid .event-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    }
+
+    .events-grid .event-card h3 {
+        margin-top: 0;
+        margin-bottom: 12px;
+        font-size: 1.3rem;
+        color: #333;
+        font-weight: 600;
+    }
+
+    .events-grid .event-detail {
+        font-size: 0.95rem;
+        color: #555;
+        margin-bottom: 8px;
+        line-height: 1.5;
+    }
+
+    .events-grid .event-detail strong {
+        color: #333;
+        font-weight: 600;
+    }
+
+    .events-page-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .events-page-container h1 {
+        margin-bottom: 10px;
+    }
+
+    .filters-wrapper {
+        display: flex;
+        align-items: flex-end;
+        gap: 20px;
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    .filters-bar {
+        display: flex;
+        flex-wrap: wrap;
+        flex: 1;
+        gap: 16px;
+        align-items: flex-end;
+        background: #f8f9fc;
+        padding: 16px 20px;
+        border-radius: 12px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        min-width: 160px;
+    }
+
+    .filter-group label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 4px;
+        color: #444;
+    }
+
+    .filter-group input,
+    .filter-group select {
+        height: 44px;
+        padding: 0 14px;
+        border-radius: 12px;
+        border: 1px solid #d0d4ff;
+        background-color: white;
+        font-size: 0.95rem;
+        color: #333;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .filter-actions {
+        display: flex;
+        gap: 12px;
+    }
+
+    .create-event-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        height: 44px;
+        padding: 0 18px;
+        background: linear-gradient(135deg, #6d73ff, #7b5cff);
+        color: white;
+        border-radius: 12px;
+        border: none;
+        outline: none;
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-decoration: none;
+        box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .create-event-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+    }
+
+    .create-event-left {
+        white-space: nowrap;
+    }
+</style>

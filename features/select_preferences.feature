@@ -25,6 +25,7 @@ Feature: User selects likes and dislikes
     Then I should see "Preferences saved!"
     And the user should have preference "tea" with category "dislike"
 
+  @javascript
   Scenario: Adding a new custom preference as a like
     When I visit the preferences page
     And I fill in "add-pref-name" with "matcha"
