@@ -31,7 +31,7 @@ Given(/^I am currently logged in as "(.*)"$/) do |username|
   visit login_path
   fill_in "username", with: username
   fill_in "password", with: "password"
-  click_button "Log_In"
+  click_button "Log In"
 end
 
 Given(/^I am registered for all events$/) do

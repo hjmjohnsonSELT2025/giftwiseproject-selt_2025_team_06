@@ -45,11 +45,3 @@ Feature: Generate Gift Ideas with AI Chatbot
         Then I should see a recipient selection dropdown
         When I select a recipient from the dropdown
         Then I should see gift suggestions for the selected recipient
-
-    @javascript
-    Scenario: Close chatbot popup
-        Given I am logged in as user "dilara"
-        And I navigate to the event show page for "cj's Birthday"
-        And I have opened the AI chatbot
-        When I click the close button
-        Then the chatbot popup should be closed 

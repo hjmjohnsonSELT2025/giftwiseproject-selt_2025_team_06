@@ -74,7 +74,7 @@ When(/^I am logged in as (.+) with password (.+)$/) do |email, password|
   visit login_path
   fill_in "username", with: email
   fill_in "password", with: password
-  click_button "LOGIN"
+  click_button "Log In"
 
   user = User.find_by(username: email)
   expect(page).to have_current_path(events_path)
