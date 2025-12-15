@@ -1,10 +1,21 @@
 Given(/^a user exists with username "(.*)" email "(.*)" and password "(.*)"$/) do |username, email, password|
+    @user_password = password  
     User.create!(
       email: email,
       username: username,
       password: password,
       birthdate: Date.today - 20.years
     )
+  end
+
+  Given(/^I am logged in as "testuser"$/) do
+    user = User.find_by!(username: "testuser")
+    visit login_path
+    fill_in "Username / Email", with: user.username
+    password_to_use = defined?(@user_password) && @user_password ? @user_password : "password"
+    fill_in "Password", with: password_to_use
+    click_button "Log In"
+    expect(page).not_to have_current_path(login_path, wait: 5)
   end
   
   Given(/^the following preferences exist:$/) do |table|
@@ -18,31 +29,49 @@ Given(/^a user exists with username "(.*)" email "(.*)" and password "(.*)"$/) d
   end
   
   When(/^I check "(.*)" under likes$/) do |name|
-    # Try to find existing preference in database first
+    expect(page).to have_content(name, wait: 5)
+    
     pref = Preference.find_by(name: name)
     if pref
-      check("likes_#{pref.id}")
-    else
-      # For dynamically created custom preferences
-      # Since JavaScript may not execute in tests, directly set the hidden field
-      # First try to find and check the checkbox if it exists (JavaScript executed)
-      checkbox_id = "new_like_" + name.downcase.gsub(/\s+/, "_")
       begin
+        checkbox_id = "likes_#{pref.id}"
+        expect(page).to have_field(checkbox_id, wait: 2)
         check(checkbox_id)
       rescue Capybara::ElementNotFound
-        # If checkbox doesn't exist (JavaScript didn't run), set hidden field directly
-        # Use find to locate hidden field by id
+        within("#likes-list") do
+          find("label", text: /#{Regexp.escape(name)}/i).find("input[type='checkbox']").check
+        end
+      end
+    else
+      checkbox_id = "new_like_" + name.downcase.gsub(/\s+/, "_")
+      begin
+        expect(page).to have_field(checkbox_id, wait: 5)
+        check(checkbox_id)
+      rescue Capybara::ElementNotFound
         find("#new_like_field", visible: false).set(name)
       end
     end
   end
   
   When(/^I check "(.*)" under dislikes$/) do |name|
+
+    expect(page).to have_content(name, wait: 5)
+    
     pref = Preference.find_by!(name: name)
-    check("dislikes_#{pref.id}")
+
+    begin
+      checkbox_id = "dislikes_#{pref.id}"
+      expect(page).to have_field(checkbox_id, wait: 2)
+      check(checkbox_id)
+    rescue Capybara::ElementNotFound
+      within("#dislikes-list") do
+        find("label", text: /#{Regexp.escape(name)}/i).find("input[type='checkbox']").check
+      end
+    end
   end
   
   When(/^I fill in "add-pref-name" with "(.*)"$/) do |value|
+    expect(page).to have_field("add-like-input", wait: 5)
     fill_in "add-like-input", with: value
   end
   
@@ -52,11 +81,17 @@ Given(/^a user exists with username "(.*)" email "(.*)" and password "(.*)"$/) d
   
   When(/^I press "Continue"$/) do
     click_button("Continue")
+    expect(page).to have_current_path(events_path, wait: 5)
   end
   
+  Then(/^I should see "Preferences saved!"$/) do
+    expect(page).to have_current_path(events_path)
+  end
+
   Then(/^the user should have preference "(.*)" with category "(.*)"$/) do |name, category|
     pref = Preference.find_by!(name: name)
-    up = UserPreference.find_by(user: User.first, preference: pref)
+    user = User.find_by!(username: "testuser")
+    up = UserPreference.find_by(user: user, preference: pref)
   
     expect(up).not_to be_nil
     expect(up.category).to eq(category)

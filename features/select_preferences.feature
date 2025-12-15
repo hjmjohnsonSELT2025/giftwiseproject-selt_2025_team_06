@@ -11,7 +11,6 @@ Feature: User selects likes and dislikes
       | coffee |
       | tea    |
       | lego   |
-
   Scenario: Selecting an existing preference as a like
     When I visit the preferences page
     And I check "coffee" under likes
